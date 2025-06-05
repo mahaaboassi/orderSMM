@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react"
 import SearchInput from "../../../components/search"
+import { useDispatch } from "react-redux"
+import { changePopup } from "../../../features/popupSlice"
+import OffersProviders from "../../../components/bestOffers"
 
 const Hero = ()=>{
     const data = [{
@@ -76,11 +79,12 @@ const Hero = ()=>{
     },{
         name : "Twitch",
     }]
+    const dispatch = useDispatch()
     const half_border = <svg xmlns="http://www.w3.org/2000/svg" width="20" height="16" viewBox="0 0 18 14" fill="none">
-            <path d="M17 13C12.6 7.4 4.5 2.66667 1 1H8C14.8 1 16.8333 6.33333 17 9V13Z" fill="#19770D" stroke="#19770D" stroke-width="0.5"/>
+            <path d="M17 13C12.6 7.4 4.5 2.66667 1 1H8C14.8 1 16.8333 6.33333 17 9V13Z" fill="#19770D" stroke="#19770D" strokeWidth="0.5"/>
             </svg>
     const half_border_bottom = <svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 18 15" fill="none">
-            <path d="M1.5 13.6984C7.38108 10.3163 10.5 9 17.5 1.01552V4.77346C17.5 9.00108 14.473 13.0199 8.85135 13.6984C3.22973 14.3769 1.5 13.6984 1.5 13.6984Z" fill="#19770D" stroke="#19770D" stroke-width="0.5"/>
+            <path d="M1.5 13.6984C7.38108 10.3163 10.5 9 17.5 1.01552V4.77346C17.5 9.00108 14.473 13.0199 8.85135 13.6984C3.22973 14.3769 1.5 13.6984 1.5 13.6984Z" fill="#19770D" stroke="#19770D" strokeWidth="0.5"/>
             </svg>
     const keywords = ["From pin-up to bulk tickets, our services drive growth.", 
                     "Discover top SMM providers and compare their amazing services.", 
@@ -91,6 +95,12 @@ const Hero = ()=>{
             setIndexWord(prev=> prev== keywords.length - 1 ? 0 : prev+1)
         },5000)
     },[indexWord])
+    const openPopup = ()=>{
+        dispatch(changePopup({
+            isOpen: true,
+            component : <OffersProviders/>
+        }))
+    }
     return<div className="hero px-2  lg:px-16 pt-5 lg:pt-12 pb-5">
         <div className=" sm:px-10 flex flex-col gap-5 lg:gap-10">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5 lg:gap-10 ">
@@ -112,7 +122,7 @@ const Hero = ()=>{
                         <div className="bottom-line"></div>
                     </div>
                     
-                    <button className="hero-btn">Best Provider Offer This Month</button>
+                    <button onClick={openPopup} className="hero-btn">Best Provider Offer This Month</button>
                 </div>
                 <div className="">
                     <div className="card-panals p-5 flex flex-col gap-1">

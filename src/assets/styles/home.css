@@ -253,7 +253,15 @@ h2{
 .goddy:hover::before{
     top: 0;
 }
-
+/* Offer of Providers */
+.offer-card{
+    border: 2px solid var(--green_2);
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    background-color: var(--grey_3);
+    align-items: center;
+}
 
 @media (max-width:1025px) {
         h2{

@@ -2,15 +2,18 @@ import { Outlet } from "react-router-dom"
 import Navbar from "../components/navbar"
 import Icons from "../components/icons"
 import Footer from "../components/footer"
+import Popup from "../components/popup"
 
 const Layout = ()=>{
     return (<div>
         <Navbar/>
-        <div className="pt-32">
+        <div className="pt-26 md:pt-32">
             <Outlet/>
         </div>
         <Icons/>
+        <Popup/>
         <Footer/>
+
 
     </div>)
 }

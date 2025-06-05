@@ -8,7 +8,6 @@ import { panals } from "../../../data/data";
 
 
 const Arc = ()=>{
-
     return(<div className=" px-2  lg:px-16 arc pt-5">
         <div className="flex justify-center w-full">
             <img  className="w-full" src={arc} alt="Arc" />
