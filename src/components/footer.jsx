@@ -130,9 +130,9 @@ const Footer = ()=>{
                 </div>
             </div>
             <div className='flex flex-col gap-5'>
-                <div>Add Your Pannel</div>
-                <div>Advertesment </div>
-                <div>Pumbs</div>
+                <button className='outline-btn' >Add Your Pannel</button>
+                <button className='outline-btn' >Advertise</button>
+                <button className='outline-btn' >Bumps</button>
                 {/* <div>Payment Method</div> */}
             </div>
         </div>

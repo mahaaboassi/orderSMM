@@ -40,6 +40,7 @@ nav .arrow-currency{
     gap: 5px;
     overflow: hidden;
     z-index: 1000;
+    border-radius: 10px;
 }
 .icons-card img{
     width: 40px;
@@ -103,6 +104,42 @@ footer p{
     overflow-y: scroll;
 
 }
+/* Chat Icon */
+.chat-container{
+    position: fixed;
+    bottom: 15px;
+    left: 15px;
+    z-index: 100;
+}
+.chat-icon{
+    background: var(--green_2);
+    width: 80px;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    cursor: pointer;
+}
+.hint{
+    border-radius: 20px;
+    background-color: var(--light);
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+    color: var(--green_1);
+    border: 1px solid var(--green_2);
+}
+.change-color{
+    animation: changeColor 1s infinite linear;
+}
+@keyframes changeColor {
+    from{
+        color: var(--green_1);
+    }to{
+        color: var(--green_2);
+    }
+}
+
 @media (max-width:768px) {
     .icons-card img{
         width: 30px;
@@ -116,6 +153,17 @@ footer p{
         width: 100%;
         margin: 0 10px;
     }
+    .chat-container{
+        bottom: 10px;
+        left: 10px;
+    }
+    .chat-icon{
+        width: 50px;
+        height: 50px;
+    }
+    .chat-icon svg{
+        width: 25px;
+    }
 }
 @media (max-width:600px) {
     
@@ -124,4 +172,7 @@ footer p{
     .second-footer{
         font-size: var(--font-size-xs);
     }    
+    .hint{
+        font-size: var(--font-size-xxs);
+        }
 }

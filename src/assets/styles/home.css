@@ -270,6 +270,9 @@ h2{
         .content {
             font-size: var(--font-size-s);
         }
+        p{
+            font-size: var(--font-size-xs);
+        }
 
 }
 @media (max-width:900px) {
@@ -343,5 +346,8 @@ h2{
         }
         .arc .content-arc{
             margin-top: -10px;
+        }
+        p{
+            font-size: var(--font-size-xxs);
         }
 }

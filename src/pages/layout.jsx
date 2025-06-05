@@ -3,6 +3,7 @@ import Navbar from "../components/navbar"
 import Icons from "../components/icons"
 import Footer from "../components/footer"
 import Popup from "../components/popup"
+import Chat from "../components/chat"
 
 const Layout = ()=>{
     return (<div>
@@ -11,9 +12,11 @@ const Layout = ()=>{
             <Outlet/>
         </div>
         <Icons/>
-        <Popup/>
-        <Footer/>
 
+        <Footer/>
+        {/* Fixed Component */}
+        <Popup/>
+        <Chat/>
 
     </div>)
 }
