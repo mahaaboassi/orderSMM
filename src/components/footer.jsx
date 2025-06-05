@@ -94,14 +94,14 @@ const Footer = ()=>{
                 </svg>
     }]
     return(<footer>
-        <div className="first-footer grid grid-cols-1 gap-5 lg:gap-0 md:grid-cols-2 lg:grid-cols-4 px-2 lg:px-16 py-10">
+        <div className="first-footer grid grid-cols-1 gap-5  sm:grid-cols-2 lg:grid-cols-4 px-2 lg:px-16 py-10">
             <div className='flex flex-col gap-5 pr-4'>
                 <div>{logo}</div>
                 <p>Ordersmm – Your Gateway to Top SMM Panels and Social Media Growth Tools.</p>
                 <p>Explore Premium Services for Pin Up/Down, WhatsApp, Telegram, and More.</p>
             </div>
             <div className='flex flex-col gap-5'>
-                <h6>Explore SMM Services for</h6>
+                <h5>Explore SMM Services for</h5>
                 <div className='flex flex-wrap gap-5 services-icons'>
                     {data.map((e,idx)=>(<div className='flex gap-1 ' key={`Services_SMM_${idx}_${e.title}`}>
                         <div>{e.icon} </div> 
@@ -122,7 +122,7 @@ const Footer = ()=>{
                         
                             {adsImages.map((ele,idx)=>( <SwiperSlide key={`Panals_${ele.title}_${idx}`}>
                                 <div className="flex items-center">
-                                    <img className="object-cover h-42 " src={ele} alt={ele} />
+                                    <img className="object-cover w-full h-42 " src={ele} alt={ele} />
                                 </div>
                             </SwiperSlide>))}
         

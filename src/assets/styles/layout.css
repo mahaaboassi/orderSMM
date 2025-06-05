@@ -38,7 +38,7 @@ nav .arrow-currency{
     display: flex;
     flex-direction: column;
     gap: 5px;
-    overflow: hidden;
+    /* overflow: hidden; */
     z-index: 1000;
     border-radius: 10px;
 }
@@ -52,7 +52,29 @@ nav .arrow-currency{
 .icons-card img:hover{
    transform: scale(1.05) !important;
 }
-
+.specific-card p{
+    position: fixed;
+    right: 60px;
+    background-color: var(--light);
+    width: fit-content;
+    white-space: nowrap;
+    border-radius: 10px;
+    display: none;
+    font-weight: 600;
+    border: 0.3px solid var(--green_2);
+}
+.specific-card:hover p{
+    display: flex;
+    opacity: 0;
+    animation: appear 0.2s forwards linear;
+}
+@keyframes appear {
+    from{
+        opacity: 0;
+    }to{
+        opacity: 1;
+    }
+}
 @keyframes comeIcon {
     0%{
         transform: translateX(100px);
@@ -76,6 +98,10 @@ nav .arrow-currency{
 }
 footer img{
     border-radius: 10px;
+}
+footer h5{
+    font-size: var(--font-size-s);
+    font-weight: 600;
 }
 footer p{
     font-size: var(--font-size-xs);

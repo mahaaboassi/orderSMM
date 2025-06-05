@@ -47,13 +47,6 @@ const Hero = ()=>{
         title : "Panel Name",
         services : "300 services",
         date : "about 2 hours ago"
-    },{
-        icon : <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 22 22" fill="none">
-            <circle cx="11" cy="11" r="11" fill="#872121"/>
-            </svg>,
-        title : "Panel Name",
-        services : "300 services",
-        date : "about 4 hours ago"
     }]
     const icons = [{
         name : "Facebook",
@@ -109,8 +102,8 @@ const Hero = ()=>{
         }))
     }
     return<div className="hero px-2  lg:px-16 pt-5 lg:pt-12 pb-5">
-        <div className=" sm:px-10 flex flex-col gap-5 lg:gap-14">
-            <div className="grid grid-cols-1 xl:grid-cols-2 gap-5 lg:gap-10 ">
+        <div className=" sm:px-10 flex flex-col gap-5 lg:gap-10">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 lg:gap-10 ">
                 <div className="flex flex-col gap-7">
                     <h2 className="text-center md:text-start">
                         <span key={indexWord} className="animated-word" >{keywords[indexWord]}</span>  
@@ -131,29 +124,15 @@ const Hero = ()=>{
                     
                     <button onClick={openPopup} className="hero-btn">Best Provider Offer This Month</button>
                 </div>
-                <div className=" grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <div className="">
                     <div className="card-panals p-5 flex flex-col gap-1">
-                        <h3 className="mb-2">Latest Panel Updates</h3>
+                        <h3>Latest Panal Updates</h3>
                         {data.map((e,idx)=>(<div className="flex justify-between items-center" key={`Panal_Card_${e.title}_${idx}`}>
                             
                             <div className="flex gap-2 items-center">
                                 {e.icon}
                                 <h4>{e.title}</h4>
-                                {/* <span>{e.services}</span> */}
-                            </div>
-                            <div className="date">
-                                {e.date}
-                            </div>
-                        </div>))}
-                    </div>
-                    <div className="card-panals p-5 flex flex-col gap-1">
-                        <h3 className="mb-2">Final Active Panels</h3>
-                        {data.map((e,idx)=>(<div className="flex justify-between items-center" key={`Panal_Card_${e.title}_${idx}`}>
-                            
-                            <div className="flex gap-2 items-center">
-                                {e.icon}
-                                <h4>{e.title}</h4>
-                                {/* <span>{e.services}</span> */}
+                                <span>{e.services}</span>
                             </div>
                             <div className="date">
                                 {e.date}

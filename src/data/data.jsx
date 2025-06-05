@@ -47,27 +47,33 @@ export const panals= [{
 export const social = [{
     image : social_1,
     title : "social_1",
-    link : ""
+    link : "",
+    hint : "Join Our Channel"
 },{
     image : social_2,
     title : "social_2",
-    link : ""
+    link : "",
+    hint : "Join Our Group"
 },{
     image : social_3,
     title : "social_3",
-    link : ""
+    link : "",
+    hint : "Join Our Channel"
 },{
     image : social_4,
     title : "social_4",
-    link : ""
+    link : "",
+    hint : "Join Our Channel"
 },{
     image : social_5,
     title : "social_5",
-    link : ""
+    link : "",
+    hint : "Join Our Group"
 },{
     image : social_6,
     title : "social_6",
-    link : ""
+    link : "",
+    hint : "Join Our Group"
 }]
 export const adsImages = [ img_1, img_2, img_3, img_4, img_1, img_2, img_3, img_4,
         img_1, img_2, img_3, img_4, img_1, img_2, img_3, img_4

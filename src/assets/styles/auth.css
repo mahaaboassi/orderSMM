@@ -57,3 +57,8 @@ form input:focus{
         width: 100%;
     }
 }
+@media (max-width:450px) {
+    form input,form input::placeholder{
+        font-size: var(--font-size-xs);
+    }    
+}

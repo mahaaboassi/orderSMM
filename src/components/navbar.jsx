@@ -57,7 +57,9 @@ const Navbar = ()=>{
     }]
     return(<nav className="px-2  lg:px-16">
         <div className="nav-content py-4 px-6 ">
-            <div className="flex items-center ">{logo}</div>
+            <div className="flex items-center ">
+                <Link to={"/"}>{logo}</Link>
+            </div>
             <div>
                 <ul className="gap-5">
                     {data.map((e,idx)=>(<li key={`Navbar_${e.name}_${idx}`}>{e.name}</li>))}

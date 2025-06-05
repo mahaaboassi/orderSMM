@@ -126,11 +126,11 @@ const OffersProviders = ()=>{
         icon : ""
     }]
     const dispatch = useDispatch()
-    return(<div className="h-full">
+    return(<div className=" px-2">
         <h2>Best Offers</h2>
-        <div className="h-full">
+        <div className="">
             {
-            !isServicesShow ? <div className="h-full flex flex-col gap-5">
+            !isServicesShow ? <div className="flex flex-col gap-5 px-1 md:px-5">
                 <div>
                     <div>📢 “Looking for the best SMM offers this month? You're in the right place!”</div>
                     <div>💼 Whether you're managing resellers, agencies, or direct clients, this section highlights top-performing panels that have published their latest SMM services and deals on our platform</div>
