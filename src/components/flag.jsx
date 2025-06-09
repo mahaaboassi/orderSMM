@@ -9,9 +9,6 @@ import { useTranslation } from "react-i18next"
 
 
 const Flag = ()=>{
-// <button onClick={() => i18n.changeLanguage('ar')}>العربية</button>
-// <button onClick={() => i18n.changeLanguage('en')}>English</button>
-// <button onClick={() => i18n.changeLanguage('tr')}>Türkçe</button>
     const data = [
     {
         name: "English",
