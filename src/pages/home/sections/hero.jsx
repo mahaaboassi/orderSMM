@@ -109,6 +109,26 @@ const Hero = ()=>{
             component : <OffersProviders/>
         }))
     }
+    const openPopupForPanels = (title, data)=>{
+      if(window.innerWidth <= 1280)
+        dispatch(changePopup({
+                isOpen: true,
+                component : <div className="px-3">
+                    <h3 style={{fontWeight : "600"}} className="mb-2">{title}</h3>
+                        {data.map((e,idx)=>(<div className="flex justify-between items-center" key={`Panal_Card_${e.title}_${idx}`}>
+    
+                        <div className="flex gap-2 items-center">
+                            {e.icon}
+                            <h4>{e.title}</h4>
+                            {/* <span>{e.services}</span> */}
+                        </div>
+                        <div className="date">
+                            {e.date}
+                        </div>
+                    </div>))}
+                </div>
+            }))
+    }
     return<div className="hero px-2  lg:px-16 pt-5 lg:pt-12 pb-5">
         <div className=" sm:px-10 flex flex-col gap-5 lg:gap-14">
             <div className="grid grid-cols-1 xl:grid-cols-2 gap-5 lg:gap-10 ">
@@ -134,32 +154,51 @@ const Hero = ()=>{
                 </div>
                 <div className=" grid grid-cols-1 sm:grid-cols-2 gap-2">
                     <div className="card-panals p-5 flex flex-col gap-1">
-                        <h3 className="mb-2">{t("hero.latestPanelUpdates")}</h3>
-                        {data.map((e,idx)=>(<div className="flex justify-between items-center" key={`Panal_Card_${e.title}_${idx}`}>
+                        <h3 className="flex justify-between items-center " onClick={()=>{openPopupForPanels(t("hero.latestPanelUpdates"),data) }} >
+                            {t("hero.latestPanelUpdates")}
+                            <span className="xl:hidden">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="8" height="12" viewBox="0 0 8 12" fill="none">
+                                    <path d="M0.590088 10.59L5.17009 6L0.590088 1.41L2.00009 0L8.00009 6L2.00009 12L0.590088 10.59Z" fill="#19770D"/>
+                                </svg>
+                            </span>
+                        </h3>
+                        <div className="hidden xl:block xl:mt-2">
+                            {data.map((e,idx)=>(<div className="hidden xl:flex justify-between items-center" key={`Panal_Card_${e.title}_${idx}`}>
                             
-                            <div className="flex gap-2 items-center">
-                                {e.icon}
-                                <h4>{e.title}</h4>
-                                {/* <span>{e.services}</span> */}
-                            </div>
-                            <div className="date">
-                                {e.date}
-                            </div>
-                        </div>))}
+                                <div className="flex gap-2 items-center">
+                                    {e.icon}
+                                    <h4>{e.title}</h4>
+                                    {/* <span>{e.services}</span> */}
+                                </div>
+                                <div className="date">
+                                    {e.date}
+                                </div>
+                            </div>))}
+                        </div>
                     </div>
                     <div className="card-panals p-5 flex flex-col gap-1">
-                        <h3 className="mb-2">{t("hero.finalActivePanels")}</h3>
-                        {data.map((e,idx)=>(<div className="flex justify-between items-center" key={`Panal_Card_${e.title}_${idx}`}>
-                            
-                            <div className="flex gap-2 items-center">
-                                {e.icon}
-                                <h4>{e.title}</h4>
-                                {/* <span>{e.services}</span> */}
-                            </div>
-                            <div className="date">
-                                {e.date}
-                            </div>
-                        </div>))}
+                        <h3 className="flex justify-between items-center " onClick={()=>{openPopupForPanels(t("hero.finalActivePanels"),data) }} >
+                            {t("hero.finalActivePanels")}
+                            <span className="xl:hidden">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="8" height="12" viewBox="0 0 8 12" fill="none">
+                                    <path d="M0.590088 10.59L5.17009 6L0.590088 1.41L2.00009 0L8.00009 6L2.00009 12L0.590088 10.59Z" fill="#19770D"/>
+                                </svg>
+                            </span>
+                        </h3>
+                         <div className="hidden xl:block mt-0 xl:mt-2">
+                            {data.map((e,idx)=>(<div className=" hidden xl:flex justify-between items-center" key={`Panal_Card_${e.title}_${idx}`}>
+                                
+                                <div className="flex gap-2 items-center">
+                                    {e.icon}
+                                    <h4>{e.title}</h4>
+                                    {/* <span>{e.services}</span> */}
+                                </div>
+                                <div className="date">
+                                    {e.date}
+                                </div>
+                            </div>))}
+                         </div>
+
                     </div>
 
                 </div>
