@@ -73,8 +73,8 @@ const Flag = ()=>{
         document.removeEventListener("mousedown", handleClickOutside);
         };
     }, [isOpen]);
-    return( currectLanguage && "flag" in currectLanguage && <div ref={menuRef} className="flag-container">
-            <img onClick={()=>setIsOpen(!isOpen)} className="w-8 cursor-pointer" src={currectLanguage.flag} alt={currectLanguage.name} />
+    return( <div ref={menuRef} className="flag-container">
+            <img onClick={()=>setIsOpen(!isOpen)} className="w-8 cursor-pointer" src={( currectLanguage && "flag" in currectLanguage)? currectLanguage.flag:""} alt={currectLanguage.name} />
             {isOpen && <div className={`menu-flag p-3 flex flex-col gap-2 ${(i18n.language == "ar" || i18n.language == "ur")?"left-0":"right-0"}`}>
                 {data.map((ele,idx)=>(<div onClick={()=>handleLanguage(ele)} className="flex gap-2 select-flag" key={`Flag_Navbar_${ele.name}_${idx}`}>
                     <div><img className="" src={ele.flag} alt={ele.name} /></div>
