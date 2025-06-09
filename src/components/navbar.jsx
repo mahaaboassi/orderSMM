@@ -1,4 +1,8 @@
 import { Link } from "react-router-dom"
+import Flag from "./flag"
+import Currency from "./currency"
+import { useTranslation } from "react-i18next"
+import { useState } from "react"
 
 const logo = <svg className="logo" xmlns="http://www.w3.org/2000/svg" width="137" height="51" viewBox="0 0 137 51" fill="none">
 <g clipPath="url(#clip0_220_68)">
@@ -39,44 +43,56 @@ const logo = <svg className="logo" xmlns="http://www.w3.org/2000/svg" width="137
 </svg>
 
 const Navbar = ()=>{
+    const { t } = useTranslation()
     const data = [{
-        name : "Services",
+        name : t("navbar.title_1"),
         link : "/"
     },{
-        name : "Providers",
+        name : t("navbar.title_2"),
         link : "/"
     },{
-        name : "Packages",
+        name : t("navbar.title_3"),
         link : "/"
     },{
-        name : "Platforms",
+        name : t("navbar.title_4"),
         link : "/"
     },{
-        name : "Add Panel",
+        name : t("navbar.title_5"),
         link : "/"
     }]
+    const [ isOpenMenu, setIsOpenMenu ] = useState(false)
+    const closeIcon = <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+    <g clipPath="url(#clip0_17_1174)">
+    <path d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z" fill="white"/>
+    </g>
+    <defs>
+    <clipPath id="clip0_17_1174">
+    <rect width="24" height="24" fill="white"/>
+    </clipPath>
+    </defs>
+    </svg>
+    const menuIcon = <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 24 24" fill="none"><g clipPath="url(#clip0_483_74)"><path d="M14 18H21V16H14V18ZM3 6V8H21V6H3ZM9 13H21V11H9V13Z" fill="white"></path></g><defs><clipPath id="clip0_483_74"><rect width="24" height="24" fill="white"></rect></clipPath></defs></svg>
     return(<nav className="px-2  lg:px-16">
         <div className="nav-content py-4 px-6 ">
             <div className="flex items-center ">
                 <Link to={"/"}>{logo}</Link>
             </div>
             <div>
-                <ul className="gap-5">
+                <ul className={`gap-5 ${isOpenMenu?"open-menu-sm":""}`}>
                     {data.map((e,idx)=>(<li key={`Navbar_${e.name}_${idx}`}>{e.name}</li>))}
                 </ul>
             </div>
             <div className="flex items-center gap-2">
-                <div><Link aria-label="Sign In" to="/auth/signIn"><button>Sign In</button></Link></div>
-                <div className="flex items-center gap-2 cursor-pointer currency">USD
-                    <div className="arrow-currency">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="8" height="12" viewBox="0 0 8 12" fill="none">
-                            <path d="M0.590088 10.59L5.17009 6L0.590088 1.41L2.00009 0L8.00009 6L2.00009 12L0.590088 10.59Z" fill="white"/>
-                        </svg>
-                    </div>
-                </div>
+                {isOpenMenu && <div className="icon-close" onClick={()=>setIsOpenMenu(false)}>{closeIcon}</div>}
+                <div onClick={()=>setIsOpenMenu(true)} className="icon-menu-sm cursor-pointer">{menuIcon} </div>
+                <div><Link aria-label="Sign In" to="/auth/signIn"><button>{t("sign-in")}</button></Link></div>
+                <Flag/>
+                <Currency/>
+                
             </div>
         </div>
     </nav>)
 }
 
 export default Navbar
+

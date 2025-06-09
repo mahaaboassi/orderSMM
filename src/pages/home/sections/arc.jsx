@@ -4,17 +4,19 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import { panals } from "../../../data/data";
+import { useTranslation } from "react-i18next";
 
 
 
 const Arc = ()=>{
+    const { t } = useTranslation()
     return(<div className=" px-2  lg:px-16 arc pt-5">
         <div className="flex justify-center w-full">
             <img  className="w-full" src={arc} alt="Arc" />
         </div>
         <div className="content-arc">
-            <h2 className="text-center pb-10">Top Provider</h2>
-            <div>
+            <h2 className="text-center pb-10">{t("topProviders")}</h2>
+            <div style={{direction:"ltr"}}>
                 <Swiper
                     modules={[Autoplay]}
                     spaceBetween={30}

@@ -14,7 +14,6 @@
   --error-color : #ef4444;
   --warning-color : #f59e0b ;
 
- 
 
   /* Fonts */
   --font-size-3xl : clamp(2.8rem, 2vw + 0.8rem, 3.2rem);

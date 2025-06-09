@@ -26,6 +26,37 @@ nav ul{
     text-transform: capitalize;
     font-weight: 600;
 }
+.icon-menu-sm{
+    display: none;
+}
+.currency{
+    position: relative;
+}
+.currency_menu{
+    position: absolute;
+    top: 37px;
+    background-color: var(--light);
+    color: var(--green_1);
+    font-size: var(--font-size-xs);
+    width: 120px;
+    border-radius: 10px;
+    height: 200px;
+    overflow-y: scroll;
+    font-weight: 500;
+    /* For Firefox */
+    scrollbar-width: thin;
+    scrollbar-color: var(--green_1) transparent; 
+}
+/* For Chrome, Safari and Edge */
+.currency_menu::-webkit-scrollbar {
+  width: 6px;
+}
+.select_currency{
+    transition: 0.3s;
+}
+.select_currency:hover{
+    background-color: var(--grey_4);
+}
 nav .arrow-currency{
     transform: rotate(90deg);
 }
@@ -166,6 +197,69 @@ footer p{
     }
 }
 
+/* Flag */
+.flag-container{
+    position: relative;
+}
+.menu-flag{
+    position: absolute;
+    top: 37px;
+    background-color: var(--light);
+    color: var(--green_1);
+    font-size: var(--font-size-xs);
+    width: 110px;
+    border-radius: 10px;
+}
+.menu-flag img{
+    width: 20px;
+}
+.select-flag{
+    transition: 0.3s;
+}
+.select-flag:hover{
+    background-color: var(--grey_4);
+    cursor: pointer;
+}
+
+@media (max-width:900px) {
+    nav ul{
+        display: none;
+    }
+    nav svg.logo{
+        width: 120px;
+    }
+    .icon-menu-sm{
+        display: flex;
+    }
+    nav ul.open-menu-sm{
+        display: flex;
+        position: fixed;
+        background-color: rgba(0, 0, 0, 0.944);
+        inset: 0;
+        flex-direction: column;
+        justify-content: start;
+        padding-top: 100px;
+        align-items: center;
+        z-index: 3000;
+    }
+    .icon-close{
+        position: fixed;
+        top: 40px;
+        z-index: 3000;
+        right: 40px
+    }
+    nav ul.open-menu-sm li{
+        animation: appear 0.3s forwards linear;
+    }
+    @keyframes appear {
+        from{
+            opacity: 0;
+        }to{
+            opacity: 1;
+        }
+    }
+  
+}
 @media (max-width:768px) {
     .icons-card img{
         width: 30px;
@@ -201,4 +295,14 @@ footer p{
     .hint{
         font-size: var(--font-size-xxs);
         }
+    .flag-container img{
+        width: 20px;
+    }
+    .icon-menu-sm svg{
+        width: 25px;
+    }
+    nav button{
+        font-size: 10px !important;
+        padding: 5px;
+    }
 }

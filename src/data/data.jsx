@@ -48,32 +48,32 @@ export const social = [{
     image : social_1,
     title : "social_1",
     link : "",
-    hint : "Join Our Channel"
+    hint : "joinOurChannel"
 },{
     image : social_2,
     title : "social_2",
     link : "",
-    hint : "Join Our Group"
+    hint : "joinOurGroup"
 },{
     image : social_3,
     title : "social_3",
     link : "",
-    hint : "Join Our Channel"
+    hint : "joinOurChannel"
 },{
     image : social_4,
     title : "social_4",
     link : "",
-    hint : "Join Our Channel"
+    hint : "joinOurChannel"
 },{
     image : social_5,
     title : "social_5",
     link : "",
-    hint : "Join Our Group"
+    hint : "joinOurGroup"
 },{
     image : social_6,
     title : "social_6",
     link : "",
-    hint : "Join Our Group"
+    hint : "joinOurGroup"
 }]
 export const adsImages = [ img_1, img_2, img_3, img_4, img_1, img_2, img_3, img_4,
         img_1, img_2, img_3, img_4, img_1, img_2, img_3, img_4

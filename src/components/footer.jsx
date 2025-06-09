@@ -5,6 +5,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay , EffectFade} from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/effect-fade';
+import { useTranslation } from 'react-i18next';
 
 
 const Footer = ()=>{
@@ -93,15 +94,16 @@ const Footer = ()=>{
                 </defs>
                 </svg>
     }]
+    const { t } = useTranslation()
     return(<footer>
         <div className="first-footer grid grid-cols-1 gap-5  sm:grid-cols-2 lg:grid-cols-4 px-2 lg:px-16 py-10">
             <div className='flex flex-col gap-5 pr-4'>
                 <div>{logo}</div>
-                <p>Ordersmm – Your Gateway to Top SMM Panels and Social Media Growth Tools.</p>
-                <p>Explore Premium Services for Pin Up/Down, WhatsApp, Telegram, and More.</p>
+                <p>{t("footer.desc-1")}</p>
+                <p>{t("footer.desc-2")}</p>
             </div>
             <div className='flex flex-col gap-5'>
-                <h5>Explore SMM Services for</h5>
+                <h5>{t("footer.title-1")}</h5>
                 <div className='flex flex-wrap gap-5 services-icons'>
                     {data.map((e,idx)=>(<div className='flex gap-1 ' key={`Services_SMM_${idx}_${e.title}`}>
                         <div>{e.icon} </div> 
@@ -110,7 +112,7 @@ const Footer = ()=>{
                 </div>
             </div>
             <div className='flex flex-col gap-5'>
-                <h5>Featured SMM Panels</h5>
+                <h5>{t("footer.title-2")}</h5>
                 <div>
                       <Swiper
                             modules={[Autoplay,EffectFade]}
@@ -130,19 +132,19 @@ const Footer = ()=>{
                 </div>
             </div>
             <div className='flex flex-col gap-5'>
-                <button className='outline-btn' >Add Your Pannel</button>
-                <button className='outline-btn' >Advertise</button>
-                <button className='outline-btn' >Bumps</button>
+                <button className='outline-btn' >{t("footer.btn-1")}</button>
+                <button className='outline-btn' >{t("footer.btn-2")}</button>
+                <button className='outline-btn' >{t("footer.btn-3")}</button>
                 {/* <div>Payment Method</div> */}
             </div>
         </div>
         <div className="grid grid-cols-1  md:grid-cols-2 px-2 lg:px-16 second-footer py-4">
             <div className='text-center md:text-start'>
-                © 2025 OrderSMM. All rights reserved
+                © {t("footer.hint-footer")}
             </div>
             <div className="flex justify-center md:justify-end gap-5">
-                <div>Terms & Conditions</div>
-                <div>Privacy Policy</div>
+                <div>{t("footer.terms-&-conditions")}</div>
+                <div>{t("footer.privacy-policy")}</div>
             </div>
         </div>
     </footer>)

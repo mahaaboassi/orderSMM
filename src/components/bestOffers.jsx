@@ -6,6 +6,7 @@ import logo_3 from "../assets/images/logo_3.png"
 import logo_4 from "../assets/images/logo_4.png"
 import { useDispatch } from "react-redux"
 import { changePopup } from "../features/popupSlice"
+import { useTranslation } from "react-i18next"
 
 const OffersProviders = ()=>{
     const data = [{
@@ -126,8 +127,9 @@ const OffersProviders = ()=>{
         icon : ""
     }]
     const dispatch = useDispatch()
+    const { t } = useTranslation()
     return(<div className=" px-2">
-        <h2>Best Offers</h2>
+        <h2>{t("bestOffers")}</h2>
         <div className="">
             {
             !isServicesShow ? <div className="flex flex-col gap-5 px-1 md:px-5">
@@ -149,7 +151,7 @@ const OffersProviders = ()=>{
                 <div className="flex justify-end ">
                     <button className="dark-btn" onClick={()=>{
                         dispatch(changePopup({isOpen: false, component :<></>}))
-                    }}>Close</button>
+                    }}>{t("close")}</button>
                 </div>
             </div> :
             <div className="px-1 md:px-5 pt-5 flex flex-col gap-5">
@@ -192,7 +194,7 @@ const OffersProviders = ()=>{
                     <button className="dark-btn" onClick={()=>{
                         setCurrentData({})
                         setIsServicesShow(false)
-                    }}>Back</button>
+                    }}>{t("back")}</button>
                 </div>
             </div> 
         }

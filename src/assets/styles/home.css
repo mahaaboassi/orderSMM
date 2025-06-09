@@ -274,12 +274,6 @@ h2{
 
 }
 @media (max-width:900px) {
-    nav ul{
-        display: none;
-    }
-    nav svg.logo{
-        width: 120px;
-    }
     .arc .content-arc{
         margin-top: -40px;
     }   

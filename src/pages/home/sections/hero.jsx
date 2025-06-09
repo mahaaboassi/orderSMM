@@ -3,9 +3,11 @@ import SearchInput from "../../../components/search"
 import { useDispatch } from "react-redux"
 import { changePopup } from "../../../features/popupSlice"
 import OffersProviders from "../../../components/bestOffers"
+import { useTranslation } from "react-i18next"
 
 const Hero = ()=>{
-    const data = [{
+    const data = []
+    const datam = [{
         icon : <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 22 22" fill="none">
             <circle cx="11" cy="11" r="11" fill="#872121"/>
             </svg>,
@@ -86,6 +88,7 @@ const Hero = ()=>{
     },{
         name : "Twitch",
     }]
+    const { t } = useTranslation()
     const dispatch = useDispatch()
     const half_border = <svg xmlns="http://www.w3.org/2000/svg" width="20" height="16" viewBox="0 0 18 14" fill="none">
             <path d="M17 13C12.6 7.4 4.5 2.66667 1 1H8C14.8 1 16.8333 6.33333 17 9V13Z" fill="#19770D" stroke="#19770D" strokeWidth="0.5"/>
@@ -93,9 +96,7 @@ const Hero = ()=>{
     const half_border_bottom = <svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 18 15" fill="none">
             <path d="M1.5 13.6984C7.38108 10.3163 10.5 9 17.5 1.01552V4.77346C17.5 9.00108 14.473 13.0199 8.85135 13.6984C3.22973 14.3769 1.5 13.6984 1.5 13.6984Z" fill="#19770D" stroke="#19770D" strokeWidth="0.5"/>
             </svg>
-    const keywords = ["From pin-up to bulk tickets, our services drive growth.", 
-                    "Discover top SMM providers and compare their amazing services.", 
-                    "Choose a package, pay securely, and start growing instantly."]
+    const keywords = [t("hero.sentences_1"), t("hero.sentences_2"), t("hero.sentences_3")]
     const [indexWord, setIndexWord ] = useState(0)
     useEffect(()=>{
         setTimeout(()=>{
@@ -117,9 +118,9 @@ const Hero = ()=>{
                     </h2>
                     <div className="card-info  ">
                         <div className="content flex justify-between items-center px-10 lg:px-20">
-                        <div>350K Services</div>
-                            <div>150 Panel</div>
-                            <div className="flex justify-end">85 Platform</div>
+                            <div>{t("hero.services")}</div>
+                            <div>{t("hero.panel")}</div>
+                            <div className="flex justify-end">{t("hero.platform")}</div>
                         </div>
                         <div className="left-top-side">{half_border}</div>
                         <div className="right-top-side">{half_border}</div>
@@ -129,11 +130,11 @@ const Hero = ()=>{
                         <div className="bottom-line"></div>
                     </div>
                     
-                    <button onClick={openPopup} className="hero-btn">Best Provider Offer This Month</button>
+                    <button onClick={openPopup} className="hero-btn">{t("hero.offer-btn")}</button>
                 </div>
                 <div className=" grid grid-cols-1 sm:grid-cols-2 gap-2">
                     <div className="card-panals p-5 flex flex-col gap-1">
-                        <h3 className="mb-2">Latest Panel Updates</h3>
+                        <h3 className="mb-2">{t("hero.latestPanelUpdates")}</h3>
                         {data.map((e,idx)=>(<div className="flex justify-between items-center" key={`Panal_Card_${e.title}_${idx}`}>
                             
                             <div className="flex gap-2 items-center">
@@ -147,7 +148,7 @@ const Hero = ()=>{
                         </div>))}
                     </div>
                     <div className="card-panals p-5 flex flex-col gap-1">
-                        <h3 className="mb-2">Final Active Panels</h3>
+                        <h3 className="mb-2">{t("hero.finalActivePanels")}</h3>
                         {data.map((e,idx)=>(<div className="flex justify-between items-center" key={`Panal_Card_${e.title}_${idx}`}>
                             
                             <div className="flex gap-2 items-center">
@@ -185,11 +186,11 @@ const Hero = ()=>{
                 <div className="flex gap-2">
                     <SearchInput/>
                     <div style={{whiteSpace: "nowrap"}} className="flex p-2 justify-center items-center country-select">
-                        Select Country &nbsp; <svg style={{transform:"rotate(90deg)"}} xmlns="http://www.w3.org/2000/svg" width="8" height="12" viewBox="0 0 8 12" fill="none">
+                        {t("selectCountry")} &nbsp; <svg style={{transform:"rotate(90deg)"}} xmlns="http://www.w3.org/2000/svg" width="8" height="12" viewBox="0 0 8 12" fill="none">
                                             <path d="M0.589966 10.59L5.16997 6L0.589966 1.41L1.99997 0L7.99997 6L1.99997 12L0.589966 10.59Z" fill="#08392B"/>
                                     </svg>
                     </div>
-                    <div className="flex p-2 justify-center items-center container-search ">Search</div>
+                    <div style={{whiteSpace: "nowrap"}} className="flex p-2 justify-center items-center container-search ">{t("search")}</div>
                 </div>
             </div>
         </div>

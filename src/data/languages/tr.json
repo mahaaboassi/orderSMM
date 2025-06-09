@@ -1,0 +1,48 @@
+{
+  "navbar": {
+    "title_1": "Hizmetler",
+    "title_2": "Sağlayıcılar",
+    "title_3": "Paketler",
+    "title_4": "Platformlar",
+    "title_5": "Panel Ekle"
+  },
+  "hero": {
+        "sentences_1" : "Tekli siparişlerden toplu bilet alımlarına kadar, hizmetlerimiz büyümeyi destekler.",
+        "sentences_2" : "En iyi SMM sağlayıcılarını keşfedin ve harika hizmetlerini karşılaştırın.",
+        "sentences_3" : "Bir paket seçin, güvenli şekilde ödeme yapın ve hemen büyümeye başlayın.",
+        "services": "350K Hizmet",
+        "panel": "150 Panel",
+        "platform": "85 Platform",
+        "finalActivePanels": "Son Aktif Paneller",
+        "latestPanelUpdates": "En Son Panel Güncellemeleri",
+        "offer-btn" : "Bu Ayın En İyi Sağlayıcı Teklifi"
+    },
+  "footer": {
+      "desc-1": "Ordersmm – En İyi SMM Panellerine ve Sosyal Medya Büyüme Araçlarına Açılan Kapınız.",
+      "desc-2": "Pin Up/Down, WhatsApp, Telegram ve daha fazlası için Premium Hizmetleri Keşfedin.",
+      "title-1": "SMM Hizmetlerini Keşfedin",
+      "title-2": "Öne Çıkan SMM Panelleri",
+      "btn-1": "Panelinizi Ekleyin",
+      "btn-2": "Reklam Verin",
+      "btn-3": "Yükseltmeler",
+      "terms-&-conditions": "Şartlar ve Koşullar",
+      "privacy-policy": "Gizlilik Politikası",
+      "hint-footer": "2025 OrderSMM. Tüm hakları saklıdır"
+    },
+  "bestOffers": "En İyi Teklifler",
+  "bestOffers-sentence-1": "📢 Bu ayın en iyi SMM tekliflerini mi arıyorsunuz? Doğru yerdesiniz!",
+  "bestOffers-sentence-2": "💼 Bayileri, ajansları veya doğrudan müşterileri yönetiyor olun, bu bölüm en yeni SMM hizmetlerini ve fırsatlarını sunan en iyi panelleri öne çıkarır.",
+  "bestOffers-sentence-3": "👉 Aşağıdaki panelleri inceleyerek tekliflerini keşfedin, hizmetlerini öğrenin ve pazarlama hedefleriniz için en uygun olanı seçin.",
+  "bestOffers-sentence-4": "🛍️ Bu öne çıkan teklifler sınırlı bir süre için geçerlidir — kaçırmayın!",
+  "viewDetails" : "Detayları Görüntüle",
+  "topProviders" : "En İyi Sağlayıcılar",
+  "featuredSMMPanels" : "Öne Çıkan SMM Panelleri",
+  "joinOurChannel" : "Kanalımıza Katılın",
+  "joinOurGroup" : "Grubumuza Katılın",
+  "chat" : "Şimdi Bizimle Sohbet Edin!",
+  "sign-in": "Giriş Yap",
+    "selectCountry": "Ülke Seç",
+    "search": "Ara",
+    "close": "Kapat",
+    "back": "Geri"
+}

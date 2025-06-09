@@ -1,7 +1,9 @@
 import { useState } from "react"
+import { useTranslation } from "react-i18next"
 
 const Chat = ()=>{
     const [ isOpen, setIsOpen ] = useState(false)
+    const { t } = useTranslation()
     const chatIcon = <svg xmlns="http://www.w3.org/2000/svg" width="40" height="46" viewBox="0 0 50 56" fill="none">
         <g clipPath="url(#clip0_222_89)">
         <path fillRule="evenodd" clipRule="evenodd" d="M24.0968 42.4689C22.8538 47.4291 21.3474 51.8857 16.7478 55.9995C25.5413 53.7309 32.3313 49.1449 37.3136 42.4689H24.0968ZM38.8155 0H11.1836C5.03244 0 0 5.07637 0 11.2802V31.1883C0 37.3926 5.03244 42.4689 11.1836 42.4689H38.8155C44.9671 42.4689 50 37.3926 50 31.1883V11.2802C50 5.07637 44.9671 0 38.8155 0ZM11.8473 16.0038C14.3771 16.0038 16.4293 18.0738 16.4293 20.6254C16.4293 23.177 14.3771 25.2469 11.8473 25.2469C9.31711 25.2469 7.26537 23.177 7.26537 20.6254C7.26537 18.0733 9.31711 16.0038 11.8473 16.0038ZM38.1527 16.0038C40.6829 16.0038 42.7346 18.0738 42.7346 20.6254C42.7346 23.177 40.6829 25.2469 38.1527 25.2469C35.6224 25.2469 33.5707 23.177 33.5707 20.6254C33.5711 18.0733 35.6229 16.0038 38.1527 16.0038ZM25 16.0038C27.5298 16.0038 29.5824 18.0738 29.5824 20.6254C29.5824 23.177 27.5298 25.2469 25 25.2469C22.4698 25.2469 20.418 23.177 20.418 20.6254C20.418 18.0733 22.4698 16.0038 25 16.0038Z" fill="white"/>
@@ -15,7 +17,7 @@ const Chat = ()=>{
     return (<div className="chat-container flex flex-col items-center gap-2">
         
          <div className="hint p-3 flex flex-col">
-            <div className="change-color justify-center flex">Chat With Us Now !</div>
+            <div className="change-color justify-center flex">{t("chat")}</div>
             {isOpen && <div className="open-chat relative flex flex-col gap-2 py-2 ">
                     <div className="flex gap-2  cursor-pointer">
                         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 50 50" fill="none">

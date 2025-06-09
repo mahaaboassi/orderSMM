@@ -1,0 +1,49 @@
+{
+    "navbar" : {
+        "title_1" : "Services",
+        "title_2" : "Providers",
+        "title_3" : "Packages",
+        "title_4" : "Platforms",
+        "title_5" : "Add Panel"
+    },
+    "hero": {
+        "sentences_1" : "From pin-up to bulk tickets, our services drive growth.",
+        "sentences_2" : "Discover top SMM providers and compare their amazing services.",
+        "sentences_3" : "Choose a package, pay securely, and start growing instantly.",
+        "services": "350K Services",
+        "panel": "150 Panel",
+        "platform": "85 Platform",
+        "finalActivePanels": "Final Active Panels",
+        "latestPanelUpdates": "Latest Panel Updates",
+        "offer-btn" : "Best Provider Offer This Month"
+    },
+    "footer" : {
+        "desc-1" : "Ordersmm – Your Gateway to Top SMM Panels and Social Media Growth Tools.",
+        "desc-2" : "Explore Premium Services for Pin Up/Down, WhatsApp, Telegram, and More.",
+        "title-1" : "Explore SMM Services for",
+        "title-2" : "Featured SMM Panels",
+        "btn-1" : "Add Your Panel",
+        "btn-2" : "Advertise",
+        "btn-3" : "Bumps",
+        "terms-&-conditions" : "Terms & Conditions",
+        "privacy-policy" : "Privacy Policy",
+        "hint-footer" : "2025 OrderSMM. All rights reserved"
+    },
+    "bestOffers": "Best Offers",
+    "bestOffers-sentence-1": "📢 “Looking for the best SMM offers this month? You're in the right place!”",
+    "bestOffers-sentence-2": "💼 Whether you're managing resellers, agencies, or direct clients, this section highlights top-performing panels that have published their latest SMM services and deals on our platform.",
+    "bestOffers-sentence-3": "👉Browse the panels below to explore their offers, discover their services, and choose the best match for your marketing goals.",
+    "bestOffers-sentence-4": "🛍️ These featured offers are available for a limited time — don’t miss out!",
+
+    "viewDetails" : "View details",
+    "topProviders" : "Top Providers",
+    "featuredSMMPanels" : "Featured SMM Panels",
+    "joinOurChannel" : "Join Our Channel",
+    "joinOurGroup" : "Join Our Group",
+    "chat" : "Chat With Us Now!",
+    "sign-in" : "Sign In",
+    "selectCountry": "Select Country",
+    "search": "Search",
+    "close": "Close",
+    "back": "Back"
+}
