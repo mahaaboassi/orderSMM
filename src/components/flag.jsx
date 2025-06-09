@@ -48,7 +48,7 @@ const Flag = ()=>{
     }
     ];
     const { i18n } = useTranslation()
-    const [ currectLanguage, setCurrectLanguage ] = useState({})
+    const [ currectLanguage, setCurrectLanguage ] = useState(data[0])
     const [ isOpen, setIsOpen ] = useState(false)
     const handleLanguage = (lang)=>{
         i18n.changeLanguage(lang.lng)
