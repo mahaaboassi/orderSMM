@@ -18,7 +18,7 @@ const Popup = ()=>{
             isOpen : false,
             component : <></>
         }))
-    return(status.isOpen && <div className='popup'>
+    return(status.isOpen && <div className={`popup ${status.type == "error"? "err-msg" : ""}`}>
         <div style={{maxHeight: `${window.innerHeight -200}px`}} className='content-popup p-2 flex flex-col gap-2'>
             <div className='flex justify-end cursor-pointer ' onClick={closePopup}>{closeIcon}</div>
             <div className='py-5 w-full h-full'>

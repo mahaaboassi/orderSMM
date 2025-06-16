@@ -1,0 +1,26 @@
+.num{
+    cursor: pointer;
+    min-width: 20px;
+    display: flex;
+    justify-content: center;
+    padding: 3px;
+    font-size: var(--font-size-xxs);
+}
+.num.active{
+    font-weight: 600;
+    background-color: var(--green_2);
+    color: var(--light);
+    border-radius: 5px;
+}
+@media (max-width:350px) {
+   .container-pagination{
+    width: 250px !important;
+    overflow-x: scroll;
+   }
+}
+@media (max-width:260px) {
+   .container-pagination{
+    width: 200px !important;
+    overflow-x: scroll;
+   }
+}

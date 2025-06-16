@@ -1,10 +1,11 @@
 {
     "navbar" : {
-        "title_1" : "Services",
+        "title_1" : "Our Services",
         "title_2" : "Providers",
-        "title_3" : "Packages",
+        "title_3" : "Our Packages",
         "title_4" : "Platforms",
-        "title_5" : "Add Panel"
+        "title_5" : "Add Panel",
+        "title_6" : "Ads"
     },
     "hero": {
         "sentences_1" : "From pin-up to bulk tickets, our services drive growth.",
@@ -25,9 +26,54 @@
         "btn-1" : "Add Your Panel",
         "btn-2" : "Advertise",
         "btn-3" : "Bumps",
+        "btn-4" : "About Us",
         "terms-&-conditions" : "Terms & Conditions",
         "privacy-policy" : "Privacy Policy",
         "hint-footer" : "2025 OrderSMM. All rights reserved"
+    },
+    "auth" : {
+        "Login" : "Log In to Your Account",
+        "email" : "Email",
+        "dashboard" : "Dashboard",
+        "logout" : "Logout",
+        "password" : "Password",
+        "don’t-have-an-account-yet" : "Don’t have an account yet ?",
+        "sign-in-here" : " Sign In here",
+        "sign-up-here" : " Sign Up here",
+        "sign-in" : "Sign In",
+        "register" : "Record New Account",
+        "reType-password" : "Reytype Password",
+        "have-an-account" : "Have an account ?",
+        "sign-up" : "Sign Up",
+        "verification-code": "Verification Code",
+        "verfication-msg" : "We have just sent you a verification code to your email. Please check your inbox — and don't forget to check your spam or junk folder in case it landed there.",
+        "Didn’t-receive-a-code" : "Didn’t receive a code? ",
+        "resend-now" : "Resend Now",
+
+        "name": "Name",
+        "whatsapp" : "Whatsapp",
+        "telegram" : "Telegram",
+        "website": "Website",
+        "confirm-password-not-matching": "Passwords do not match",
+        "telegram-number-validation" : "Telegram number must be numeric",
+        "telegram-is-required" : "Telegram number is required",
+        "invalid-website-url" : "Please enter a valid website URL",
+        
+        "name-validation" : "Name is required",
+        "confirmation-password" : "Confirm Password",
+        "enter-6-digit-code" : "Please enter a valid 6-digit code.",
+
+
+        "invalid-email" : "Invalid email",
+        "email-is-required" : "Email is required",
+        "password-length-validation" : "Password must be at least 8 characters",
+        "password-validation" : "Password is required"
+
+    },
+    "error" : {
+        "wrong_credentials" : "Incorrect email or password. Please try again.",
+        "email-taken" : "The email has already been taken.",
+        "verification-code" : "The code you entered isn’t valid. Please try again."
     },
     "bestOffers": "Best Offers",
     "bestOffers-sentence-1": "📢 “Looking for the best SMM offers this month? You're in the right place!”",
@@ -45,5 +91,6 @@
     "selectCountry": "Select Country",
     "search": "Search",
     "close": "Close",
-    "back": "Back"
+    "back": "Back",
+    "submit" :"Submit"
 }

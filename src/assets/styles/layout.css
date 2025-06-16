@@ -26,6 +26,28 @@ nav ul{
     text-transform: capitalize;
     font-weight: 600;
 }
+nav a{
+    color: var(--light);
+    transition: 0.3s;
+    position: relative;
+}
+nav li a::before{
+    content : "";
+    position: absolute;
+    height: 1.5px;
+    left: 0;
+    width: 0;
+    bottom: 0;
+    background-color: var(--light);
+    border-radius: 5px;
+    transition: 0.3s;
+}
+nav li a:hover{
+    color: var(--light);
+}
+nav li a:hover::before{
+    width: 100%;
+}
 .icon-menu-sm{
     display: none;
 }
@@ -161,6 +183,26 @@ footer p{
     overflow-y: scroll;
 
 }
+.err-msg .content-popup{
+    background: var(--error-color);
+    color: var(--light);
+    overflow: auto;
+    text-align: center;
+    font-weight: 600;
+    font-size: var(--font-size-l);
+}
+.err-msg .content-popup svg path{
+    fill: var(--light);
+}
+button:disabled{
+    cursor: not-allowed;
+}
+.box-error{
+    border: 1px solid var(--error-color);
+    border-radius: 10px;
+    color: var(--error-color);
+    font-size: var(--font-size-xs);
+}
 /* Chat Icon */
 .chat-container{
     position: fixed;
@@ -220,7 +262,43 @@ footer p{
     background-color: var(--grey_4);
     cursor: pointer;
 }
-
+/* /* loading */
+.loader {
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(0, 0, 0, 0.1); 
+  border-top: 3px solid  var(--light) ; 
+  border-radius: 50%; 
+  animation: spin 1s linear infinite; 
+}
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+/* Avatar */
+.avatar{
+    position: relative;
+}
+.menu-avatar{
+    position: absolute;
+    top: 50px;
+    background-color: var(--light);
+    color: var(--green_1);
+    font-size: var(--font-size-xs);
+    width: 150px;
+    border-radius: 10px;
+}
+.name-avatar{
+    font-weight: 600;
+}
+.option-avatar:hover{
+    background-color: var(--grey_4);
+    cursor: pointer;
+}
 @media (max-width:900px) {
     nav ul{
         display: none;
@@ -234,16 +312,24 @@ footer p{
     nav ul.open-menu-sm{
         display: flex;
         position: fixed;
-        background-color: rgba(0, 0, 0, 0.944);
+        background-color: var(--green_1);
         inset: 0;
         flex-direction: column;
         justify-content: start;
         padding-top: 100px;
         align-items: center;
-        z-index: 3000;
+        z-index: 4000;
+        animation: openMenu 0.3s  forwards linear;
+    }
+    @keyframes openMenu {
+        from{
+            width: 0;
+        }to{
+            width: 50%;
+        }
     }
     .icon-close{
-        position: fixed;
+        position: absolute;
         top: 40px;
         z-index: 3000;
         right: 40px
@@ -304,5 +390,16 @@ footer p{
     nav button{
         font-size: 10px !important;
         padding: 5px;
+    }
+    .menu-icon{
+        width: 15px;
+        height: 15px;
+    }
+    .icon-close{
+        top: 20px;
+        right: 20px
+    }
+    .avatar svg{
+        width:30px
     }
 }

@@ -1,10 +1,11 @@
 {
   "navbar": {
-    "title_1": "Hizmetler",
-    "title_2": "Sağlayıcılar",
-    "title_3": "Paketler",
-    "title_4": "Platformlar",
-    "title_5": "Panel Ekle"
+      "title_1": "Hizmetlerimiz",
+      "title_2": "Sağlayıcılar",
+      "title_3": "Paketlerimiz",
+      "title_4": "Platformlar",
+      "title_5": "Panel Ekle",
+      "title_6": "Reklamlar"
   },
   "hero": {
         "sentences_1" : "Tekli siparişlerden toplu bilet alımlarına kadar, hizmetlerimiz büyümeyi destekler.",
@@ -17,6 +18,41 @@
         "latestPanelUpdates": "En Son Panel Güncellemeleri",
         "offer-btn" : "Bu Ayın En İyi Sağlayıcı Teklifi"
     },
+  "auth" : {
+    "Login": "Hesabınıza Giriş Yapın",
+    "email": "E-posta",
+    "dashboard": "Kontrol Paneli",
+    "logout": "Çıkış Yap",
+    "password": "Şifre",
+    "sign-up-here": "Buradan Kayıt Olun",
+    "don’t-have-an-account-yet": "Henüz bir hesabınız yok mu?",
+    "sign-in-here": "Buradan Giriş Yapın",
+    "sign-in": "Giriş Yap",
+    "register": "Yeni Hesap Oluştur",
+    "reType-password": "Şifreyi Tekrar Yazın",
+    "have-an-account": "Zaten bir hesabınız var mı?",
+    "sign-up": "Kayıt Ol",
+    "name": "İsim",
+    "name-validation": "İsim gereklidir",
+    "confirmation-password": "Şifreyi Onayla",
+    "enter-6-digit-code": "Lütfen geçerli 6 haneli bir kod girin.",
+
+    "whatsapp": "Whatsapp",
+    "telegram": "Telegram",
+    "website": "Web sitesi",
+    "confirm-password-not-matching": "Şifreler eşleşmiyor",
+    "telegram-number-validation": "Telegram numarası sayısal olmalıdır",
+    "telegram-is-required": "Telegram numarası zorunludur",
+    "invalid-website-url": "Lütfen geçerli bir web sitesi URL'si girin",
+    "verification-code": "Doğrulama Kodu",
+    "verfication-msg": "E-postanıza bir doğrulama kodu gönderdik. Lütfen gelen kutunuzu ve spam/junk klasörünüzü kontrol edin.",
+    "Didn’t-receive-a-code": "Kod almadınız mı?",
+    "resend-now": "Şimdi Tekrar Gönder",
+    "invalid-email": "Geçersiz e-posta",
+    "email-is-required": "E-posta gerekli",
+    "password-length-validation": "Şifre en az 8 karakter olmalıdır",
+    "password-validation": "Şifre gerekli"
+  },
   "footer": {
       "desc-1": "Ordersmm – En İyi SMM Panellerine ve Sosyal Medya Büyüme Araçlarına Açılan Kapınız.",
       "desc-2": "Pin Up/Down, WhatsApp, Telegram ve daha fazlası için Premium Hizmetleri Keşfedin.",
@@ -29,6 +65,11 @@
       "privacy-policy": "Gizlilik Politikası",
       "hint-footer": "2025 OrderSMM. Tüm hakları saklıdır"
     },
+  "error" : {
+      "wrong_credentials" : "E-posta veya şifre yanlış. Lütfen tekrar deneyin.",
+       "email-taken": "Bu e-posta adresi zaten kullanılmış.",
+       "verification-code": "Girdiğiniz kod geçerli değil. Lütfen tekrar deneyin."
+  },
   "bestOffers": "En İyi Teklifler",
   "bestOffers-sentence-1": "📢 Bu ayın en iyi SMM tekliflerini mi arıyorsunuz? Doğru yerdesiniz!",
   "bestOffers-sentence-2": "💼 Bayileri, ajansları veya doğrudan müşterileri yönetiyor olun, bu bölüm en yeni SMM hizmetlerini ve fırsatlarını sunan en iyi panelleri öne çıkarır.",
@@ -41,8 +82,9 @@
   "joinOurGroup" : "Grubumuza Katılın",
   "chat" : "Şimdi Bizimle Sohbet Edin!",
   "sign-in": "Giriş Yap",
-    "selectCountry": "Ülke Seç",
-    "search": "Ara",
-    "close": "Kapat",
-    "back": "Geri"
+  "selectCountry": "Ülke Seç",
+  "search": "Ara",
+  "close": "Kapat",
+  "back": "Geri",
+  "submit": "Gönder"
 }

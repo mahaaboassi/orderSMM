@@ -1,4 +1,11 @@
+/* Pages */
 @import url("./index.css");
-@import url("./assets//styles/layout.css");
-@import url("./assets//styles/home.css");
-@import url("./assets//styles/auth.css");
+@import url("./assets/styles/layout.css");
+@import url("./assets/styles/home.css");
+@import url("./assets/styles/auth.css");
+@import url("./assets/styles/pages.css");
+@import url("./assets/styles/panel.css");
+
+/* Components */
+@import url("./assets/styles/mobileInput.css");
+@import url("./assets/styles/pagination.css");

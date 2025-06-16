@@ -2,7 +2,8 @@ import { Link } from "react-router-dom"
 import Flag from "./flag"
 import Currency from "./currency"
 import { useTranslation } from "react-i18next"
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import Avatar from "./avatar"
 
 const logo = <svg className="logo" xmlns="http://www.w3.org/2000/svg" width="137" height="51" viewBox="0 0 137 51" fill="none">
 <g clipPath="url(#clip0_220_68)">
@@ -51,6 +52,9 @@ const Navbar = ()=>{
         name : t("navbar.title_2"),
         link : "/"
     },{
+        name : t("navbar.title_6"),
+        link : "/"
+    },{
         name : t("navbar.title_3"),
         link : "/"
     },{
@@ -58,9 +62,15 @@ const Navbar = ()=>{
         link : "/"
     },{
         name : t("navbar.title_5"),
-        link : "/"
+        link : "/smm-panel/new"
     }]
     const [ isOpenMenu, setIsOpenMenu ] = useState(false)
+    const [ currentUser, setCurrentUser ] = useState({})
+    useEffect(()=>{
+        if(localStorage.getItem("user")){
+            setCurrentUser(JSON.parse(localStorage.getItem("user")))
+        }
+    },[])
     const closeIcon = <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
     <g clipPath="url(#clip0_17_1174)">
     <path d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z" fill="white"/>
@@ -71,24 +81,27 @@ const Navbar = ()=>{
     </clipPath>
     </defs>
     </svg>
-    const menuIcon = <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 24 24" fill="none"><g clipPath="url(#clip0_483_74)"><path d="M14 18H21V16H14V18ZM3 6V8H21V6H3ZM9 13H21V11H9V13Z" fill="white"></path></g><defs><clipPath id="clip0_483_74"><rect width="24" height="24" fill="white"></rect></clipPath></defs></svg>
+    const menuIcon = <svg className="menu-icon" width="20" height="20" xmlns="http://www.w3.org/2000/svg" version="1.1" id="Layer_1" x="0px" y="0px" viewBox="0 0 122.88 95.95" ><g><path fill="white"  d="M8.94,0h105c4.92,0,8.94,4.02,8.94,8.94l0,0c0,4.92-4.02,8.94-8.94,8.94h-105C4.02,17.88,0,13.86,0,8.94l0,0 C0,4.02,4.02,0,8.94,0L8.94,0z M8.94,78.07h105c4.92,0,8.94,4.02,8.94,8.94l0,0c0,4.92-4.02,8.94-8.94,8.94h-105 C4.02,95.95,0,91.93,0,87.01l0,0C0,82.09,4.02,78.07,8.94,78.07L8.94,78.07z M8.94,39.03h105c4.92,0,8.94,4.02,8.94,8.94l0,0 c0,4.92-4.02,8.94-8.94,8.94h-105C4.02,56.91,0,52.89,0,47.97l0,0C0,43.06,4.02,39.03,8.94,39.03L8.94,39.03z"/></g></svg>
     return(<nav className="px-2  lg:px-16">
         <div className="nav-content py-4 px-6 ">
             <div className="flex items-center ">
                 <Link to={"/"}>{logo}</Link>
             </div>
             <div>
+
                 <ul className={`gap-5 ${isOpenMenu?"open-menu-sm":""}`}>
-                    {data.map((e,idx)=>(<li key={`Navbar_${e.name}_${idx}`}>{e.name}</li>))}
+                    {isOpenMenu && <li className="icon-close" onClick={()=>setIsOpenMenu(false)}>{closeIcon}</li>}
+                
+                    {data.map((e,idx)=>(<li key={`Navbar_${e.name}_${idx}`}><Link to={e.link}>{e.name}</Link></li>))}
                 </ul>
             </div>
-            <div className="flex items-center gap-2">
-                {isOpenMenu && <div className="icon-close" onClick={()=>setIsOpenMenu(false)}>{closeIcon}</div>}
-                <div onClick={()=>setIsOpenMenu(true)} className="icon-menu-sm cursor-pointer">{menuIcon} </div>
-                <div><Link aria-label="Sign In" to="/auth/signIn"><button>{t("sign-in")}</button></Link></div>
+            <div className="flex items-center  gap-2  sm:gap-3">
+
+                { Object.keys(currentUser).length == 0 && <div><Link aria-label="Sign In" to="/auth/signIn"><button>{t("sign-in")}</button></Link></div>}
                 <Flag/>
                 <Currency/>
-                
+                <div onClick={()=>setIsOpenMenu(true)} className="icon-menu-sm cursor-pointer">{menuIcon} </div>
+                { Object.keys(currentUser).length > 0 && <Avatar/>}
             </div>
         </div>
     </nav>)

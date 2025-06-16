@@ -13,49 +13,49 @@ const Hero = ()=>{
             </svg>,
         title : "Panel Name",
         services : "135 services",
-        date : "8 minutes ago"
+        date : "8m ago"
     },{
         icon : <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 22 22" fill="none">
             <circle cx="11" cy="11" r="11" fill="#676767"/>
             </svg>,
         title : "Panel Name",
         services : "105 services",
-        date : "8 minutes ago"
+        date : "8m ago"
     },{
         icon : <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 22 22" fill="none">
             <circle cx="11" cy="11" r="11" fill="#872121"/>
             </svg>,
         title : "Panel Name",
         services : "230 services",
-        date : "8 minutes ago"
+        date : "8m ago"
     },{
         icon : <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 22 22" fill="none">
             <circle cx="11" cy="11" r="11" fill="#A9A932"/>
             </svg>,
         title : "Panel Name",
         services : "150 services",
-        date : "17 minutes ago"
+        date : "17m ago"
     },{
         icon : <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 22 22" fill="none">
             <circle cx="11" cy="11" r="11" fill="#676767"/>
             </svg>,
         title : "Panel Name",
         services : "135 services",
-        date : "about 1 hours ago"
+        date : "about 1h ago"
     },{
         icon : <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 22 22" fill="none">
             <circle cx="11" cy="11" r="11" fill="#872121"/>
             </svg>,
         title : "Panel Name",
         services : "300 services",
-        date : "about 2 hours ago"
+        date : "about 2h ago"
     },{
         icon : <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 22 22" fill="none">
             <circle cx="11" cy="11" r="11" fill="#872121"/>
             </svg>,
         title : "Panel Name",
         services : "300 services",
-        date : "about 4 hours ago"
+        date : "about 4h ago"
     }]
     const icons = [{
         name : "Facebook",
@@ -130,9 +130,9 @@ const Hero = ()=>{
             }))
     }
     return<div className="hero px-2  lg:px-16 pt-5 lg:pt-12 pb-5">
-        <div className=" sm:px-10 flex flex-col gap-5 lg:gap-14">
-            <div className="grid grid-cols-1 xl:grid-cols-2 gap-5 lg:gap-10 ">
-                <div className="flex flex-col gap-7">
+        <div className=" xl:px-10 flex flex-col gap-5 lg:gap-14">
+            <div className="grid grid-cols-1  md:grid-cols-2 gap-5 lg:gap-10 ">
+                <div className="flex flex-col gap-4 lg:gap-7">
                     <h2 className="text-center md:text-start">
                         <span key={indexWord} className="animated-word" >{keywords[indexWord]}</span>  
                     </h2>
@@ -152,20 +152,14 @@ const Hero = ()=>{
                     
                     <button onClick={openPopup} className="hero-btn">{t("hero.offer-btn")}</button>
                 </div>
-                <div className=" grid grid-cols-1 sm:grid-cols-2 gap-2">
-                    <div className="card-panals p-5 flex flex-col gap-1">
-                        <h3 className="flex justify-between items-center " onClick={()=>{openPopupForPanels(t("hero.latestPanelUpdates"),data) }} >
+                <div className="hidden md:grid grid-cols-2 gap-2">
+                    <div className="card-panals p-2 sm:p-5 flex flex-col gap-1">
+                        <h3>
                             {t("hero.latestPanelUpdates")}
-                            <span className="xl:hidden">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="8" height="12" viewBox="0 0 8 12" fill="none">
-                                    <path d="M0.590088 10.59L5.17009 6L0.590088 1.41L2.00009 0L8.00009 6L2.00009 12L0.590088 10.59Z" fill="#19770D"/>
-                                </svg>
-                            </span>
                         </h3>
-                        <div className="hidden xl:block xl:mt-2">
-                            {data.map((e,idx)=>(<div className="hidden xl:flex justify-between items-center" key={`Panal_Card_${e.title}_${idx}`}>
-                            
-                                <div className="flex gap-2 items-center">
+                        <div className="flex flex-col justify-between h-full">
+                            {data.map((e,idx)=>(<div className="flex justify-between items-center" key={`Panal_Card_${e.title}_${idx}`}>
+                                <div className="flex gap-1 sm:gap-2 items-center">
                                     {e.icon}
                                     <h4>{e.title}</h4>
                                     {/* <span>{e.services}</span> */}
@@ -176,24 +170,19 @@ const Hero = ()=>{
                             </div>))}
                         </div>
                     </div>
-                    <div className="card-panals p-5 flex flex-col gap-1">
-                        <h3 className="flex justify-between items-center " onClick={()=>{openPopupForPanels(t("hero.finalActivePanels"),data) }} >
+                    <div className="card-panals p-2 sm:p-5 flex flex-col gap-1">
+                        <h3>
                             {t("hero.finalActivePanels")}
-                            <span className="xl:hidden">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="8" height="12" viewBox="0 0 8 12" fill="none">
-                                    <path d="M0.590088 10.59L5.17009 6L0.590088 1.41L2.00009 0L8.00009 6L2.00009 12L0.590088 10.59Z" fill="#19770D"/>
-                                </svg>
-                            </span>
                         </h3>
-                         <div className="hidden xl:block mt-0 xl:mt-2">
-                            {data.map((e,idx)=>(<div className=" hidden xl:flex justify-between items-center" key={`Panal_Card_${e.title}_${idx}`}>
+                         <div className="flex flex-col justify-between h-full ">
+                            {data.map((e,idx)=>(<div className="flex justify-between items-center" key={`Panal_Card_${e.title}_${idx}`}>
                                 
-                                <div className="flex gap-2 items-center">
+                                <div className="flex gap-1 sm:gap-2 items-center">
                                     {e.icon}
                                     <h4>{e.title}</h4>
                                     {/* <span>{e.services}</span> */}
                                 </div>
-                                <div className="date">
+                                <div className="flex date">
                                     {e.date}
                                 </div>
                             </div>))}
@@ -207,18 +196,6 @@ const Hero = ()=>{
             <div className="flex flex-col gap-2">
                 <div style={{overflow:"hidden"}} className="flex gap-5">
                     {icons.map((e,idx)=>(<div className="flex gap-1 items-center icons-hero" key={`Icons_Before_Search_${e.title}_${idx}`}>
-                        <div>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="24" viewBox="0 0 18 24" fill="none">
-                                <g clipPath="url(#clip0_213_2)">
-                                <path d="M6.65358 1.68874C6.76171 1.14781 7.27173 0.801535 7.79255 0.91384C8.31338 1.02614 8.64678 1.55585 8.53865 2.09678L7.44113 7.58287H12.626L13.8082 1.67751C13.9163 1.13658 14.4263 0.790305 14.9471 0.902609C15.468 1.01491 15.8014 1.54462 15.6932 2.08555L14.5921 7.58474H17.0358C17.5693 7.58474 18 8.03396 18 8.58612C18 9.13829 17.5675 9.58751 17.0358 9.58751H14.1902L12.9774 15.6426H17.034C17.5675 15.6426 17.9982 16.0918 17.9982 16.644C17.9982 17.198 17.5657 17.6454 17.034 17.6454H12.5773L11.4888 23.0828C11.3807 23.6237 10.8706 23.97 10.3498 23.8577C9.829 23.7454 9.4956 23.2157 9.60373 22.6747L10.6111 17.6435H5.42451L4.34141 23.0566C4.23328 23.5975 3.72327 23.9438 3.20244 23.8315C2.68162 23.7192 2.34822 23.1895 2.45635 22.6485L3.45835 17.6416H0.964157C0.432519 17.6454 0 17.1961 0 16.644C0 16.0899 0.432519 15.6426 0.964157 15.6426H3.85843L5.07129 9.58751H0.964157C0.432519 9.58751 0 9.13829 0 8.58425C0 8.03021 0.432519 7.58287 0.964157 7.58287H5.47317L6.65358 1.68874ZM11.0112 15.6407L12.2241 9.58563H7.03745L5.82459 15.6407H11.0112Z" fill="#08392B"/>
-                                </g>
-                                <defs>
-                                <clipPath id="clip0_213_2">
-                                <rect width="18" height="23" fill="white" transform="translate(0 0.880005)"/>
-                                </clipPath>
-                                </defs>
-                            </svg>
-                        </div>
                         <div className="cursor-pointer" style={{whiteSpace: "nowrap",fontWeight:"600"}}>{e.name}</div>
                     </div>))}
                 </div>
@@ -232,6 +209,47 @@ const Hero = ()=>{
                     <div style={{whiteSpace: "nowrap"}} className="flex p-2 justify-center items-center container-search ">{t("search")}</div>
                 </div>
             </div>
+
+            {/* In Mobile Size */}
+            <div className="grid md:hidden flex grid-cols-2 gap-2">
+                    <div className="card-panals p-2 sm:p-5 flex flex-col gap-1">
+                        <h3>
+                            {t("hero.latestPanelUpdates")}
+                        </h3>
+                        <div className="flex flex-col justify-between h-full">
+                            {data.map((e,idx)=>(<div className="flex justify-between items-center" key={`Panal_Card_${e.title}_${idx}`}>
+                                <div className="flex gap-1 sm:gap-2 items-center">
+                                    {e.icon}
+                                    <h4>{e.title}</h4>
+                                    {/* <span>{e.services}</span> */}
+                                </div>
+                                <div className="date">
+                                    {e.date}
+                                </div>
+                            </div>))}
+                        </div>
+                    </div>
+                    <div className="card-panals p-2 sm:p-5 flex flex-col gap-1">
+                        <h3>
+                            {t("hero.finalActivePanels")}
+                        </h3>
+                         <div className="flex flex-col justify-between h-full ">
+                            {data.map((e,idx)=>(<div className="flex justify-between items-center" key={`Panal_Card_${e.title}_${idx}`}>
+                                
+                                <div className="flex gap-1 sm:gap-2 items-center">
+                                    {e.icon}
+                                    <h4>{e.title}</h4>
+                                    {/* <span>{e.services}</span> */}
+                                </div>
+                                <div className="flex date">
+                                    {e.date}
+                                </div>
+                            </div>))}
+                         </div>
+
+                    </div>
+
+                </div>
         </div>
     </div>
 }

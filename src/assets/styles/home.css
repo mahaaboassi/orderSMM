@@ -251,6 +251,9 @@ h2{
 .goddy:hover::before{
     top: 0;
 }
+.goddy-info{
+    font-size: var(--font-size-xxs);
+}
 /* Offer of Providers */
 .offer-card{
     border: 2px solid var(--green_2);
@@ -259,6 +262,17 @@ h2{
     justify-content: center;
     background-color: var(--grey_3);
     align-items: center;
+}
+@media (max-width:1200px) {
+    .hero h2{
+        font-size: var(--font-size-xl);
+    }
+    .content {
+        font-size: var(--font-size-s);
+    }
+    .card-panals .date{
+        font-size: 10px;
+    }
 }
 
 @media (max-width:1025px) {
@@ -296,6 +310,18 @@ h2{
     .arc .content-arc{
         margin-top: -20px;
     }
+    .card-panals h3{
+        font-size: var(--font-size-xs);
+    }
+    .card-panals h4{
+        font-size: var(--font-size-xxs);
+    }
+    .card-panals span{
+        font-size: 10px;
+    }
+    .card-panals .date{
+        font-size: 10px;
+    }
 }
 @media (max-width:450px) {
         nav svg.logo{
@@ -310,14 +336,21 @@ h2{
         nav button,nav .currency{
             font-size: var(--font-size-xs);
         }
-        .card-panals h4{
+        .card-panals svg{
+            width: 5px;
+        }
+        .card-panals h3{
             font-size: var(--font-size-xs);
+        }
+        .card-panals h4{
+            font-size: var(--font-size-xxs);
         }
         .card-panals span{
             font-size: 10px;
         }
         .card-panals .date{
             font-size: 10px;
+            display: none;
         }
         .content{
             text-align: center;
@@ -343,6 +376,17 @@ h2{
             margin-top: -10px;
         }
         p{
+            font-size: var(--font-size-xxs);
+        }
+}
+@media (min-width : 768px) and (max-width:1020px) {
+        .card-panals svg{
+            width: 8px;
+        }
+        .card-panals h3{
+            font-size: var(--font-size-xs);
+        }
+        .card-panals h4{
             font-size: var(--font-size-xxs);
         }
 }
