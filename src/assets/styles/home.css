@@ -1,6 +1,11 @@
+
+h1{
+    font-weight: 600;
+    font-size: 2.5rem;
+}
 h2{
     font-size: var(--font-size-xxl);
-    font-weight: 700;
+    font-weight: 600;
     text-transform: capitalize;
 }
 .animated-word {
@@ -210,6 +215,7 @@ h2{
     position: relative;
     box-shadow: var(--shadow-box);
     overflow: hidden;
+    min-height: 200px;
  
 }
 .card-imge:hover img{
@@ -217,9 +223,9 @@ h2{
 }
 .card-imge img{
     width: 100%;
-    height: 100%;
+    height: 200px;
     object-fit: cover;
-   transition: 0.3s;
+    transition: 0.3s;
 }
 .goddy{
     position: absolute;
@@ -228,9 +234,9 @@ h2{
     right: 0;
     display: flex;
     justify-content: center;
-    color: var(--light);
+    color: var(--dark-1);
     font-weight: 600;
-    background-color: rgba(255, 255, 255, 0.152);
+    background-color: rgba(255, 255, 255, 0.582);
     backdrop-filter: blur(20px); 
     -webkit-backdrop-filter: blur(20px);
     font-size: var(--font-size-s);
@@ -307,6 +313,9 @@ h2{
     }
 }
 @media (max-width:600px) {
+    .hero h1{
+        font-size: var(--font-size-xxl);
+    }
     .arc .content-arc{
         margin-top: -20px;
     }
@@ -322,6 +331,7 @@ h2{
     .card-panals .date{
         font-size: 10px;
     }
+
 }
 @media (max-width:450px) {
         nav svg.logo{
@@ -369,6 +379,12 @@ h2{
 
 }
 @media (max-width:350px) {
+        .hero h1{
+            font-size: 1.6rem;
+        }
+        .hero h1 svg{
+            width: 20px;
+        }
         h2{
             font-size: 1.1rem;
         }

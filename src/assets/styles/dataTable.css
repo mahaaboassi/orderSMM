@@ -1,0 +1,14 @@
+.data-table{
+    background-color: var(--light);
+    padding: 10px;
+    border-radius: 10px;
+
+
+}
+.content-table{
+    overflow-y: scroll;
+}
+.data-table table{
+    border-radius: 10px;
+    
+}

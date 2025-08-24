@@ -8,9 +8,11 @@
         "title_6" : "Ads"
     },
     "hero": {
-        "sentences_1" : "From pin-up to bulk tickets, our services drive growth.",
-        "sentences_2" : "Discover top SMM providers and compare their amazing services.",
-        "sentences_3" : "Choose a package, pay securely, and start growing instantly.",
+        "sentences_1" : "All SMM Panels. One Simple Trusted Place. Zero Hassle.",
+        "sentences_2" : "Track, Compare & Quickly Choose the Right SMM Panel.",
+        "sentences_3" : "Easily Find the Very Best SMM Services Worldwide.",
+        "sentences_4" : "Add Your SMM Panel for Free and Start Attracting Customers.",
+        "sentences_5" : "The Perfect Platform for API Users and SMM Providers.",
         "services": "350K Services",
         "panel": "150 Panel",
         "platform": "85 Platform",
@@ -73,8 +75,17 @@
     "error" : {
         "wrong_credentials" : "Incorrect email or password. Please try again.",
         "email-taken" : "The email has already been taken.",
-        "verification-code" : "The code you entered isn’t valid. Please try again."
+        "verification-code" : "The code you entered isn’t valid. Please try again.",
+
+        "your_account_is_not_verified" : "Your account is not verified. Please check your email to activate it.",
+        "reverify_now": "Reverify Now",
+        "invalid_code" : "The verification link is invalid or has already been used. Please request a new one."
     },
+    "success" : {
+        "verified":"You've successfully signed up. We've sent a verification link to your email. Please check your inbox to activate your account."
+    },
+    "go-to-home-page" : "Go to Home Page",
+    "no-data" : "No data found.",
     "bestOffers": "Best Offers",
     "bestOffers-sentence-1": "📢 “Looking for the best SMM offers this month? You're in the right place!”",
     "bestOffers-sentence-2": "💼 Whether you're managing resellers, agencies, or direct clients, this section highlights top-performing panels that have published their latest SMM services and deals on our platform.",
@@ -88,7 +99,7 @@
     "joinOurGroup" : "Join Our Group",
     "chat" : "Chat With Us Now!",
     "sign-in" : "Sign In",
-    "selectCountry": "Select Country",
+    "selectCountry": "Country",
     "search": "Search",
     "close": "Close",
     "back": "Back",

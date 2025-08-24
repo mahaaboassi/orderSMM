@@ -7,6 +7,7 @@ function MobileInput({register,value,returnedCountry,country_id,isOpenMenu=true,
     const [number ,setNumber ] = useState()
     const [isOpen ,setIsOpen ] = useState(false)
     useEffect(()=>{
+
         setSelectedCountry(countriesWithCodeNumber.find(e => e.code == "AE"))
         returnedCountry(countriesWithCodeNumber.find(e => e.code == "AE"))
     },[])
@@ -77,7 +78,7 @@ function MobileInput({register,value,returnedCountry,country_id,isOpenMenu=true,
         </div>
         <div className="w-full">
             <input  disabled={!isOpenMenu} placeholder="XX XX XX" {...register} value={number || ""} onChange={(e)=>{
-                // register.onChange(e)
+                register.onChange(e)
                 setNumber(e.target.value)
                 }} type="number" />
         </div>

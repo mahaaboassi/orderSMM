@@ -48,10 +48,12 @@ export const  Helper =  async ({url, body , method ,signal, hasToken=false , par
 
    
             const res = await result.json()
-            // console.log("JSON response received:", res);
+            // console.log("JSON response received:", res);           
             switch (res.status) {
                 case 200:
-                    return {response:res, message: res.message ,statusCode : 200};
+                    return {response : res, 
+                            message : res.message , 
+                            statusCode : 200};
                 case 400:
                     return { message: res.message,statusCode : 400};
                 case 401:

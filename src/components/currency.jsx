@@ -1,36 +1,50 @@
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { Helper } from "../functionality/helper";
+import { apiRoutes } from "../functionality/apiRoutes";
+import { useDispatch } from "react-redux";
+import { currencyStatus } from "../features/currencySlice";
 
 const Currency = ()=>{
-    const data = [
-        { name: "US Dollar", symbol: "$", code: "USD" },
-        { name: "Euro", symbol: "€", code: "EUR" },
-        { name: "British Pound Sterling", symbol: "£", code: "GBP" },
-        { name: "Japanese Yen", symbol: "¥", code: "JPY" },
-        { name: "Chinese Yuan Renminbi", symbol: "¥", code: "CNY" },
-        { name: "Canadian Dollar", symbol: "C$", code: "CAD" },
-        { name: "Australian Dollar", symbol: "A$", code: "AUD" },
-        { name: "Swiss Franc", symbol: "CHF", code: "CHF" },
-        { name: "Indian Rupee", symbol: "₹", code: "INR" },
-        { name: "Turkish Lira", symbol: "₺", code: "TRY" },
-        { name: "Russian Ruble", symbol: "₽", code: "RUB" },
-        { name: "UAE Dirham", symbol: "د.إ", code: "AED" },
-        { name: "Saudi Riyal", symbol: "ر.س", code: "SAR" },
-        { name: "Pakistani Rupee", symbol: "₨", code: "PKR" },
-        { name: "Egyptian Pound", symbol: "E£", code: "EGP" },
-        { name: "South Korean Won", symbol: "₩", code: "KRW" },
-        { name: "Brazilian Real", symbol: "R$", code: "BRL" },
-        { name: "South African Rand", symbol: "R", code: "ZAR" },
-        { name: "Singapore Dollar", symbol: "S$", code: "SGD" },
-        { name: "Malaysian Ringgit", symbol: "RM", code: "MYR" }
-        ];
-    const [ currentCurrency, setCurrentCurrency ] = useState(data[0])
+    const [ currentCurrency, setCurrentCurrency ] = useState({})
     const [ isOpen, setIsOpen ] = useState(false)
+    const dispatch = useDispatch()
     const select = (currency)=>{
         setCurrentCurrency(currency)
         setIsOpen(false)
+        dispatch(currencyStatus(currency))
     }
     const { i18n } = useTranslation()
+    const [ data, setData ] = useState([])
+    const [ loading, setLoading ] = useState(true)
+    useEffect(()=>{
+        const abortController = new AbortController();
+        const signal = abortController.signal;
+        getData(signal)
+        return () => abortController.abort() 
+    },[])
+    const getData = async (signal) => {
+        setLoading(true)
+        const temp = {page :1}
+        const { response , message, statusCode } = await Helper({
+            url : apiRoutes.currencies.list,
+            signal : signal,
+            method : "GET",
+            params :temp,
+            hasToken : true
+        })
+        if(response){
+            setData(response.data)
+            setLoading(false)
+            const def = response.data.find(e=>e.code.toLowerCase() == "usd")
+            setCurrentCurrency(def)
+            dispatch(currencyStatus(def))
+            // setLastPage(response.meta.last_page)
+        }else{
+            console.log(message);
+  
+        }
+    }
     const menuRef = useRef(null);
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -55,8 +69,13 @@ const Currency = ()=>{
                     <path d="M0.590088 10.59L5.17009 6L0.590088 1.41L2.00009 0L8.00009 6L2.00009 12L0.590088 10.59Z" fill="white"/>
                 </svg>
             </div>
-           { isOpen && <div className={`currency_menu ${(i18n.language == "ar" || i18n.language == "ur")?"left-0":"right-0"} p-3`}>
-                {data.map((e,idx)=>(<div onClick={()=>select(e)} className="select_currency" key={`Currency_Navbar_${e.name}_${idx}`}>{e.code} &nbsp; ({e.symbol})</div>))}
+           { isOpen && <div className={`currency_menu p-1 ${(i18n.language == "ar" || i18n.language == "ur")?"left-0":"right-0"} `}>
+                {loading ? [0,1,2,3,4,5].map((_,idx)=>(<div className="select_currency p-1" key={`Currency_loading_${idx}`}>
+                    <span className="skeleton-box"></span>
+                </div>)):
+                data.map((e,idx)=>(<div onClick={()=>select(e)} className="select_currency p-1" key={`Currency_Navbar_${e.name}_${idx}`}>{e.code}</div>))
+                }
+                
             </div>}
         </div>)
 }

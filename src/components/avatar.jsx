@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState } from "react"
 import { useTranslation } from "react-i18next"
+import { useNavigate } from "react-router-dom"
 
 
 const Avatar = ()=>{
     const { t, i18n } = useTranslation()
     const [ isOpen, setIsOpen ] = useState(false)
-
+    const navigate = useNavigate()
     const menuRef = useRef(null);
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -28,13 +29,22 @@ const Avatar = ()=>{
         localStorage.removeItem("token")
         window.location.reload()
     }
-    const handleLanguage = ()=>{
+    const handleNavigate = ()=>{
         setIsOpen(false)
+        if(localStorage.getItem("user")){
+            const user = JSON.parse(localStorage.getItem("user"))
+            if(user.role == 1){
+                navigate("/dashboard/admin")
+            }else if( user.role == 2){
+                navigate("/dashboard")
+            }
+        }
+        
     }
     return(  <div ref={menuRef} className="avatar">
             <div onClick={()=>setIsOpen(!isOpen)} className="cursor-pointer">
                 <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 17 17" fill="none">
-                    <g clip-path="url(#clip0_230_2)">
+                    <g clipPath="url(#clip0_230_2)">
                     <mask id="mask0_230_2"  maskUnits="userSpaceOnUse" x="0" y="0" width="17" height="15">
                     <path d="M17 0H0V14.11H17V0Z" fill="white"/>
                     </mask>
@@ -56,16 +66,16 @@ const Avatar = ()=>{
                     </defs>
                 </svg>
             </div>
-            {isOpen && <div className={`menu-avatar p-3 flex flex-col gap-2 ${(i18n.language == "ar" || i18n.language == "ur")?"left-0":"right-0"}`}>
-                <div className="flex name-avatar gap-2">
+            {isOpen && <div className={`menu-avatar p-2  flex flex-col gap-2 ${(i18n.language == "ar" || i18n.language == "ur")?"left-0":"right-0"}`}>
+                <div className="flex name-avatar p-0.5 gap-2">
                     <div>
                         {JSON.parse(localStorage.getItem("user")).name}
                     </div>
                 </div>
-                <div onClick={()=>handleLanguage(ele)} className="flex option-avatar gap-2">
+                <div onClick={handleNavigate} className="flex p-0.5 option-avatar gap-2">
                         {t("dashboard")}
                 </div>
-                 <div onClick={logout} className="flex option-avatar gap-2">
+                 <div onClick={logout} className="flex p-0.5 option-avatar gap-2">
                         {t("logout")}
                 </div>
             </div>}

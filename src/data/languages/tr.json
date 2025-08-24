@@ -8,9 +8,11 @@
       "title_6": "Reklamlar"
   },
   "hero": {
-        "sentences_1" : "Tekli siparişlerden toplu bilet alımlarına kadar, hizmetlerimiz büyümeyi destekler.",
-        "sentences_2" : "En iyi SMM sağlayıcılarını keşfedin ve harika hizmetlerini karşılaştırın.",
-        "sentences_3" : "Bir paket seçin, güvenli şekilde ödeme yapın ve hemen büyümeye başlayın.",
+        "sentences_1": "Tüm SMM Panelleri. Basit ve Güvenilir Bir Yer. Sorunsuz.",
+        "sentences_2": "Doğru SMM Panelini Hızla Takip Edin, Karşılaştırın ve Seçin.",
+        "sentences_3": "En İyi SMM Hizmetlerini Dünya Çapında Kolayca Bulun.",
+        "sentences_4": "SMM Panelinizi Ücretsiz Ekleyin ve Müşterileri Çekmeye Başlayın.",
+        "sentences_5": "API Kullanıcıları ve SMM Sağlayıcıları için Mükemmel Platform.",
         "services": "350K Hizmet",
         "panel": "150 Panel",
         "platform": "85 Platform",
@@ -68,8 +70,18 @@
   "error" : {
       "wrong_credentials" : "E-posta veya şifre yanlış. Lütfen tekrar deneyin.",
        "email-taken": "Bu e-posta adresi zaten kullanılmış.",
-       "verification-code": "Girdiğiniz kod geçerli değil. Lütfen tekrar deneyin."
+       "verification-code": "Girdiğiniz kod geçerli değil. Lütfen tekrar deneyin.",
+
+
+      "your_account_is_not_verified" : "Hesabınız doğrulanmadı. Lütfen hesabınızı etkinleştirmek için e-postanızı kontrol edin.",
+      "reverify_now": "Yeniden doğrula",
+      "invalid_code" : "Doğrulama bağlantısı geçersiz veya zaten kullanılmış. Lütfen yeni bir bağlantı isteyin."
+    },
+  "success" : {
+      "verified":"Başarıyla kaydoldunuz. E-posta adresinize bir doğrulama bağlantısı gönderdik. Lütfen hesabınızı etkinleştirmek için e-postanızı kontrol edin."
   },
+  "go-to-home-page" : "Ana Sayfaya Git",
+
   "bestOffers": "En İyi Teklifler",
   "bestOffers-sentence-1": "📢 Bu ayın en iyi SMM tekliflerini mi arıyorsunuz? Doğru yerdesiniz!",
   "bestOffers-sentence-2": "💼 Bayileri, ajansları veya doğrudan müşterileri yönetiyor olun, bu bölüm en yeni SMM hizmetlerini ve fırsatlarını sunan en iyi panelleri öne çıkarır.",
@@ -82,7 +94,7 @@
   "joinOurGroup" : "Grubumuza Katılın",
   "chat" : "Şimdi Bizimle Sohbet Edin!",
   "sign-in": "Giriş Yap",
-  "selectCountry": "Ülke Seç",
+  "selectCountry": "Ülke",
   "search": "Ara",
   "close": "Kapat",
   "back": "Geri",

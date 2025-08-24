@@ -1,0 +1,65 @@
+.navigation .item{
+    border: 1px solid var(--green_2);
+    border-radius: 10px;
+    background-color: var(--light);
+}
+
+.navigation a,.navigation a:hover{
+    color: var(--green_2);
+    font-weight: 600;
+    font-size: var(--font-size-s);
+}
+.navigation .item.active{
+    background-color: var(--green_2);
+    color: var(--light);
+
+}
+.navigation .item.active path{
+    fill:  var(--light);
+}
+.card-dash{
+    border-radius: 10px;
+    background-color: var(--light);
+    box-shadow: var(--shadow-box);
+}
+.dashboard a{
+    color: var(--green_2);
+    transition: 0.3s;
+}
+.dashboard a:hover{
+    color: var(--green_1);
+}
+.dashboard .circle{
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: var(--green_2);
+}
+.dashboard h3{
+    font-weight: 600;
+}
+.account form{
+    background-color: var(--light);
+    box-shadow: var(--shadow-box);
+    border-radius: 10px;
+}
+@media (max-width:1200px) {
+
+    .navigation a,.navigation a:hover{
+        font-size: var(--font-size-xs);
+    }
+    .navigation svg{
+        width: 20px;
+        height: 20px;
+    }
+}
+@media (max-width : 600px) {
+    .navigation .item svg{
+        /* width: 18px !important; */
+        height: 15px;
+    }
+    .navigation .item .nav-name{
+        display: none;
+    }
+    
+}

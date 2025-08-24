@@ -12,11 +12,55 @@
     box-shadow: var(--shadow-box);
     border-radius: 10px;
 }
+.card h3{
+    font-size: var(--font-size-s);
+}
+.card p{
+    font-size: var(--font-size-xxs);
+}
+.card-platform{
+    background-color: var(--light);
+    box-shadow: var(--shadow-box);
+    border-radius: 10px; 
+}
+.card-platform hr{
+    color: var(--grey_2);
+}
+.child-platforms{
+    background-color: var(--grey_2);
+    border-radius: 10px;
+    font-size: var(--font-size-xxs);
+    cursor: pointer;
+    transition: 0.3s;
+    color: var(--light);
+}
+.child-platforms:hover{
+    background-color: var(--green_2);
+    color: var(--light);
+}
+.services-section{
+    font-size: var(--font-size-xxs);
+}
+.services-section span{
+    font-weight: 600;
+}
 .sticky-img{
     position: sticky;
     top: 100px;
     box-shadow: var(--shadow-box);
     border-radius: 10px;
+}
+.card-pin{
+    box-shadow: unset;
+    background-color: var(--light);
+    color: var(--green_2);
+    border: 2px solid var(--green_2);
+}
+.card-services a{
+    color: var(--green_2);
+}
+.card-services a:hover{
+    color: var(--grey_1);
 }
 .card-services h3{
     font-size: var(--font-size-xs);

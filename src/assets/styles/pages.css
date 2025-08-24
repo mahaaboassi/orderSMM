@@ -8,3 +8,62 @@
     justify-content: center;
     align-items: center;
 }
+/* our-services */
+.card-panel-user {
+    overflow: hidden;
+}
+.card-panel-user a{
+    color: var(--green_2);
+}
+.card-panel-user img{
+    height: 100px;
+    object-fit: cover;
+    width: 100%;
+}
+.info-panel{
+    font-size: var(--font-size-xxs);
+}
+.ads-services h4{
+    font-size: var(--font-size-l);
+    font-weight: 600;
+}
+.ads-services select{
+    border: 1px solid var(--green_2);
+    border-radius: 10px;
+}
+.ads-services select option:checked{
+    background-color: var(--green_2);
+    color : var(--light)
+}
+.ads-services select option:hover{
+    background-color: var(--grey-2);
+}
+.with-services .card-panel-user::before{
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+}
+.with-services .card-panel-user:hover::before{
+   background-color: rgba(0, 0, 0, 0.807);
+}
+.with-services .card-panel-user:hover .tooltip-panel{
+    display: flex;
+}
+.tooltip-panel{
+    inset: 0;
+    color: var(--light);
+    z-index: 1;
+    display: none;
+    font-weight: 600;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.link:hover{
+    color: var(--green_2);
+}
+/* Add Panel Website */
+.panel-card{
+    background-color: var(--light);
+}
