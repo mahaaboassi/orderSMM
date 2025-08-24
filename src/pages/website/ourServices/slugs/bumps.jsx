@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next"
 import { Link } from "react-router-dom"
 import Periods from "../../../../components/periods"
 import Prices from "../../../../components/prices"
-import Dropdown from "../../../../components/dropDown" 
+import Dropdown from "../../../../components/DropDownComponent" 
 
 const Bumps = ({id, slug})=>{
     const [ data, setData ] = useState([])
