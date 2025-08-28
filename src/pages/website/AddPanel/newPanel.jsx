@@ -9,6 +9,7 @@ import * as Yup from 'yup';
 import { apiRoutes } from "../../../functionality/apiRoutes";
 import { Helper } from "../../../functionality/helper";
 import MobileInput from "../../../components/mobileInput";
+import Countries from "../../../components/countries";
 
 
 const validationSchema = Yup.object({
@@ -19,11 +20,13 @@ const validationSchema = Yup.object({
     email: Yup.string().email("Invalid email").required("Email Field is required."),
     telegram: Yup.string().required("Telegram Field is required."),
     whatsapp: Yup.string().required("Whatsapp Field is required."), 
+    country: Yup.string()
 });
 
 const NewPanel = ()=>{
     const {t} = useTranslation()
     const navigate = useNavigate()
+    const [ country, setCountry ] = useState("")
     useEffect(()=>{
         if(!localStorage.getItem("user")){
             navigate("/auth/signIn",{
@@ -48,13 +51,9 @@ const NewPanel = ()=>{
     const onSubmit = async (data) => {
   
         setErrorStatus({msg: "", open : false})
-        console.log(file);
+
+        console.log(codes.whatsapp)
         
-        if( !("name" in file)) {
-            window.scrollTo({top : 0})
-            setErrorStatus({msg: "File Field is required.", open : true, type:"error"})
-            return
-        }
         
         setLoading(true) 
         const values = new FormData()
@@ -71,6 +70,10 @@ const NewPanel = ()=>{
         values.append("languages[4][name]",data.title)
         values.append("languages[5][name]",data.title)
         values.append("languages[6][name]",data.title)
+        if(country) 
+            {values.append("country",country)} 
+        else{values.append("country",codes.whatsapp.name)}
+            
         if("name" in file) values.append("file",file)
         values.append("_method","PUT")
 
@@ -126,6 +129,7 @@ const NewPanel = ()=>{
                         <input {...register("api_key")} type="text" placeholder={"123456789123456789"}  />
                         {errors.api_key && <p className="pt-0.5 text-error">{errors.api_key.message}</p>}
                     </div>
+                    
                 </div>
                 {/* Contact Information  */}
                 <div className="flex flex-col gap-3">
@@ -144,6 +148,10 @@ const NewPanel = ()=>{
                         <label>Telegram:</label>
                         <MobileInput returnedCountry={(res)=>{setCodes(prev=>({...prev,telegram:res}))}}  register={register("telegram")}   />
                         {errors.telegram && <p className="pt-0.5 text-error">{errors.telegram.message}</p>}
+                    </div>
+                    <div className="flex flex-col gap-1">
+                        <label>Country:</label>
+                        <Countries returnedCountry={(res)=>setCountry(res)} isAddPanel={true}/>
                     </div>
                 </div>
             </div>

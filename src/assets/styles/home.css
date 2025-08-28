@@ -80,6 +80,7 @@ h2{
 .icons-hero:hover svg path{
     fill :var(--green_2);
 }
+
 .country-select{
     border: 2px solid var(--green_1);
     border-radius: 10px;
@@ -87,6 +88,11 @@ h2{
     background-color: var(--light);
     font-size: var(--font-size-s);
     cursor: pointer;
+    justify-content: center;
+}
+.add-panel-country .country-select{
+    justify-content: space-between;
+    font-size: var(--font-size-xs);
 }
 .container-search{
     background-color: var(--green_2);
@@ -269,6 +275,49 @@ h2{
     background-color: var(--grey_3);
     align-items: center;
 }
+/* Countries Menu */
+.container-menu{
+    position: absolute;
+    background-color: white;
+    height: 200px;
+    overflow-y: scroll;
+    width: 200px;
+    font-size: var(--font-size-xs);
+}
+.add-panel-country .container-menu{
+    left: 0;
+    right: 0;
+    width: 100%;
+}
+.container-menu input{
+    border: 1px solid grey;
+    border-radius: 5px;
+    padding: 4px 5px;
+    width: 100%;
+    font-size: var(--font-size-xxs);
+}
+.container-menu.add-panel-country{
+    height: 200px;
+}
+.li-country:hover{
+    background-color: rgb(228, 226, 226);
+}
+/* Chrome, Edge, Safari */
+.container-menu::-webkit-scrollbar {
+  width: 4px;
+  border-radius: 10px;
+}
+
+.container-menu::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+  border-radius: 10px;
+}
+
+.container-menu::-webkit-scrollbar-thumb {
+  background: #888; 
+  border-radius: 10px;
+}
+
 @media (max-width:1200px) {
     .hero h2{
         font-size: var(--font-size-xl);
@@ -278,6 +327,14 @@ h2{
     }
     .card-panals .date{
         font-size: 10px;
+    }
+    .container-menu {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    .add-panel-country .container-menu {
+        left: 0;
+        transform: unset;
     }
 }
 

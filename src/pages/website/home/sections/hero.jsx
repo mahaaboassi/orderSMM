@@ -4,60 +4,13 @@ import { useDispatch } from "react-redux"
 import { changePopup } from "../../../../features/popupSlice"
 import OffersProviders from "../../../../components/bestOffers"
 import { useTranslation } from "react-i18next"
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
+import { Helper } from "../../../../functionality/helper"
+import { apiRoutes } from "../../../../functionality/apiRoutes"
+import Countries from "../../../../components/countries"
 
 const Hero = ()=>{
 
-    const data = [{
-        icon : <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 22 22" fill="none">
-            <circle cx="11" cy="11" r="11" fill="#872121"/>
-            </svg>,
-        title : "Panel Name",
-        services : "135 services",
-        date : "8m ago"
-    },{
-        icon : <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 22 22" fill="none">
-            <circle cx="11" cy="11" r="11" fill="#676767"/>
-            </svg>,
-        title : "Panel Name",
-        services : "105 services",
-        date : "8m ago"
-    },{
-        icon : <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 22 22" fill="none">
-            <circle cx="11" cy="11" r="11" fill="#872121"/>
-            </svg>,
-        title : "Panel Name",
-        services : "230 services",
-        date : "8m ago"
-    },{
-        icon : <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 22 22" fill="none">
-            <circle cx="11" cy="11" r="11" fill="#A9A932"/>
-            </svg>,
-        title : "Panel Name",
-        services : "150 services",
-        date : "17m ago"
-    },{
-        icon : <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 22 22" fill="none">
-            <circle cx="11" cy="11" r="11" fill="#676767"/>
-            </svg>,
-        title : "Panel Name",
-        services : "135 services",
-        date : "about 1h ago"
-    },{
-        icon : <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 22 22" fill="none">
-            <circle cx="11" cy="11" r="11" fill="#872121"/>
-            </svg>,
-        title : "Panel Name",
-        services : "300 services",
-        date : "about 2h ago"
-    },{
-        icon : <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 22 22" fill="none">
-            <circle cx="11" cy="11" r="11" fill="#872121"/>
-            </svg>,
-        title : "Panel Name",
-        services : "300 services",
-        date : "about 4h ago"
-    }]
     const icons = [{
         name : "Facebook",
     },{
@@ -89,7 +42,7 @@ const Hero = ()=>{
     },{
         name : "Twitch",
     }]
-    const { t } = useTranslation()
+    const { t, i18n} = useTranslation()
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const [ values, setvalues ] = useState({
@@ -135,6 +88,43 @@ const Hero = ()=>{
                 </div>
             }))
     }
+    // Get Panels Proccess
+    const [ panelsLatest, setPanelsLatest ] = useState([])
+    const [ panelsActive, setPanelsActive ] = useState([])
+    const [ loadingActive, setLoadingActive ] = useState([])
+    const [ loadingLatest, setLoadingLatest ] = useState([])
+    useEffect(()=>{
+        const controller = new AbortController()
+        const signal = controller.signal
+        getPanels(signal,"active")
+        getPanels(signal,"latest")
+        return()=> controller.abort()
+    },[])
+    const getPanels = async (signal, key)=>{
+        if( key == "active" ) setLoadingActive(true)
+        if( key == "latest" ) setLoadingLatest(true)
+        const { response , message } = await Helper({
+            method : "GET",
+            url : apiRoutes.panel.list,
+            signal : signal,
+            params :  { orderBy : key == "active" ? "updated_at" : "created_at"} 
+        })
+        if(response){
+
+            if( key == "active" ) {
+                setLoadingActive(false)
+                setPanelsActive(response.data)
+            }
+            if( key == "latest" ) {
+                setLoadingLatest(false)
+                setPanelsLatest(response.data)
+            }
+        }else{
+            console.log(message);
+            
+        }
+        
+    }
     return<div className="hero px-2  lg:px-16 pt-5 lg:pt-12 pb-5">
         <div className=" xl:px-10 flex flex-col gap-5 lg:gap-14">
             <div className="grid grid-cols-1  md:grid-cols-2 gap-5 lg:gap-10 ">
@@ -178,14 +168,16 @@ const Hero = ()=>{
                             {t("hero.latestPanelUpdates")}
                         </h3>
                         <div className="flex flex-col justify-between h-full">
-                            {data.map((e,idx)=>(<div className="flex justify-between items-center" key={`Panal_Card_${e.title}_${idx}`}>
+                            {loadingLatest ? <div className="flex flex-col gap-2 justify-between">
+                                {[...Array(9)].map((_,i)=>(<div className="h-4 w-full rounded-xl bg-gray-300 animate-pulse" key={`Skeleton_Latest_${i}`}>
+                                </div>))}
+                            </div>: panelsLatest.length > 0 &&  panelsLatest.map((e,idx)=>(<div className="flex justify-between items-center" key={`Panal_Card_${e.title}_${idx}`}>
                                 <div className="flex gap-1 sm:gap-2 items-center">
-                                    {e.icon}
-                                    <h4>{e.title}</h4>
-                                    {/* <span>{e.services}</span> */}
-                                </div>
-                                <div className="date">
-                                    {e.date}
+                                    <div> <img style={{borderRadius:"50%",width:"15px", height:"15px"}}  src={e.photo} /> </div>
+                                    <Link target="_blank" to={e.website}>
+                                      <h4>{e?.translations?.[i18n.language]?.name || ""}</h4>
+                                    </Link>
+                                    
                                 </div>
                             </div>))}
                         </div>
@@ -195,15 +187,18 @@ const Hero = ()=>{
                             {t("hero.finalActivePanels")}
                         </h3>
                          <div className="flex flex-col justify-between h-full ">
-                            {data.map((e,idx)=>(<div className="flex justify-between items-center" key={`Panal_Card_${e.title}_${idx}`}>
+                            {loadingActive ? <div className="flex flex-col gap-2 justify-between">
+                                {[...Array(9)].map((_,i)=>(<div className="h-4 w-full rounded-xl bg-gray-300 animate-pulse" key={`Skeleton_${i}`}>
+
+                                </div>))}
+                            </div>:panelsActive.length > 0 && panelsActive.map((e,idx)=>(<div className="flex justify-between items-center" key={`Panal_Card_${e.title}_${idx}`}>
                                 
                                 <div className="flex gap-1 sm:gap-2 items-center">
-                                    {e.icon}
-                                    <h4>{e.title}</h4>
-                                    {/* <span>{e.services}</span> */}
-                                </div>
-                                <div className="flex date">
-                                    {e.date}
+                                    <div> <img style={{borderRadius:"50%",width:"15px", height:"15px"}}  src={e.photo} /> </div>
+                                    <Link target="_blank" to={e.website}>
+                                      <h4>{e?.translations?.[i18n.language]?.name || ""}</h4>
+                                    </Link>
+                                    
                                 </div>
                             </div>))}
                          </div>
@@ -220,13 +215,9 @@ const Hero = ()=>{
                     </div>))}
                 </div>
                 <div className="flex gap-2">
-                    <SearchInput onChange={(res)=>setvalues(prev=>({...prev,search:res}))}  onEnter={()=>navigate(`/services?keywords=${values.search}`)}/>
-                    <div style={{whiteSpace: "nowrap"}} className="flex p-2 justify-center items-center country-select">
-                        {t("selectCountry")} &nbsp; <svg style={{transform:"rotate(90deg)"}} xmlns="http://www.w3.org/2000/svg" width="8" height="12" viewBox="0 0 8 12" fill="none">
-                                            <path d="M0.589966 10.59L5.16997 6L0.589966 1.41L1.99997 0L7.99997 6L1.99997 12L0.589966 10.59Z" fill="#08392B"/>
-                                    </svg>
-                    </div>
-                    <div style={{whiteSpace: "nowrap"}} className="flex p-2 justify-center items-center container-search ">{t("search")}</div>
+                    <SearchInput onChange={(res)=>setvalues(prev=>({...prev,search:res}))}  onEnter={()=>navigate(`/services?keywords=${values.search}&country=${values.country_id}`)}/>
+                    <Countries returnedCountry={(res)=>{setvalues(prev=>({...prev, country_id : res}))}}/>
+                    <div onClick={()=>navigate(`/services?keywords=${values.search}&country=${values.country_id}`)} style={{whiteSpace: "nowrap"}} className="flex p-2 justify-center items-center container-search ">{t("search")}</div>
                 </div>
             </div>
 
@@ -237,14 +228,16 @@ const Hero = ()=>{
                             {t("hero.latestPanelUpdates")}
                         </h3>
                         <div className="flex flex-col justify-between h-full">
-                            {data.map((e,idx)=>(<div className="flex justify-between items-center" key={`Panal_Card_${e.title}_${idx}`}>
+                            {loadingLatest ? <div className="flex flex-col gap-2 justify-between">
+                                {[...Array(9)].map((_,i)=>(<div className="h-4 w-full rounded-xl bg-gray-300 animate-pulse" key={`Skeleton_Latest_${i}`}>
+                                </div>))}
+                            </div>: panelsLatest.length > 0 &&  panelsLatest.map((e,idx)=>(<div className="flex justify-between items-center" key={`Panal_Card_${e.title}_${idx}`}>
                                 <div className="flex gap-1 sm:gap-2 items-center">
-                                    {e.icon}
-                                    <h4>{e.title}</h4>
-                                    {/* <span>{e.services}</span> */}
-                                </div>
-                                <div className="date">
-                                    {e.date}
+                                    <div> <img style={{borderRadius:"50%",width:"15px", height:"15px"}}  src={e.photo} /> </div>
+                                    <Link target="_blank" to={e.website}>
+                                      <h4>{e?.translations?.[i18n.language]?.name || ""}</h4>
+                                    </Link>
+                                    
                                 </div>
                             </div>))}
                         </div>
@@ -254,15 +247,18 @@ const Hero = ()=>{
                             {t("hero.finalActivePanels")}
                         </h3>
                          <div className="flex flex-col justify-between h-full ">
-                            {data.map((e,idx)=>(<div className="flex justify-between items-center" key={`Panal_Card_${e.title}_${idx}`}>
+                            {loadingActive ? <div className="flex flex-col gap-2 justify-between">
+                                {[...Array(9)].map((_,i)=>(<div className="h-4 w-full rounded-xl bg-gray-300 animate-pulse" key={`Skeleton_${i}`}>
+
+                                </div>))}
+                            </div>:panelsActive.length > 0 && panelsActive.map((e,idx)=>(<div className="flex justify-between items-center" key={`Panal_Card_${e.title}_${idx}`}>
                                 
                                 <div className="flex gap-1 sm:gap-2 items-center">
-                                    {e.icon}
-                                    <h4>{e.title}</h4>
-                                    {/* <span>{e.services}</span> */}
-                                </div>
-                                <div className="flex date">
-                                    {e.date}
+                                    <div> <img style={{borderRadius:"50%",width:"15px", height:"15px"}}  src={e.photo} /> </div>
+                                    <Link target="_blank" to={e.website}>
+                                      <h4>{e?.translations?.[i18n.language]?.name || ""}</h4>
+                                    </Link>
+                                    
                                 </div>
                             </div>))}
                          </div>

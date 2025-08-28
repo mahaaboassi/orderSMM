@@ -35,7 +35,7 @@ export const  Helper =  async ({url, body , method ,signal, hasToken=false , par
         // console.log(data);
     
         
-        const urlWithParams = new URL(url);
+        const urlWithParams = new URL(url, window.location.origin);
         urlWithParams.search = new URLSearchParams(params).toString();
         // console.log("serach url",urlWithParams);
         
