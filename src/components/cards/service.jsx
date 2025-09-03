@@ -24,8 +24,8 @@ const Service = ({name, category, panel,panel_id, min , max , price, per_count, 
                 returnedId(id,"unselect")
             } 
     }
-    return (<div  className={`card card-services flex  ${selected?"!bg-zinc-200":""} flex-col gap-2 justify-between   p-4 ${isPinned ?"card-pin":""}`}>
-            <div className="flex ">
+    return (<div className={`card card-services flex  ${selected?"!bg-zinc-200":""} flex-col gap-2 justify-between   p-4 ${isPinned ?"card-pin":""}`}>
+            <div className="flex">
                 {isPinned && <div>
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 38 39" fill="none">
                         <g clipPath="url(#clip0_297_6)">
@@ -39,6 +39,9 @@ const Service = ({name, category, panel,panel_id, min , max , price, per_count, 
                     </svg>
                 </div>} 
             </div>
+            {!isPinned && <div>
+                <strong>{id}</strong>
+            </div>}
             <div className="flex justify-between ">
                 <h3><strong>{name}</strong></h3>
                 <span>{category}</span>
@@ -54,8 +57,8 @@ const Service = ({name, category, panel,panel_id, min , max , price, per_count, 
             </div>
             
             {selectedProccess && !selectedAll && <div className="flex justify-end">
-                    <input checked={selected} onChange={handleSelected} type="checkbox" />
-                </div>}
+                <input checked={selected} onChange={handleSelected} type="checkbox" />
+            </div>}
         </div>)
 }
 export default Service

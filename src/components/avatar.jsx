@@ -33,9 +33,9 @@ const Avatar = ()=>{
         setIsOpen(false)
         if(localStorage.getItem("user")){
             const user = JSON.parse(localStorage.getItem("user"))
-            if(user.role == 1){
+            if(user.role == "admin"){
                 navigate("/dashboard/admin")
-            }else if( user.role == 2){
+            }else if( user.role == "user"){
                 navigate("/dashboard")
             }
         }

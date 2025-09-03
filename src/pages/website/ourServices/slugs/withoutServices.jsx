@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { Helper } from "../../../../functionality/helper"
 import { apiRoutes } from "../../../../functionality/apiRoutes"
 import Loading from "../../../../components/loading"
@@ -7,7 +7,7 @@ import { Link } from "react-router-dom"
 import Periods from "../../../../components/periods"
 import Prices from "../../../../components/prices"
 
-const AddWithoutServices = ({id, slug})=>{
+const AddWithoutServices = ({id, slug, isAd})=>{
     const [ data, setData ] = useState([])
     const [isloading, setIsLoading ] = useState(false)
     const [ isSubmit, setIsSubmit ] = useState(false)
@@ -15,6 +15,7 @@ const AddWithoutServices = ({id, slug})=>{
     const [ panels, setPanels ] = useState([])
     const [ period, setPeriod] = useState({})
     const [basicPrice, setBasicPrice] = useState(0)
+    const inputRef = useRef()
     useEffect(()=>{
         if(slug?.prices){
             const max = Math.max(...slug.prices.map(item => item.price));
@@ -102,9 +103,8 @@ const AddWithoutServices = ({id, slug})=>{
                                 <div className=""><img src={e.photo ? e.photo :""} alt={`Image_${idx}`} />
                                     <div className=" p-3 flex flex-col items-center gap-1"> 
                                         <Link to={`/smm-panel/${e.translations?.[i18n.language]?.name ?? ""}/${e.id}`}>
-                                        <h3>{e.translations?.[i18n.language]?.name ?? ""}</h3>
+                                            <h3>{e.translations?.[i18n.language]?.name ?? ""}</h3>
                                         </Link>
-                                        
                                         <div className="flex justify-between gap-2 info-panel">
                                             <div className="flex items-center">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="13" viewBox="0 0 14 13" fill="none">
@@ -126,6 +126,12 @@ const AddWithoutServices = ({id, slug})=>{
                                             <input onChange={(ele)=>{handleChecked(ele.target.checked, e.id)}} type="checkbox"/>
                                             {t("Choose")}
                                         </div>
+                                        {isAd && <div className="flex items-center gap-2">
+                                            <p>Upload a custom photo to boost your ad.&nbsp;
+                                                <strong onClick={()=>{inputRef.current.click()}} className="cursor-pointer">Add Photo</strong>
+                                            </p>
+                                            <input ref={inputRef} className="hidden" type="file"/>
+                                        </div>}
                                     </div>
                                 </div>
                             </div>))}

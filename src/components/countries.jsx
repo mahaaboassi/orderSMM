@@ -13,7 +13,7 @@ const Countries = ({returnedCountry,isAddPanel})=>{
     const [page, setPage] = useState(1)
     const [hasMore, setHasMore] = useState(true)
     const containerRef = useRef(null)
-     const abortControllerRef = useRef(null)
+    const abortControllerRef = useRef(null)
     useEffect(()=>{
         getCountries(page,value)
         return () => {
@@ -54,15 +54,13 @@ const Countries = ({returnedCountry,isAddPanel})=>{
         if (!open) return 
         const el = containerRef.current
         if (!el) return
-
         const handleScroll = () => {
-        if (el.scrollTop + el.clientHeight >= el.scrollHeight - 50) {
-            if (hasMore && !loading) {
-            setPage((prev) => prev + 1)
+            if (el.scrollTop + el.clientHeight >= el.scrollHeight - 50) {
+                if (hasMore && !loading) {
+                setPage((prev) => prev + 1)
+                }
             }
         }
-        }
-
         el.addEventListener("scroll", handleScroll)
         return () => el.removeEventListener("scroll", handleScroll)
     }, [hasMore, loading, open])
@@ -92,11 +90,7 @@ const Countries = ({returnedCountry,isAddPanel})=>{
     const select = (e)=>{
         setCountry(e?.translations?.[i18n.language].name)
         setOpen(false)
-        if(isAddPanel){
-            returnedCountry(e.name)
-        }else{
-            returnedCountry(e.id)
-        } 
+        returnedCountry(e.id)
     }
     return(<div className={`relative ${isAddPanel ? "add-panel-country" : ""}`}>
         <div onClick={()=>setOpen(!open)} style={{whiteSpace: "nowrap"}} className={`flex ${isAddPanel?"py-1 px-2":"p-2"} items-center country-select`}>

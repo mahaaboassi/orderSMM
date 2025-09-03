@@ -21,7 +21,7 @@ const SignIn = ()=>{
     
     const validationSchema = Yup.object({
         email: Yup.string().email(t("auth.invalid-email")).required(t('auth.email-is-required')),
-        password: Yup.string().min(8,t("auth.password-length-validation")).required(t("auth.password-validation")),
+        password: Yup.string().min(3,t("auth.password-length-validation")).required(t("auth.password-validation")),
     });
 
     const { register, handleSubmit, formState: { errors },watch } = useForm({
@@ -59,7 +59,7 @@ const SignIn = ()=>{
                     telegram : response.data.telegram,
                     website : response.data.website,
                     whatsapp : response.data.whatsapp,
-                    role : response.data.role.id
+                    role : response.data.role
                 }))
                 localStorage.setItem("user",JSON.stringify({
                     email: response.data.email,
@@ -71,7 +71,7 @@ const SignIn = ()=>{
                     telegram : response.data.telegram,
                     website : response.data.website,
                     whatsapp : response.data.whatsapp,
-                    role : response.data.role.id
+                    role : response.data.role
                 }))
                 localStorage.setItem("token",response.data.access_token)  
             

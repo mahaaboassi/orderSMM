@@ -19,11 +19,10 @@ const Ads = ({isHome})=>{
     },[])
     const getData = async (signal)=>{
         const { response , message, statusCode } = await Helper({
-            url : apiRoutes.panel.list,
+            url : apiRoutes.panel.featured,
             signal : signal,
             method : "GET",
-            params : {is_ad : 1},
-            hasToken : true
+            hasToken : false
         })
         if(response){
             setData(response.data)

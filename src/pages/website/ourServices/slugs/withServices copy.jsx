@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react"
+import { useEffect, useState } from "react"
 import { Helper } from "../../../../functionality/helper"
 import { apiRoutes } from "../../../../functionality/apiRoutes"
 import Loading from "../../../../components/loading"
@@ -21,8 +21,6 @@ const AddWithServices = ({id, slug})=>{
         open : false
     })
     const [basicPrice, setBasicPrice] = useState(0)
-    const abortControllerRef = useRef(null)
-
     useEffect(()=>{
         if(slug?.prices){
             const max = Math.max(...slug.prices.map(item => item.price));
@@ -38,7 +36,7 @@ const AddWithServices = ({id, slug})=>{
     },[])
     const getData = async (signal)=>{
         const { response , message, statusCode } = await Helper({
-            url : apiRoutes.panel.byUser,
+            url : apiRoutes.panel.list,
             signal : signal,
             method : "GET",
             hasToken : true
@@ -77,26 +75,6 @@ const AddWithServices = ({id, slug})=>{
         })
         if(response){
             console.log(response);
-            confirm(response.data.id)
-        }else{
-            console.log(message);
-             setIsSubmit(false)
-            setErrorStatus({msg: message, open : true})  
-        }
-    } 
-    const confirm = async(id)=>{
-        const data = {
-            service_request_id: id,
-            payment_id : "1"
-        }
-        const {response , message,  statusCode} = await Helper({
-            url:apiRoutes.services.confirm,
-            method:'POST',
-            body: data,
-            hasToken: true,
-        })
-        if(response){
-            console.log(response);
             setIsSubmit(false)
             setErrorStatus({msg: response.message, open : true,type:"success"})
             setTimeout(()=>{
@@ -121,12 +99,7 @@ const AddWithServices = ({id, slug})=>{
     const [ lastPage , setLastPage ] = useState(1)
     const [ search , setSearch ] = useState("")
 
-    const getServices = async (page=1,id,search) => {
-        if (abortControllerRef.current) {
-          abortControllerRef.current.abort()
-        }
-        const controller = new AbortController()
-        abortControllerRef.current = controller
+    const getServices = async (page=1,id) => {
         setSubLoading(true)
         setServices([])
         const dataToSend = { page}
@@ -135,12 +108,11 @@ const AddWithServices = ({id, slug})=>{
         }else{
             dataToSend.panel_id = selectedPanel.id
         }
-        if(search) dataToSend.id = search
+        if(search) dataToSend.keywords = search
         const { response , message, statusCode } = await Helper({
             url : apiRoutes.panel_services.list,
             method : "GET",
             params : dataToSend,
-            signal: controller.signal,
             hasToken : true
         })
         if(response){
@@ -148,7 +120,8 @@ const AddWithServices = ({id, slug})=>{
             setSubLoading(false)
             setLastPage(response.meta.last_page)
         }else{
-            console.log(message);  
+            console.log(message);
+            
         }
     }
     const reset = ()=>{
@@ -218,7 +191,7 @@ const AddWithServices = ({id, slug})=>{
 
 
                                 </div>:
-                            (
+                            (subLoading?<Loading/>:
                                 <div className="flex flex-col gap-2">
                                     <div className=" bg-zinc-200 flex mb-4 p-2" >
                                         <div onClick={reset} className="cursor-pointer link"> &lt; Previous Step &gt;</div>
@@ -235,11 +208,8 @@ const AddWithServices = ({id, slug})=>{
                                     <div className="flex flex-col gap-2">
                                         
                                         <div className="flex gap-2">
-                                        <SearchInput type="number" placeholder={`Id service`} onChange={(res)=>{
-                                            getServices(1,selectedPanel.id,res)
-                                            setSearch(res)
-                                        }}  onEnter={()=>{getServices(1)}}/>   
-                                        {/* <button onClick={()=>getServices(1,selectedPanel.id)} className="dark-btn" >Search</button> */}
+                                        <SearchInput onChange={(res)=>setSearch(res)}  onEnter={()=>{getServices(1)}}/>   
+                                        <button onClick={()=>getServices(1)} className="dark-btn" >Search</button>
                                         </div>                                     
                                         
                                         {/* <div className="card flex justify-between p-4">
@@ -252,7 +222,7 @@ const AddWithServices = ({id, slug})=>{
                                         </div> */}
                                         
                                         {
-                                            subLoading?<Loading/>:services.data.map((e,idx)=>(<Service key={`Services_Our_Services_${e.translations?.en?.name ?? ""}_${idx}`} 
+                                            services.data.map((e,idx)=>(<Service key={`Services_Our_Services_${e.translations?.en?.name ?? ""}_${idx}`} 
                                             name={e.translations?.en?.name ?? ""} 
                                             isForSelected = {true}
                                             selectedObject = {servicesSelected}

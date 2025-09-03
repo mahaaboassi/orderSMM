@@ -56,9 +56,9 @@ const ServicesWrapper = () => {
 
             
             {data?.slug == "best_providers" && <AddWithoutServices slug={data} id={id}/> }
-            {data?.slug == "ads" && <AddWithoutServices slug={data}  id={id}/> }
+            {data?.slug == "ads" && <AddWithoutServices isAd={true} slug={data}  id={id}/> }
 
-            {data?.slug == "search_results" && <AddWithServices slug={data} id={id}/> }
+            {data?.slug == "search_results" && <AddWithoutServices slug={data} id={id}/> }
             {(data?.slug == "pin_up" || data?.slug == "pin_down") && <AddWithServices slug={data} id={id}/> }
 
             {data?.slug == "api_emails" && <Promotion id={id}/> }

@@ -40,9 +40,10 @@ const NavigationAdmin = ()=>{
                     </clipPath>
                     </defs>
                     </svg>
-    },{
-        name : "Categories",
-        link : "/dashboard/admin/categories",
+    },
+    {
+        name : "Users",
+        link : "/dashboard/admin/users",
         icon : <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 14 13" fill="none">
                 <g clipPath="url(#clip0_271_2)">
                 <path fillRule="evenodd" clipRule="evenodd" d="M7 0L8.92671 4.59712L14 4.96555L10.1175 8.17517L11.3262 13L7 10.3866L2.67376 13L3.88258 8.17517L0 4.96555L5.07329 4.59712L7 0Z" fill="#19770D"/>
@@ -53,7 +54,8 @@ const NavigationAdmin = ()=>{
                 </clipPath>
                 </defs>
                 </svg>
-    },{
+    },
+    {
         name : "Tags",
         link : "/dashboard/admin/tags",
         icon :<svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 17 20" fill="none">
@@ -85,9 +87,7 @@ const NavigationAdmin = ()=>{
           className={({isActive} )=> isActive ?"flex gap-2 item p-3 xl:p-5 justify-center items-center active":"flex justify-center p-3 xl:p-5  gap-2 item items-center "}>
              <div>{e.icon}</div>
             <div className="nav-name">{e.name}</div>
-           
         </NavLink>))}
-        
     </div>)
 }
 export default NavigationAdmin

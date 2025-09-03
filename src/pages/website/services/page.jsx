@@ -9,6 +9,7 @@ import Pagination from "../../../components/pagination"
 import Loading from "../../../components/loading"
 import { useLocation, useNavigate } from "react-router-dom"
 import { useSelector } from "react-redux"
+import Countries from "../../../components/countries"
 
 const Services = ()=>{
     const [ services, setServices ] = useState([])
@@ -114,12 +115,8 @@ const Services = ()=>{
             <SearchInput value={search} onChange={(e)=>{
                 setSearch(e)
                 changeParams("keywords",e)
-            }} onEnter={onSearch}/>
-            <div style={{whiteSpace: "nowrap"}} className="flex p-2 justify-center items-center country-select">
-                {t("selectCountry")} &nbsp; <svg style={{transform:"rotate(90deg)"}} xmlns="http://www.w3.org/2000/svg" width="8" height="12" viewBox="0 0 8 12" fill="none">
-                                    <path d="M0.589966 10.59L5.16997 6L0.589966 1.41L1.99997 0L7.99997 6L1.99997 12L0.589966 10.59Z" fill="#08392B"/>
-                            </svg>
-            </div>
+            }} onEnter={onSearch}/> 
+            <Countries  returnedCountry={(res)=>{changeParams("country_id",res)}} />
             <div onClick={onSearch} style={{whiteSpace: "nowrap"}} className="flex p-2 justify-center items-center container-search ">{t("search")}</div>
         </div>
         {
@@ -133,6 +130,7 @@ const Services = ()=>{
                     panel={e.panel_translations?.en?.name ?? ""}
                     max={e.max}
                     min={e.min}
+                    id={e.id}
                     price={e.price*currency.exchange_factor}
                     panel_id={e.panel_id}
                     per_count={e.per_count}
@@ -149,13 +147,14 @@ const Services = ()=>{
                     panel={e.panel_translations?.en?.name ?? ""}
                     max={e.max}
                     min={e.min}
+                    id={e.id}
                     price={e.price*currency.exchange_factor}
                     panel_id={e.panel_id}
                     per_count={e.per_count}
                     isPinned = {false}
                     />)): <div className="card p-5">{t("no-data")}</div>
                 } 
-                 <Pagination currentPage={currentPage} lastPage={lastPage} returnedPageNumber={(res)=>{
+                <Pagination currentPage={currentPage} lastPage={lastPage} returnedPageNumber={(res)=>{
                     setCurrentPage(res)
                     changeParams("page",res)
                  }} />

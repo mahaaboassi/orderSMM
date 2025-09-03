@@ -9,7 +9,6 @@ import { useTranslation } from "react-i18next"
 const Layout = ()=>{
      const { i18n } = useTranslation();
 
-  console.log(i18n.language);
     return (<div style={(i18n.language == "ar" || i18n.language == "ur")?{direction:"rtl"}:{direction:"ltr"}}>
         <Navbar/>
         <div className="pt-26 md:pt-32">

@@ -8,6 +8,8 @@ import { useEffect, useState } from 'react';
 import UploadFile from '../../../components/uploadFile';
 import { useNavigate, useParams } from 'react-router-dom';
 import MobileInput from '../../../components/mobileInput';
+import Countries from '../../../components/countries';
+
 
 
 const validationSchema = Yup.object({
@@ -20,12 +22,20 @@ const validationSchema = Yup.object({
     url_panel : Yup.string().required("URL Panel Field is required."),
     api_url : Yup.string().required("API URL Field is required."),
     api_key : Yup.string().required("Token Field is required."),
-    name_en: Yup.string().required("Name Field in English language is required."),
-    name_ar: Yup.string().required("Name Field in Arabic language is required."),
-    name_tr: Yup.string().required("Name Field in Turkish language is required."),
-    name_ru: Yup.string().required("Name Field in Russian language is required."),
-    name_hi: Yup.string().required("Name Field in Hindi language is required."),
-    name_ur: Yup.string().required("Name Field in Urdu language is required."),
+    whatsapp_channel : Yup.string(),
+    whatsapp_group : Yup.string(),
+    telegram_group : Yup.string(),
+    referral_url : Yup.string(),
+    tiktok : Yup.string(),
+    facebook : Yup.string(),
+    instagram : Yup.string(),
+    
+    // name_en: Yup.string().required("Name Field in English language is required."),
+    // name_ar: Yup.string().required("Name Field in Arabic language is required."),
+    // name_tr: Yup.string().required("Name Field in Turkish language is required."),
+    // name_ru: Yup.string().required("Name Field in Russian language is required."),
+    // name_hi: Yup.string().required("Name Field in Hindi language is required."),
+    // name_ur: Yup.string().required("Name Field in Urdu language is required."),
 
 });
 const AddPanel = ()=>{
@@ -46,7 +56,10 @@ const AddPanel = ()=>{
         telegram : "",
         whatsapp : ""
     })
-
+    const [ countryObj, setCountryObj ] = useState({
+        id : "",
+        msg : ""
+    })
     useEffect(()=>{
         const controller = new AbortController()
         const signal = controller.signal
@@ -62,22 +75,31 @@ const AddPanel = ()=>{
         })
         if(response){
             const data = {
-                title: response.data.name || "",
+                title: response.data.translations?.en?.name || "",
                 username: response.data.username || "",
                 telegram: response.data.telegram || "",
                 whatsapp: response.data.whatsapp || "",
                 email: response.data.email || "",
-                url_panel: response.data.url_panel || "",
+                url_panel: response.data.website || "",
                 api_url: response.data.api_url || "",
                 api_key: response.data.token || "",
-                name_en: response.data.translations?.en?.name || "",
-                name_ar: response.data.translations?.ar?.name || "",
-                name_tr: response.data.translations?.tr?.name || "",
-                name_ru: response.data.translations?.ru?.name || "",
-                name_hi: response.data.translations?.hi?.name || "",
-                name_ur: response.data.translations?.ur?.name || "",
+                whatsapp_channel : response.data.whatsapp_channel || "",
+                whatsapp_group : response.data.whatsapp_group || "",
+                telegram_group : response.data.telegram_group || "",
+                referral_url : response.data.referral_url || "",
+                tiktok : response.data.tiktok || "",
+                facebook : response.data.facebook || "",
+                instagram : response.data.instagram || "",
+                // name_en: response.data.translations?.en?.name || "",
+                // name_ar: response.data.translations?.ar?.name || "",
+                // name_tr: response.data.translations?.tr?.name || "",
+                // name_ru: response.data.translations?.ru?.name || "",
+                // name_hi: response.data.translations?.hi?.name || "",
+                // name_ur: response.data.translations?.ur?.name || "",
             };
+            setCountryObj(prev =>({...prev, id: response.data.country_id ?? ""}))
             setPhotoFromApi(response.data.photo)
+            console.log(data)
             reset(data); 
         }else{
             console.log(message);
@@ -93,17 +115,24 @@ const AddPanel = ()=>{
         values.append("name",data.title)
         values.append("username",data.username)
         values.append("email",data.email)
-        values.append("url_panel",data.url_panel)
+        values.append("website",data.url_panel)
         values.append("api_url",data.api_url)
         values.append("token",data.api_key)
+        values.append("whatsapp_channel",data.whatsapp_channel)
+        values.append("whatsapp_group",data.whatsapp_group)
+        values.append("telegram_group",data.telegram_group)
+        values.append("referral_url",data.referral_url)
+        values.append("tiktok",data.tiktok)
+        values.append("facebook",data.facebook)
+        values.append("instagram",data.instagram)
         values.append("telegram",codes.telegram.dial_code + data.telegram)
         values.append("whatsapp",codes.whatsapp.dial_code + data.whatsapp)
-        values.append("languages[1][name]",data.name_en)
-        values.append("languages[2][name]",data.name_ar)
-        values.append("languages[3][name]",data.name_hi)
-        values.append("languages[4][name]",data.name_tr)
-        values.append("languages[5][name]",data.name_ru)
-        values.append("languages[6][name]",data.name_ur)
+        values.append("languages[1][name]",data.title)
+        values.append("languages[2][name]",data.title)
+        values.append("languages[3][name]",data.title)
+        values.append("languages[4][name]",data.title)
+        values.append("languages[5][name]",data.title)
+        values.append("languages[6][name]",data.title)
         if("name" in file)
             values.append("file",file)
         
@@ -125,25 +154,19 @@ const AddPanel = ()=>{
         }else{
             console.log(message);
             window.scrollTo({top: 0})
-            setTimeout(()=>setErrorStatus({msg: "", open : false,type: ""}),1000)
+            setTimeout(()=>setErrorStatus({msg: message, open : true,type: ""}),1000)
             setLoading(false)
-            
         }
-        
-        
     };
     return(<div className="flex flex-col gap-5">
         <div>
-            <h2 onClick={()=>{
-                console.log(codes);
-                
-            }}>{id ? "Edit panel" : "Add Panel"}</h2>
+            <h2>{id ? "Edit panel" : "Add Panel"}</h2>
             <p>
-                Add a new panel to your website along with accurate descriptions in multiple languages:<br />
+                Add a new panel to your website along with accurate descriptions in multiple languages:
+                {/* <br />
                 <strong>(en)</strong> English, <strong>(ar)</strong> Arabic, <strong>(tr)</strong> Turkish, 
-                <strong>(ru)</strong> Russian, <strong>(hi)</strong> Hindi, <strong>(ur)</strong> Urdu.
+                <strong>(ru)</strong> Russian, <strong>(hi)</strong> Hindi, <strong>(ur)</strong> Urdu. */}
              </p>
-
         </div>
         {errorStatus.open && errorStatus.type == "success" && <h4 className="text-center box-success p-2">{errorStatus.msg}</h4>}
         {errorStatus.open && errorStatus.type != "success"&& <h4 className="text-center box-error p-2">{errorStatus.msg}</h4>}
@@ -185,11 +208,18 @@ const AddPanel = ()=>{
                             {errors.api_key && <p className="pt-0.5 text-error">{errors.api_key.message}</p>}
                         </div>
                     </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="flex flex-col gap-1">
+                            <label>Referral Url :</label>
+                            <input {...register("referral_url")} type="text" placeholder={"https://panel.com/"}  />
+                            {errors.referral_url && <p className="pt-0.5 text-error">{errors.referral_url.message}</p>}
+                        </div>
+                    </div>
                     
 
 
                 </div>
-                <div className="card p-2 sm:p-4 flex flex-col gap-4">
+                {/* <div className="card p-2 sm:p-4 flex flex-col gap-4">
                     <h4><strong>Name in Languages</strong></h4>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="flex flex-col gap-1">
@@ -224,7 +254,7 @@ const AddPanel = ()=>{
                         </div>
 
                     </div>
-                </div>
+                </div> */}
                 <div className="card p-2 sm:p-4 flex flex-col gap-4">
                     <h4><strong>Contact Info</strong></h4>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -242,6 +272,41 @@ const AddPanel = ()=>{
                             <label>Telegram :</label>
                             <MobileInput returnedCountry={(res)=>{setCodes(prev=>({...prev,telegram:res}))}} register={register("telegram")}  />
                             {errors.telegram && <p className="pt-0.5 text-error">{errors.telegram.message}</p>}
+                        </div>
+                        <div className="flex flex-col gap-1">
+                            <label>Whatsapp Group :</label>
+                            <input  {...register("whatsapp_group")} type="text" placeholder={"https://t.me/mygroup"}  />
+                            {errors.telegram_group && <p className="pt-0.5 text-error">{errors.telegram_group.message}</p>}
+                        </div>
+                        <div className="flex flex-col gap-1">
+                            <label>Whatsapp Channel :</label>
+                            <input  {...register("whatsapp_channel")} type="text" placeholder={"https://chat.whatsapp.com/invitecode"}  />
+                            {errors.whatsapp_channel && <p className="pt-0.5 text-error">{errors.whatsapp_channel.message}</p>}
+                        </div>
+                        <div className="flex flex-col gap-1">
+                            <label>Telegram Group :</label>
+                            <input  {...register("telegram_group")} type="text" placeholder={"https://t.me/mygroup"}  />
+                            {errors.telegram_group && <p className="pt-0.5 text-error">{errors.telegram_group.message}</p>}
+                        </div>
+                        <div className="flex flex-col gap-1">
+                            <label>Tiktok :</label>
+                            <input  {...register("tiktok")} type="text" placeholder={"https://www.tiktok.com/@username"}  />
+                            {errors.tiktok && <p className="pt-0.5 text-error">{errors.tiktok.message}</p>}
+                        </div>
+                        <div className="flex flex-col gap-1">
+                            <label>Facebook :</label>
+                            <input  {...register("facebook")} type="text" placeholder={"https://facebook.com/username"}  />
+                            {errors.facebook && <p className="pt-0.5 text-error">{errors.facebook.message}</p>}
+                        </div>
+                         <div className="flex flex-col gap-1">
+                            <label>Instagram :</label>
+                            <input  {...register("instagram")} type="text" placeholder={"https://instagram.com/username"}  />
+                            {errors.instagram && <p className="pt-0.5 text-error">{errors.instagram.message}</p>}
+                        </div>
+                         <div className="flex flex-col gap-1">
+                            <label>Select Country :</label>
+                            <Countries isAddPanel={true}  returnedCountry={(res)=>{setCountryObj(prev=>({...prev, id:res}))}} />
+                            {<p className="pt-0.5 text-error">{countryObj.msg}</p>}
                         </div>
 
                     </div>

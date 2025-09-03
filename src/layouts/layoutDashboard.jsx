@@ -10,9 +10,10 @@ const LayoutDashboard = ()=>{
     const navigate = useNavigate()
     const [ authorized, setAuthorized ] = useState(false)
     useEffect(()=>{
+        
         if(localStorage.getItem("user")){
             const user = JSON.parse(localStorage.getItem("user"))
-            if(user.role != 2){
+            if( user.role != "user" ){
                  navigate("/auth/signIn",{
                     state: { message: "Please sign in to continue." },
                 })

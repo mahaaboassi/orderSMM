@@ -1,5 +1,5 @@
-// const host = "https://scc-global.net/orderSMM/api/"
-const host = "http://localhost:5173/api/"
+const host = "https://scc-global.net/orderSMM/api/"
+// const host = "http://localhost:5173/api/"
 
 export const apiRoutes = {
     auth : {
@@ -11,9 +11,11 @@ export const apiRoutes = {
     panel : {
         list : `${host}panels`,
         add : `${host}panels`,
+        featured : `${host}panels/featured`,
         getOne : (id)=>(`${host}panels/${id}`),
         update : (id)=>(`${host}panels/${id}`),
         delete : (id)=>(`${host}panels/${id}`), 
+        byUser : `${host}panels/list/byUser`
     },
     panel_services : { 
         list : `${host}panel-services`,
@@ -37,7 +39,8 @@ export const apiRoutes = {
         getOne : (id)=>(`${host}services/${id}`),
         update : (id)=>(`${host}services/${id}`),
         delete : (id)=>(`${host}services/${id}`),
-        request : `${host}services-requests`
+        request : `${host}services-requests`,
+        confirm : `${host}services-requests/confirm`
     },
     payment_periods : { 
         list : `${host}payment-periods`,
