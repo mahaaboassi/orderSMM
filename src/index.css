@@ -157,6 +157,10 @@ input[type="checkbox"]:checked::after {
   border-width: 0 2px 2px 0;
   transform: rotate(45deg);
 }
+input[type="radio"] {
+  accent-color: var(--green_2); /* your custom green */
+  cursor: pointer;
+}
 a{
   color: var(--green_2);
 }

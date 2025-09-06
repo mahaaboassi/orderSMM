@@ -14,32 +14,15 @@ import UsersSelect from '../../../components/users';
 
 
 const validationSchema = Yup.object({
-    title : Yup.string().required("Panel Title Field is required."),
-    username: Yup.string().required("Username Field is required."),
+    name : Yup.string().required("Name Field is required."),
     email: Yup.string().email("Invalid email"),
     telegram: Yup.string(),
     whatsapp: Yup.string(), 
-    password: Yup.string().min(4,"Password must be at least 4 characters").required("Password Field is required."),
-    url_panel : Yup.string().required("URL Panel Field is required."),
-    api_url : Yup.string().required("API URL Field is required."),
-    api_key : Yup.string().required("Token Field is required."),
-    whatsapp_channel : Yup.string(),
-    whatsapp_group : Yup.string(),
-    telegram_group : Yup.string(),
-    referral_url : Yup.string(),
-    tiktok : Yup.string(),
-    facebook : Yup.string(),
-    instagram : Yup.string(),
-    approved : Yup.string(),
-    // name_en: Yup.string().required("Name Field in English language is required."),
-    // name_ar: Yup.string().required("Name Field in Arabic language is required."),
-    // name_tr: Yup.string().required("Name Field in Turkish language is required."),
-    // name_ru: Yup.string().required("Name Field in Russian language is required."),
-    // name_hi: Yup.string().required("Name Field in Hindi language is required."),
-    // name_ur: Yup.string().required("Name Field in Urdu language is required."),
+    website: Yup.string(), 
+    role: Yup.string(),
 
 });
-const AddPanel = ()=>{
+const AddUser = ()=>{
     const { id } = useParams()
     const { register, handleSubmit, watch, setValue, formState: { errors },reset  } = useForm({
         resolver: yupResolver(validationSchema),
@@ -79,28 +62,12 @@ const AddPanel = ()=>{
         })
         if(response){
             const data = {
-                title: response.data.translations?.en?.name || "",
-                username: response.data.username || "",
+                name: response.data.name || "",
                 telegram: response.data.telegram || "",
                 whatsapp: response.data.whatsapp || "",
                 email: response.data.email || "",
-                url_panel: response.data.website || "",
-                api_url: response.data.api_url || "",
-                api_key: response.data.token || "",
-                whatsapp_channel : response.data.whatsapp_channel || "",
-                whatsapp_group : response.data.whatsapp_group || "",
-                telegram_group : response.data.telegram_group || "",
-                referral_url : response.data.referral_url || "",
-                tiktok : response.data.tiktok || "",
-                facebook : response.data.facebook || "",
-                instagram : response.data.instagram || "",
-                approved : response.data.approved || 0
-                // name_en: response.data.translations?.en?.name || "",
-                // name_ar: response.data.translations?.ar?.name || "",
-                // name_tr: response.data.translations?.tr?.name || "",
-                // name_ru: response.data.translations?.ru?.name || "",
-                // name_hi: response.data.translations?.hi?.name || "",
-                // name_ur: response.data.translations?.ur?.name || "",
+                role: response.data.role || "",
+                website: response.data.website || "",
             };
             setUser(response.data.user)
             setCountryObj(prev =>({...prev, id: response.data.country_id ?? ""}))
@@ -121,30 +88,12 @@ const AddPanel = ()=>{
         setLoading(true)
         
         const values = new FormData()
-        values.append("name",data.title)
-        values.append("username",data.username)
+        values.append("name",data.name)
         values.append("email",data.email)
         values.append("website",data.url_panel)
-        values.append("api_url",data.api_url)
-        values.append("token",data.api_key)
-        values.append("whatsapp_channel",data.whatsapp_channel)
-        values.append("whatsapp_group",data.whatsapp_group)
-        values.append("telegram_group",data.telegram_group)
-        values.append("referral_url",data.referral_url)
-        values.append("country_id",countryObj.id)
-        values.append("tiktok",data.tiktok)
-        values.append("facebook",data.facebook)
-        values.append("instagram",data.instagram)
-        values.append("approved",data.approved)
-        values.append("user_id",user?.id ?? JSON.parse(localStorage.getItem("user")).id)
-        values.append("telegram",codes.telegram.dial_code + data.telegram)
-        values.append("whatsapp",codes.whatsapp.dial_code + data.whatsapp)
-        values.append("languages[1][name]",data.title)
-        values.append("languages[2][name]",data.title)
-        values.append("languages[3][name]",data.title)
-        values.append("languages[4][name]",data.title)
-        values.append("languages[5][name]",data.title)
-        values.append("languages[6][name]",data.title)
+        values.append("telegram",data.telegram)
+        values.append("whatsapp",data.whatsapp)
+        values.append("role",data.role)
         
         if("name" in file)
             values.append("file",file)
@@ -152,6 +101,10 @@ const AddPanel = ()=>{
         if(!id)
             values.append("_method","PUT")
 
+
+        const obj = Object.fromEntries(values.entries());
+        console.log("Data user",obj);
+        return
         const {response , message,  statusCode} = await Helper({
             url: id ? apiRoutes.panel.update(id) : apiRoutes.panel.add,
             method:'POST',
@@ -174,46 +127,26 @@ const AddPanel = ()=>{
 
     return(<div className="flex flex-col gap-5">
         <div>
-            <h2>{id ? "Edit panel" : "Add Panel"}</h2>
+            <h2>{id ? "Edit User" : "Add User"}</h2>
             <p>
-                Add a new panel to your website along with accurate descriptions in multiple languages:
-                {/* <br />
-                <strong>(en)</strong> English, <strong>(ar)</strong> Arabic, <strong>(tr)</strong> Turkish, 
-                <strong>(ru)</strong> Russian, <strong>(hi)</strong> Hindi, <strong>(ur)</strong> Urdu. */}
+                Add a new user to your website 
              </p>
         </div>
         {errorStatus.open && errorStatus.type == "success" && <h4 className="text-center box-success p-2">{errorStatus.msg}</h4>}
         {errorStatus.open && errorStatus.type != "success"&& <h4 className="text-center box-error p-2">{errorStatus.msg}</h4>}
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
                 <div className="card p-2 sm:p-4 flex flex-col gap-4">
-                    <div className='flex gap-2'>
-                        <div
-                            onClick={() => {
-                                setValue("approved", watch("approved") == 1 ? 0 : 1)
-                                }}
-                            className={`w-12 h-6 flex items-center rounded-full p-1 cursor-pointer transition-colors duration-300 ${
-                            watch("approved") == 1 ? "bg-green-500" : "bg-gray-300"
-                            }`}
-                        >
-                            <div
-                            className={`bg-white w-4 h-4 rounded-full shadow-md transform transition-transform duration-300 ${
-                                watch("approved") == 1 ? "translate-x-6" : "translate-x-0"
-                            }`}
-                            />
-                        </div>
-                        <span>{watch("approved") == 0? "Not approved":"Approved"}</span>
-                    </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         
                         <div className="flex flex-col gap-1">
-                            <label>SMM Panel Title (Max 22 characters) :</label>
-                            <input  {...register("title")} type="text" placeholder={"Panel Title"}  />
-                            {errors.title && <p className="pt-0.5 text-error">{errors.title.message}</p>}
+                            <label>Name:</label>
+                            <input  {...register("name")} type="text" placeholder={"Name"}  />
+                            {errors.name && <p className="pt-0.5 text-error">{errors.name.message}</p>}
                         </div>
                         <div className="flex flex-col gap-1">
-                            <label>SMM Panel URL :</label>
-                            <input {...register("url_panel")} type="text" placeholder={"https://example.com"}  />
-                            {errors.url_panel && <p className="pt-0.5 text-error">{errors.url_panel.message}</p>}
+                            <label>Email :</label>
+                            <input  {...register("email")} type="text" placeholder={"Email"}  />
+                            {errors.email && <p className="pt-0.5 text-error">{errors.email.message}</p>}
                         </div>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -256,42 +189,6 @@ const AddPanel = ()=>{
 
 
                 </div>
-                {/* <div className="card p-2 sm:p-4 flex flex-col gap-4">
-                    <h4><strong>Name in Languages</strong></h4>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div className="flex flex-col gap-1">
-                            <label>Name <strong>(en)</strong> :</label>
-                            <input  {...register("name_en")} type="text" placeholder={"Name (en)"}  />
-                            {errors.name_en && <p className="pt-0.5 text-error">{errors.name_en.message}</p>}
-                        </div>
-                        <div className="flex flex-col gap-1">
-                            <label>Name <strong>(ar)</strong> :</label>
-                            <input {...register("name_ar")}  type="text" placeholder={"Name (ar)"}  />
-                            {errors.name_ar && <p className="pt-0.5 text-error">{errors.name_ar.message}</p>}
-                        </div>
-                        <div className="flex flex-col gap-1">
-                            <label>Name <strong>(tr)</strong> :</label>
-                            <input {...register("name_tr")} type="text" placeholder={"Name (tr)"}  />
-                            {errors.name_tr && <p className="pt-0.5 text-error">{errors.name_tr.message}</p>}
-                        </div>
-                        <div className="flex flex-col gap-1">
-                            <label>Name <strong>(ru)</strong> :</label>
-                            <input {...register("name_ru")} type="text" placeholder={"Name (ru)"}  />
-                            {errors.name_ru && <p className="pt-0.5 text-error">{errors.name_ru.message}</p>}
-                        </div>
-                        <div className="flex flex-col gap-1">
-                            <label>Name <strong>(hi)</strong> :</label>
-                            <input {...register("name_hi")}  type="text" placeholder={"Name (hi)"}  />
-                            {errors.name_hi && <p className="pt-0.5 text-error">{errors.name_hi.message}</p>}
-                        </div>
-                        <div className="flex flex-col gap-1">
-                            <label>Name <strong>(ur)</strong> :</label>
-                            <input {...register("name_ur")} type="text" placeholder={"Name (ur)"}  />
-                            {errors.name_ur && <p className="pt-0.5 text-error">{errors.name_ur.message}</p>}
-                        </div>
-
-                    </div>
-                </div> */}
                 <div className="card p-2 sm:p-4 flex flex-col gap-4">
                     <h4><strong>Contact Info</strong></h4>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -360,4 +257,4 @@ const AddPanel = ()=>{
     </div>)
 }
 
-export default AddPanel
+export default AddUser

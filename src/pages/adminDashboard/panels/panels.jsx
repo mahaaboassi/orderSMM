@@ -3,7 +3,6 @@ import { Helper } from "../../../functionality/helper"
 import { apiRoutes } from "../../../functionality/apiRoutes"
 import Loading from "../../../components/loading"
 import { Link, useNavigate, useSearchParams } from "react-router-dom"
-import Pagination from "../../../components/pagination"
 import PopupCalled from "../../../components/popupCalled"
 import { format } from 'date-fns';
 import MyTanstackTable from "../../../components/dataTable"
@@ -54,7 +53,13 @@ const Panels = ()=>{
                 header: 'Website',
                 cell: info => info.getValue(),
             }),
-
+            columnHelper.accessor('status', {
+                header: 'Status',
+                cell: info => (<div>
+                    {info.getValue() == 0 ? <div className="error-card p-2">Not Approved</div>
+                                            :<div className="success-card p-2">Approved</div>}
+                </div>),
+            }),
             columnHelper.accessor('is_ad', {
                 header: 'Is Ad',
                 cell: info => (<div>
@@ -121,7 +126,7 @@ const Panels = ()=>{
         
         return () => controller.abort()
         
-    },[searchParams])
+    },[ searchParams ])
 
     const getData = async (signal)=>{
         setData([])
@@ -131,10 +136,11 @@ const Panels = ()=>{
         const { response, message, statusCode} = await Helper({
             url : apiRoutes.panel.list,
             method : "GET",
-            signal : signal,
+            // signal : signal,
+            hasToken: true,
             params : {
                 page : page,
-                result : perPage
+                results : perPage
             }
         })
         if(response){
@@ -143,26 +149,6 @@ const Panels = ()=>{
             setLoading(false)
             setTotal(response.meta.total)
             setLastPage(response.meta.last_page)
-            setSearchParams({
-                page: String(response.meta.current_page),
-                limit: String(perPage),
-            });
-            // response.data.forEach((ele)=>{
-            //         setData(prev=>[...prev, {
-            //             name : ele?.translations?.en?.name ?? "-",
-            //             id : ele.id,
-            //             email : ele?.email ?? "-",
-            //             whatsapp : ele?.whatsapp ?? "-",
-            //             telegram : ele?.telegram ?? "-",
-            //             website : ele?.website ?? "-",
-            //             is_ad : ele?.is_ad,
-            //             is_provider : ele?.is_provider,
-            //             services_count : ele?.services_count ?? "0",
-            //             rating : ele?.rating ?? "0",
-            //             created_at : format(new Date(ele.created_at), "MMMM d, yyyy")
-
-            //         }])
-            // })
             const formattedData = response.data.map(ele => ({
                 name : ele?.translations?.en?.name ?? "-",
                 id : ele.id,
@@ -174,6 +160,7 @@ const Panels = ()=>{
                 is_provider : ele?.is_provider,
                 services_count : ele?.services_count ?? "0",
                 rating : ele?.rating ?? "0",
+                status :  ele?.approved ?? "0",
                 created_at : format(new Date(ele.created_at), "MMMM d, yyyy")
                 }));
 
@@ -193,7 +180,6 @@ const Panels = ()=>{
         })
         if(response){
             console.log(response);
-            
             setOpenPopup(false)
             setLoadingDelete(false)
             setErrorStatus({msg: response.message, open : true,type: "success"})
@@ -230,12 +216,12 @@ const Panels = ()=>{
         {errorStatus.open && errorStatus.type == "success" && <h4 className="text-center box-success p-2">{errorStatus.msg}</h4>}
         {errorStatus.open && errorStatus.type != "success"&& <h4 className="text-center box-error p-2">{errorStatus.msg}</h4>}
         
-        {loading ? <Loading/> : <MyTanstackTable last_Page={lastPage} columns={columns} data={data} />}
+        {loading ? <Loading/> :<MyTanstackTable last_Page={lastPage} columns={columns} data={data} />}
 
 
         {/* Confirm Delete  */}
         {openPopup && <PopupCalled  open={openPopup} close={()=>{setOpenPopup(false)}} children={<div className="flex flex-col gap-5">
-            <h3 className="text-center">Are you sure you want to delete ({currentData.translations?.en?.name}) </h3>
+            <h3 className="text-center">Are you sure you want to delete ({currentData?.name ?? ""}) </h3>
             <div className="flex justify-center">
                 <button disabled={loadingDelete} onClick={deleteData} className="dark-btn">
                     {loadingDelete ? <div className="loader m-auto" ></div>: "Continue"}

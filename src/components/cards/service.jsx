@@ -2,12 +2,13 @@ import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 
 
-const Service = ({name, category, panel,panel_id, min , max , price, per_count, isPinned,
+const Service = ({name, category, panel,panel_id, min , max , price, per_count, isPinned, is_top_result,
     isForSelected = false , isSelectedAll = false, returnedId = () => {} ,id,selectedObject =[]
 })=>{
     const [selected, setSelected] = useState(false)
     const [selectedProccess, setSelectedProccess] = useState(false)
     const [selectedAll, setSelectedAll] = useState(false)
+    
     useEffect(()=>{
         setSelected(isSelectedAll)
         setSelectedAll(isSelectedAll)
@@ -43,12 +44,16 @@ const Service = ({name, category, panel,panel_id, min , max , price, per_count, 
                 <strong>{id}</strong>
             </div>}
             <div className="flex justify-between ">
-                <h3><strong>{name}</strong></h3>
-                <span>{category}</span>
+                {<h3><strong>{name}</strong></h3>}
+                <span>{category + is_top_result == 1 ?? "Ad"}</span>
             </div>
             <div className="flex card-small-details justify-between">
                 <div className="flex gap-2">
-                        <h4><Link to={`/smm-panel/${panel}/${panel_id}`}>{panel}</Link></h4> 
+                        <h4>
+                            <Link to={`/smm-panel/${panel}/${panel_id}`}>
+                                {is_top_result == 0 && !isPinned && !localStorage.getItem("user") ?  panel?.substring(0, 3)+"****" : panel}
+                            </Link>
+                        </h4> 
                         <p>{min} /{max}</p>
                 </div>
                 

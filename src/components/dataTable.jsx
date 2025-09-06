@@ -19,16 +19,14 @@ const MyTanstackTable = ({
   const pageIndex = parseInt(searchParams.get('page') || '1',10) -1 ;
   const pageSize = parseInt(searchParams.get('limit') || '10');
   const [ lastPage, setLastPage ] = useState(1)
+
+
   useEffect(()=>{
     setLastPage(last_Page)
-    console.log("1111");
   },[last_Page])
 
-  // const memoizedData = useMemo(() => data, [data]);
-  // const memoizedColumns = useMemo(() => columns, [columns]);
-
   const table = useReactTable({
-    data: [...data],
+    data: data,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
@@ -38,14 +36,8 @@ const MyTanstackTable = ({
         pageIndex,
       },
     },
-    onPaginationChange: (updater) => {
-      const newPagination =
-      typeof updater === 'function' ? updater({ pageIndex, pageSize }) : updater;
-      setSearchParams({
-        page: String(newPagination.pageIndex + 1),
-        limit: String(newPagination.pageSize),
-      });
-    },
+    manualPagination: true,
+    pageCount: lastPage,
   });
   
   
@@ -58,6 +50,10 @@ const MyTanstackTable = ({
             value={table.getState().pagination.pageSize}
             onChange={e => {
               table.setPageSize(Number(e.target.value));
+               setSearchParams({
+                  page: "1", // reset to first page when size changes
+                  limit: String(e.target.value),
+                });
             }}
             className="border px-2 py-1 rounded"
           >

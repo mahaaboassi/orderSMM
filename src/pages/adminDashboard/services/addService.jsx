@@ -1,5 +1,5 @@
 // for validation
-import { useForm } from 'react-hook-form';
+import { useForm, useFieldArray } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import { apiRoutes } from "../../../functionality/apiRoutes";
@@ -11,10 +11,29 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 const validationSchema = Yup.object({
     name: Yup.string().required("Name Field is required."),
-    price: Yup.number()
-        .typeError("Price must be a number.")
-        .required("Price field is required.")
-        .moreThan(0, "Price must be greater than 0."),
+    slug: Yup.string().required("Slug Field is required."),
+    prices: Yup.array()
+            .of(
+            Yup.object({
+                name: Yup.string(),
+                price : Yup.number()
+                            .typeError("Price must be a number.")
+                            .required("Price field is required.")
+                            .moreThan(0,"Price must be greater than 0."),
+                min: Yup.number()
+                .typeError("Min must be a number.")
+                .required("Min is required.")
+                .min(0, "Min must be greater than or equal to 0."),
+                max: Yup.number()
+                .typeError("Max must be a number.")
+                .required("Max is required.")
+                .moreThan(
+                    Yup.ref("min"),
+                    "Max must be greater than Min."
+                ),
+            })
+            )
+            .min(1, "At least one price field is required."),
     name_en: Yup.string().required("Name Field in English language is required."),
     name_ar: Yup.string().required("Name Field in Arabic language is required."),
     name_tr: Yup.string().required("Name Field in Turkish language is required."),
@@ -31,10 +50,17 @@ const validationSchema = Yup.object({
 });
 const AddService = ()=>{
     const { id } = useParams()
-    const { register, handleSubmit, formState: { errors },reset  } = useForm({
+    const { register, handleSubmit, control, formState: { errors },reset  } = useForm({
         resolver: yupResolver(validationSchema),
-            mode: 'onChange'
+            mode: 'onChange',
+            defaultValues: {
+                prices: [{ name: "", min: "", max: "", price: "" }]
+            }
         });
+    const { fields, append, remove } = useFieldArray({
+        control,
+        name: "prices"
+    });
     const [loading, setLoading] = useState(false)
     const [ errorStatus , setErrorStatus] = useState({
         msg: "",
@@ -61,7 +87,16 @@ const AddService = ()=>{
         if(response){
             const data = {
                 name: response.data.name || "",
+                slug: response.data.slug || "",
                 price: response.data.price || "",
+                prices: response.data.prices?.length
+                        ? response.data.prices.map(p => ({
+                            name: p.name || "",
+                            min: p.min || "",
+                            max: p.max || "",
+                            price: p.price || ""
+                        }))
+                        : [{ name: "", min: "", max: "", price: "" }],
                 name_en: response.data.translations?.en?.name || "",
                 name_ar: response.data.translations?.ar?.name || "",
                 name_tr: response.data.translations?.tr?.name || "",
@@ -87,10 +122,16 @@ const AddService = ()=>{
   
         setErrorStatus({msg: "", open : false})
         setLoading(true)
-
         const values = new FormData()
         values.append("name",data.name)
-        values.append("price",data.price)
+        values.append("slug",data.slug)
+        values.append("price",data.prices[0].max)
+        data.prices.forEach((element,idx) => {
+            values.append(`prices[${idx}][name]`,element.name)
+            values.append(`prices[${idx}][min]`,element.min)
+            values.append(`prices[${idx}][price]`,element.price)
+            values.append(`prices[${idx}][max]`,element.max)
+        });
         values.append("languages[1][name]",data.name_en)
         values.append("languages[2][name]",data.name_ar)
         values.append("languages[3][name]",data.name_hi)
@@ -124,12 +165,9 @@ const AddService = ()=>{
         }else{
             console.log(message);
             window.scrollTo({top: 0})
-            setTimeout(()=>setErrorStatus({msg: "", open : false,type: ""}),1000)
+            setTimeout(()=>setErrorStatus({msg: message, open : true,type: ""}),1000)
             setLoading(false)
-            
         }
-        
-        
     };
     return(<div className="flex flex-col gap-5">
         <div>
@@ -139,7 +177,6 @@ const AddService = ()=>{
                 <strong>(en)</strong> English, <strong>(ar)</strong> Arabic, <strong>(tr)</strong> Turkish, 
                 <strong>(ru)</strong> Russian, <strong>(hi)</strong> Hindi, <strong>(ur)</strong> Urdu.
              </p>
-
         </div>
         {errorStatus.open && errorStatus.type == "success" && <h4 className="text-center box-success p-2">{errorStatus.msg}</h4>}
         {errorStatus.open && errorStatus.type != "success"&& <h4 className="text-center box-error p-2">{errorStatus.msg}</h4>}
@@ -151,10 +188,106 @@ const AddService = ()=>{
                         {errors.name && <p className="pt-0.5 text-error">{errors.name.message}</p>}
                     </div>
                     <div className="flex flex-col gap-1">
-                        <label>Price :</label>
-                        <input {...register("price")} type="number" placeholder={"Price"}  />
-                        {errors.price && <p className="pt-0.5 text-error">{errors.price.message}</p>}
+                        <label>Slug:</label>
+                         <div className='px-2'>
+                            {["promotion","ads","search_results","pin_up","api_emails","bumps"].map((slug) => (
+                            <label style={{height:"23px"}} key={slug} className="flex items-center gap-2">
+                                <input
+                                style={{width:"fit-content"}}
+                                type="radio"
+                                value={slug}
+                                {...register("slug")}
+                                />
+                                {slug}
+                            </label>
+                            ))}
+                         </div>
+                        {errors.slug && <p className="pt-0.5 text-error">{errors.slug.message}</p>}
                     </div>
+                    <div className='flex flex-col gap-2'>
+                         {fields.map((field, index) => (
+                            <div key={field.id} className="flex flex-col gap-2">
+                            <label><strong>Price {index + 1}:</strong></label>
+                            <div className="grid grid-cols-1 sm:grid-cols-4 gap-3">
+                                <div>
+                                <label>Name:</label>
+                                <input
+                                    {...register(`prices.${index}.name`)}
+                                    type="text"
+                                    placeholder="Name Group"
+                                />
+                                {errors.prices?.[index]?.name && (
+                                    <p className="pt-0.5 text-error">
+                                    {errors.prices[index].name.message}
+                                    </p>
+                                )}
+                                </div>
+                                <div>
+                                <label>Price:</label>
+                                <input
+                                    {...register(`prices.${index}.price`)}
+                                    type="text"
+                                    placeholder="Price"
+                                />
+                                {errors.prices?.[index]?.price && (
+                                    <p className="pt-0.5 text-error">
+                                    {errors.prices[index].price.message}
+                                    </p>
+                                )}
+                                </div>
+                                <div>
+                                <label>Min:</label>
+                                <input
+                                    {...register(`prices.${index}.min`)}
+                                    type="number"
+                                    placeholder="Min"
+                                />
+                                {errors.prices?.[index]?.min && (
+                                    <p className="pt-0.5 text-error">
+                                    {errors.prices[index].min.message}
+                                    </p>
+                                )}
+                                </div>
+                                <div className='flex items-center'>
+                                    <div className='w-full'>
+                                        <label>Max:</label>
+                                        <input
+                                            {...register(`prices.${index}.max`)}
+                                            type="number"
+                                            placeholder="Max"
+                                        />
+                                        {errors.prices?.[index]?.max && (
+                                            <p className="pt-0.5 text-error">
+                                            {errors.prices[index].max.message}
+                                            </p>
+                                        )}
+                                    </div>
+                                    <div onClick={() => remove(index)} className="cursor-pointer">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                            <g clipPath="url(#clip0_17_1174)">
+                                            <path d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z" fill="red"/>
+                                            </g>
+                                            <defs>
+                                            <clipPath id="clip0_17_1174">
+                                            <rect width="24" height="24" fill="red"/>
+                                            </clipPath>
+                                            </defs>
+                                        </svg>
+                                    </div>
+                                </div>
+
+                            </div>
+                            
+                            </div>
+                        ))}
+                        <div onClick={() => append({ name: "", min: "", max: "" })} style={{width:"fit-content"}} className='cursor-pointer flex gap-1 items-center'>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
+                                <path d="M3.66112 3.66109C6.10194 1.2205 9.30102 0 12.4999 0C15.6988 0 18.8981 1.2205 21.3389 3.66109C23.7795 6.10189 24.9998 9.30094 24.9998 12.4998C24.9998 15.6991 23.7795 18.8979 21.3389 21.3387C18.8981 23.7793 15.6988 24.9998 12.4999 24.9998C9.30102 24.9998 6.10173 23.7793 3.66112 21.3387C1.22031 18.8981 0 15.6991 0 12.4998C0 9.30094 1.22031 6.10189 3.66112 3.66109ZM11.7302 6.34399C11.7302 5.96965 12.0338 5.6661 12.4083 5.6661C12.7829 5.6661 13.0865 5.96965 13.0865 6.34399V11.9151H18.6576C19.0319 11.9151 19.3355 12.2186 19.3355 12.593C19.3355 12.9675 19.0319 13.2711 18.6576 13.2711H13.0862V18.8422C13.0862 19.2165 12.7827 19.5201 12.4081 19.5201C12.0336 19.5201 11.73 19.2165 11.73 18.8422V13.2709H6.15911C5.78476 13.2709 5.481 12.9673 5.481 12.5928C5.481 12.2184 5.78455 11.9149 6.15911 11.9149H11.7302V6.34399ZM12.4999 1.356C9.64791 1.356 6.79612 2.44405 4.61999 4.62016C2.44407 6.79606 1.35601 9.64803 1.35601 12.4998C1.35601 15.3518 2.44407 18.2037 4.61999 20.3796C6.79612 22.5557 9.64791 23.6438 12.4999 23.6438C15.3519 23.6438 18.2037 22.5557 20.3798 20.3796C22.5557 18.2037 23.644 15.3516 23.644 12.4998C23.644 9.64803 22.5557 6.79606 20.3798 4.62016C18.2039 2.44405 15.3519 1.356 12.4999 1.356Z" fill="#19770D"/>
+                            </svg>
+                            <span>Add new price</span>
+                        </div>
+                    </div>
+                    <div></div>
                 </div>
                 <div className="card p-2 sm:p-4 flex flex-col gap-4">
                     <h4><strong>Name in Languages</strong></h4>

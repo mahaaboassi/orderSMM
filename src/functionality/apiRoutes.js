@@ -65,5 +65,12 @@ export const apiRoutes = {
         update : (id)=>(`${host}countries/${id}`),
         delete : (id)=>(`${host}countries/${id}`),
         
+    },
+    users : { 
+        list : `${host}users`,
+        getOne : (id)=>(`${host}users/${id}`),
+    },
+    settings : {
+        list : `${host}settings`,
     }
 }

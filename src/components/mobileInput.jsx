@@ -77,10 +77,11 @@ function MobileInput({register,value,returnedCountry,country_id,isOpenMenu=true,
             ( { "dial_code" in selectedCountry && selectedCountry.dial_code} )
         </div>
         <div className="w-full">
-            <input  disabled={!isOpenMenu} placeholder="XX XX XX" {...register} value={number || ""} onChange={(e)=>{
+            <input disabled={!isOpenMenu} placeholder="XX XX XX" {...register} value={number} onChange={(e)=>{
                 register.onChange(e)
                 setNumber(e.target.value)
                 }} type="number" />
+                {/* <input  disabled={!isOpenMenu} placeholder="XX XX XX" {...register} type="number" /> */}
         </div>
         <ul className={`${isOpen?"block":"hidden"} ${fromChatPopup?"menu-countries-popup":"menu-countries"} `}>
             <li className="py-2">

@@ -77,6 +77,27 @@ const AddWithoutServices = ({id, slug, isAd})=>{
         })
         if(response){
             console.log(response);
+            confirm(response.data.id)
+        }else{
+            console.log(message);
+            setIsSubmit(false)
+            setErrorStatus({msg: message, open : true})
+            
+        }
+    } 
+    const confirm = async(id)=>{
+        const data = {
+            service_request_id: id,
+            payment_id : "1"
+        }
+        const {response , message,  statusCode} = await Helper({
+            url:apiRoutes.services.confirm,
+            method:'POST',
+            body: data,
+            hasToken: true,
+        })
+        if(response){
+            console.log(response);
             setIsSubmit(false)
             setErrorStatus({msg: response.message, open : true,type:"success"})
             setTimeout(()=>{

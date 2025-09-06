@@ -7,6 +7,7 @@ import Pagination from "../../../components/pagination"
 import { useDispatch } from "react-redux"
 import { changePopup } from "../../../features/popupSlice"
 import PopupCalled from "../../../components/popupCalled"
+import { useTranslation } from "react-i18next"
 
 const Services = ()=>{
     const navigate = useNavigate()
@@ -22,6 +23,7 @@ const Services = ()=>{
     })
     const [ currentPage, setCurrentPage ] = useState(1)
     const [ lastPage , setLastPage ] = useState(1)
+    const { i18n } = useTranslation()
     useEffect(()=>{
         const controller = new AbortController()
         const signal = controller.signal
@@ -43,8 +45,7 @@ const Services = ()=>{
             setLoading(false)
             setLastPage(response.meta.last_page)
         }else{
-            console.log(message);
-            
+            console.log(message); 
         }
     }
     const deleteData = async()=>{
@@ -91,14 +92,14 @@ const Services = ()=>{
         </div>
         {errorStatus.open && errorStatus.type == "success" && <h4 className="text-center box-success p-2">{errorStatus.msg}</h4>}
         {errorStatus.open && errorStatus.type != "success"&& <h4 className="text-center box-error p-2">{errorStatus.msg}</h4>}
-        {loading ? <Loading/> :<div className="flex flex-col gap-4">
+        {loading ? <Loading/> :<div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             {data.length>0 ? data.map((e,idx)=>{
                 return <div key={`Services_OrderSMM_${e.name}_${idx}`} className="card p-4 flex justify-between items-center">
-                    <div className="flex items-center gap-2">
-                        <div><img style={{height : "40px",width:"40px",objectFit:"cover",borderRadius:"50%"}} src={e.photo} alt={e.name} /></div>
+                    <div className="flex items-center gap-3">
+                        <div style={{height : "40px",width:"40px"}}><img style={{objectFit:"contain"}} src={e.photo} alt={e.name} /></div>
                         <div>
                             <h3>{e.name}</h3>
-                            <p>Price : <strong>{e.price}</strong></p>
+                            <p>{e.translations?.[i18n.language]?.description?.substring(0,30) + (e.translations?.[i18n.language]?.description && "...") || ""}</p>
                         </div>
                     </div>
                     <div className="flex items-center gap-2">

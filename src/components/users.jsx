@@ -3,32 +3,31 @@ import { Helper } from "../functionality/helper"
 import { apiRoutes } from "../functionality/apiRoutes"
 import { useTranslation } from "react-i18next"
 
-const Countries = ({currentValue,returnedCountry,isAddPanel})=>{
-    const { t, i18n } = useTranslation()
+const UsersSelect = ({currentValue,returnedUser})=>{
     const [ data, setData ] = useState([])
     const [ loading, setLoading ] = useState(false)
     const [ value, setValue ] = useState("")
-    const [ country, setCountry ] = useState(t("selectCountry"))
+    const [ email, setEmail ] = useState("select User")
     const [ open, setOpen ] = useState(false)
-    const [page, setPage] = useState(1)
-    const [hasMore, setHasMore] = useState(true)
+    const [ page, setPage ] = useState(1)
+    const [ hasMore, setHasMore ] = useState(true)
     const containerRef = useRef(null)
     const abortControllerRef = useRef(null)
     useEffect(()=>{
         const controller = new AbortController()
         const signal = controller.signal
-        if(currentValue) getOne(signal)
+        getOne(signal)
         return ()=> controller.abort()
     },[currentValue])
     useEffect(()=>{
-        getCountries(page,value)
+        getData(page,value)
         return () => {
             if (abortControllerRef.current) {
                 abortControllerRef.current.abort()
             }
         }
     },[page,value])
-    const getCountries = async (pageNum,name)=>{
+    const getData = async (pageNum,name)=>{
         if (abortControllerRef.current) {
           abortControllerRef.current.abort()
         }
@@ -40,7 +39,7 @@ const Countries = ({currentValue,returnedCountry,isAddPanel})=>{
         }
         if(name) temp.name = name
         const { response, message } = await Helper({
-            url : apiRoutes.countries.list,
+            url : apiRoutes.users.list,
             signal: controller.signal,
             params : temp
         })
@@ -56,12 +55,13 @@ const Countries = ({currentValue,returnedCountry,isAddPanel})=>{
         }
     }
     const getOne = async (signal)=>{
-         const { response, message } = await Helper({
-            url : apiRoutes.countries.getOne(currentValue),
+        const user = JSON.parse(localStorage.getItem("user")) 
+        const { response, message } = await Helper({
+            url : apiRoutes.users.getOne(currentValue ? currentValue.id : user.id),
             signal: signal
         })
         if(response){
-            setCountry(response.data?.translations?.[i18n.language]?.name)
+            setEmail(response.data.email)
         }else{
             console.log(message)
         }
@@ -103,24 +103,24 @@ const Countries = ({currentValue,returnedCountry,isAddPanel})=>{
     }, [open]);
 
     const select = (e)=>{
-        setCountry(e?.translations?.[i18n.language].name)
+        setEmail(e.email)
         setOpen(false)
-        returnedCountry(e.id)
+        returnedUser(e)
     }
-    return(<div className={`relative ${isAddPanel ? "add-panel-country" : ""}`}>
-        <div onClick={()=>setOpen(!open)} style={{whiteSpace: "nowrap"}} className={`flex ${isAddPanel?"py-1 px-2":"p-2"} items-center country-select`}>
-            {country.substring(0,7)} &nbsp; <svg style={{transform:"rotate(90deg)"}} xmlns="http://www.w3.org/2000/svg" width="8" height="12" viewBox="0 0 8 12" fill="none">
+    return(<div className={`relative ${"add-panel-country"}`}>
+        <div onClick={()=>setOpen(!open)} style={{whiteSpace: "nowrap"}} className={`flex ${"py-1 px-2"} items-center country-select`}>
+            {email.substring(0,7)} &nbsp; <svg style={{transform:"rotate(90deg)"}} xmlns="http://www.w3.org/2000/svg" width="8" height="12" viewBox="0 0 8 12" fill="none">
                 <path d="M0.589966 10.59L5.16997 6L0.589966 1.41L1.99997 0L7.99997 6L1.99997 12L0.589966 10.59Z" fill="#08392B"/>
             </svg>
         </div>
-        {open && <div ref={containerRef} className={`container-menu shadow`}>
+        {open && <div ref={containerRef} className={`container-menu shadow z-10`}>
             { <div>
                     <div className="p-1">
                         <input value={value} onChange={(e)=>{handleChange(e.target.value)}} placeholder="Search" />
                     </div>
                     {
                         data.length > 0 && data.map((e,idx)=>(<div onClick={()=>select(e)} className="p-1 shadow cursor-pointer li-country" key={`countries_${e.name}_${idx}`}>
-                            {e?.translations?.[i18n.language]?.name || ""}
+                            {e?.email || ""}
                         </div>))
                     }
             </div> }
@@ -129,11 +129,11 @@ const Countries = ({currentValue,returnedCountry,isAddPanel})=>{
                 </div> }
             {!hasMore && (
                 <div className="text-center text-sm text-gray-500 p-2">
-                No more countries
+                No more users
                 </div>
             )}
 
         </div>}
     </div>)
 }
-export default Countries
+export default UsersSelect

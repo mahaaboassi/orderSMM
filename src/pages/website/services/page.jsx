@@ -147,6 +147,7 @@ const Services = ()=>{
                     panel={e.panel_translations?.en?.name ?? ""}
                     max={e.max}
                     min={e.min}
+                    is_top_result={e.is_top_result}
                     id={e.id}
                     price={e.price*currency.exchange_factor}
                     panel_id={e.panel_id}

@@ -38,7 +38,8 @@ const AddWithServices = ({id, slug})=>{
     },[])
     const getData = async (signal)=>{
         const { response , message, statusCode } = await Helper({
-            url : apiRoutes.panel.byUser,
+            // url : apiRoutes.panel.byUser,
+            url : apiRoutes.panel.list,
             signal : signal,
             method : "GET",
             hasToken : true

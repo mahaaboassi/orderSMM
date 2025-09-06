@@ -55,20 +55,21 @@ const NavigationAdmin = ()=>{
                 </defs>
                 </svg>
     },
+    // {
+    //     name : "Tags",
+    //     link : "/dashboard/admin/tags",
+    //     icon :<svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 17 20" fill="none">
+    //             <g clipPath="url(#clip0_279_9)">
+    //             <path d="M3.80079 8.38379L3.00841 12.1842H0V15.1644H2.44454L1.43023 20H4.52084L5.52036 15.1644H9.38033L8.40876 20H11.529L12.5137 15.1644H16.9984V12.1842H13.1121L13.9834 7.89714H17V4.92025H14.5966L15.5681 0H12.4594L11.4599 4.92025H7.58679L8.6011 0H5.48419L4.49947 4.92025H0V7.89714H3.90272L3.80079 8.38379ZM9.65651 12.1842H6.11053L7.02292 7.89714H10.8796L9.99188 12.1842H9.65651Z" fill="#19770D"/>
+    //             </g>
+    //             <defs>
+    //             <clipPath id="clip0_279_9">
+    //             <rect width="17" height="20" fill="white"/>
+    //             </clipPath>
+    //             </defs>
+    //             </svg>
+    // },
     {
-        name : "Tags",
-        link : "/dashboard/admin/tags",
-        icon :<svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 17 20" fill="none">
-                <g clipPath="url(#clip0_279_9)">
-                <path d="M3.80079 8.38379L3.00841 12.1842H0V15.1644H2.44454L1.43023 20H4.52084L5.52036 15.1644H9.38033L8.40876 20H11.529L12.5137 15.1644H16.9984V12.1842H13.1121L13.9834 7.89714H17V4.92025H14.5966L15.5681 0H12.4594L11.4599 4.92025H7.58679L8.6011 0H5.48419L4.49947 4.92025H0V7.89714H3.90272L3.80079 8.38379ZM9.65651 12.1842H6.11053L7.02292 7.89714H10.8796L9.99188 12.1842H9.65651Z" fill="#19770D"/>
-                </g>
-                <defs>
-                <clipPath id="clip0_279_9">
-                <rect width="17" height="20" fill="white"/>
-                </clipPath>
-                </defs>
-                </svg>
-    },{
         name : "Settings",
         link : "/dashboard/admin/settings",
         icon :<svg xmlns="http://www.w3.org/2000/svg" width="35" height="27" viewBox="0 0 35 27" fill="none">

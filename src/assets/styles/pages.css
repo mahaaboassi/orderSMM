@@ -67,3 +67,30 @@
 .panel-card{
     background-color: var(--light);
 }
+/* Settings */
+.card-info{
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background: var(--grey_3);
+    box-shadow: var(--shadow-box);
+}
+.card-info .number{
+    font-size: var(--font-size-l);
+    font-weight: 800;
+}
+.card-info h4{
+    font-size: var(--font-size-s);
+    font-weight: 500;
+    border-bottom: 1px solid var(--green_2); 
+}
+@media (max-width:500px) {
+    .card-info .number{
+        font-size: var(--font-size-s);
+    }
+    .card-info h4{
+        font-size: var(--font-size-xs);
+    }
+}
