@@ -6,7 +6,7 @@ import Loading from "../../../components/loading"
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 
@@ -60,11 +60,9 @@ const Settings = ()=>{
             setData(response.data)
             setLoading(false)
             const temp = {}
-            response.data.forEach(element => {
-                temp[element.key] = element.value 
+            Object.keys(response.data).forEach(key => {
+                temp[key] = response.data[key]
             });
-            console.log("00",temp);
-            
             reset(temp); 
         }else{
             console.log(message);
@@ -91,33 +89,44 @@ const Settings = ()=>{
             hasToken: true,
         })
         if(response){
-            setErrorStatus({msg: response.message, open : true, type:"success"})
+            setErrorStatus({msg: "Successfully updated", open : true, type:"success"})
+            setTimeout(()=>{
+                setErrorStatus({msg: "", open : false, type:""})
+            },2000)
+            
             window.scrollTo({top : 0})
             setSubmit(false)
         }else{
             console.log(message);
             window.scrollTo({top : 0})
             setErrorStatus({ msg:message, open : true})
+            setTimeout(()=>{
+                setErrorStatus({msg: "", open : false, type:""})
+            },2000)
             setSubmit(false)
             
         }
     };
     
-    return (<div className="settings">
+    return (<div className="settings flex flex-col gap-1">
+        
         <h2>Settings</h2>
+            <div className="flex gap-2 items-center">
+                <Link className="cursor-pointer text-blue-500" to={"/dashboard/admin"}> Dashboard</Link> / <div>Settings</div>
+            </div>
         {loading ? <Loading/> : <div className="flex flex-col gap-4">
                 <div className="grid grid-cols-1 xs:grid-cols-3 gap-2">
                     <div className="card-info p-1 xs:p-3 gap-3">
                         <h4>Panels</h4>
-                        <div className="number"> {data.find(item => item.key === "panels")?.value} </div>
+                        <div className="number"> {data["panels"] ?? ""} </div>
                     </div>
                     <div className="card-info p-1 xs:p-3 gap-3">
                         <h4>Services</h4>
-                        <div className="number"> {data.find(item => item.key === "services")?.value} </div>
+                        <div className="number"> {data["services"] ?? ""} </div>
                     </div>
                     <div className="card-info p-1 xs:p-3 gap-3">
                         <h4>Platforms</h4>
-                        <div className="number"> {data.find(item => item.key === "platforms")?.value} </div>
+                        <div className="number"> {data["platforms"]??""} </div>
                     </div>
 
                 </div>

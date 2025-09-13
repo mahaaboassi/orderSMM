@@ -207,7 +207,6 @@ const Panels = ()=>{
             <div className="flex gap-2 items-center">
                 <Link className="cursor-pointer text-blue-500" to={"/dashboard/admin"}> Dashboard</Link> / <div>Panels</div>
             </div>
-            
             <div className="flex gap-2 items-center">
                 <div>
                     <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
