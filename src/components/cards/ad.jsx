@@ -1,6 +1,11 @@
 const Ad = ({photo,name,id,rating,services_count}) => {
     return (<div className="card-imge "><img src={photo} alt={`Image_${name}`} />
-                <div onClick={()=>navigate(`/smm-panel/${name}/${id}`)} className="goddy p-3 flex flex-col items-center gap-1"> 
+                <div onClick={()=>{
+                    localStorage.setItem("click",JSON.stringify({
+                                    service_id: 10,
+                                    panel_id: id
+                                }))
+                    navigate(`/smm-panel/${name}/${id}`)}} className="goddy p-3 flex flex-col items-center gap-1"> 
                     <h3>{name}</h3>
                     <div className="flex justify-between gap-2 goddy-info">
                         <div className="flex items-center">

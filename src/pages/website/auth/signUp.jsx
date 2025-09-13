@@ -8,6 +8,7 @@ import * as Yup from 'yup';
 import { apiRoutes } from "../../../functionality/apiRoutes";
 import { Helper } from "../../../functionality/helper";
 import MobileInput from "../../../components/mobileInput";
+import InputPassword from "../../../components/inputPassword";
 
 
 
@@ -137,12 +138,12 @@ const SignUp= ()=>{
                 </div>
                 <div className="flex flex-col gap-1">
                     <label>{t("auth.password")} :</label>
-                    <input {...register("password")} type="password" placeholder={t("auth.password")}  />
+                    <InputPassword register={register("password")} placeholder={t("auth.password")} />
                     {errors.password && <p className="pt-0.5 text-error">{errors.password.message}</p>}
                 </div>
                 <div className="flex flex-col gap-1">
                     <label>{t("auth.confirmation-password")} :</label>
-                    <input {...register("confirmPassword")} type="password" placeholder={t("auth.reType-password")}  />
+                    <InputPassword register={register("confirmPassword")} placeholder={t("auth.reType-password")} />
                     {errors.confirmPassword && <p className="pt-0.5 text-error">{errors.confirmPassword.message}</p>}
                 </div>
                 <p>{t("auth.have-an-account")}<Link to="/auth/signIn"><span>{t("auth.sign-in-here")}</span></Link></p>

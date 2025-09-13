@@ -171,10 +171,12 @@ const Users = ()=>{
         }
     }
     return(<div className="flex dashboard flex-col gap-5">
-        <div className="">
-            <h2>Users</h2>
-            <h4>Total Users : ({total})</h4>
+        <div className="flex flex-col gap-1">
+            <h2>Users: Total({total})</h2>
             <div className="flex gap-2 items-center">
+                <Link className="cursor-pointer text-blue-500" to={"/dashboard/admin"}> Dashboard</Link> / <div>Users</div>
+            </div>
+            {/* <div className="flex gap-2 items-center">
                 <div>
                     <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
                     <g clipPath="url(#clip0_286_31)">
@@ -188,7 +190,7 @@ const Users = ()=>{
                     </svg>
                 </div>
                 <Link to={"/dashboard/admin/user/add"}>Add new user</Link>
-            </div>
+            </div> */}
         </div>
         {errorStatus.open && errorStatus.type == "success" && <h4 className="text-center box-success p-2">{errorStatus.msg}</h4>}
         {errorStatus.open && errorStatus.type != "success"&& <h4 className="text-center box-error p-2">{errorStatus.msg}</h4>}

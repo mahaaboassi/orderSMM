@@ -6,10 +6,11 @@ import { apiRoutes } from "../../../functionality/apiRoutes";
 import { Helper } from "../../../functionality/helper";
 import { useEffect, useState } from 'react';
 import UploadFile from '../../../components/uploadFile';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import MobileInput from '../../../components/mobileInput';
 import Countries from '../../../components/countries';
 import UsersSelect from '../../../components/users';
+import FileUpload from '../../../components/fileUpload';
 
 
 
@@ -53,12 +54,11 @@ const AddPanel = ()=>{
         type : ""
     })
     const [ file, setFile ] = useState({})
+    const [ logo, setLogo ] = useState({})
     const [ user, setUser ] = useState("")
     const [ photoFromApi, setPhotoFromApi ] = useState("")
-    const [ codes, setCodes ] = useState({
-        telegram : "",
-        whatsapp : ""
-    })
+    const [ logoFromApi, setlogoFromApi ] = useState("")
+    const [ translations, setTranslations ] = useState([])
     const [ countryObj, setCountryObj ] = useState({
         id : "",
         msg : ""
@@ -75,12 +75,14 @@ const AddPanel = ()=>{
             url : apiRoutes.panel.getOne(id),
             method : "GET",
             hasToken : true,
+            params : { detailed :  1 },
             signal : signal
         })
         if(response){
             const data = {
                 title: response.data.translations?.en?.name || "",
                 username: response.data.username || "",
+                password: response.data.password || "",
                 telegram: response.data.telegram || "",
                 whatsapp: response.data.whatsapp || "",
                 email: response.data.email || "",
@@ -102,9 +104,11 @@ const AddPanel = ()=>{
                 // name_hi: response.data.translations?.hi?.name || "",
                 // name_ur: response.data.translations?.ur?.name || "",
             };
+            setTranslations(response.data.detailed_translations)
             setUser(response.data.user)
             setCountryObj(prev =>({...prev, id: response.data.country_id ?? ""}))
-            setPhotoFromApi(response.data.photo)
+            setPhotoFromApi(response.data?.photo ?? "")
+            setlogoFromApi(response.data?.logo ?? "")
             reset(data); 
         }else{
             console.log(message);
@@ -123,6 +127,7 @@ const AddPanel = ()=>{
         const values = new FormData()
         values.append("name",data.title)
         values.append("username",data.username)
+        values.append("password",data.password)
         values.append("email",data.email)
         values.append("website",data.url_panel)
         values.append("api_url",data.api_url)
@@ -137,18 +142,31 @@ const AddPanel = ()=>{
         values.append("instagram",data.instagram)
         values.append("approved",data.approved)
         values.append("user_id",user?.id ?? JSON.parse(localStorage.getItem("user")).id)
-        values.append("telegram",codes.telegram.dial_code + data.telegram)
-        values.append("whatsapp",codes.whatsapp.dial_code + data.whatsapp)
-        values.append("languages[1][name]",data.title)
-        values.append("languages[2][name]",data.title)
-        values.append("languages[3][name]",data.title)
-        values.append("languages[4][name]",data.title)
-        values.append("languages[5][name]",data.title)
-        values.append("languages[6][name]",data.title)
+        values.append("telegram","https://t.me/" + data.telegram)
+        values.append("whatsapp",data.whatsapp)
+        if(id){
+            const trans = [ ...translations]
+            
+            trans.forEach((ele)=>{
+                if(ele[0]) values.append(`languages[${ele[0]?.id}][name]`,data.title)
+            })
+
+        }else{
+            values.append("languages[1][name]",data.title)
+            values.append("languages[2][name]",data.title)
+            values.append("languages[3][name]",data.title)
+            values.append("languages[4][name]",data.title)
+            values.append("languages[5][name]",data.title)
+            values.append("languages[6][name]",data.title)
+        }
+        
         
         if("name" in file)
             values.append("file",file)
-        
+
+        if("name" in logo)
+            values.append("logo_file",logo)
+
         if(!id)
             values.append("_method","PUT")
 
@@ -173,13 +191,13 @@ const AddPanel = ()=>{
     };
 
     return(<div className="flex flex-col gap-5">
-        <div>
-            <h2>{id ? "Edit panel" : "Add Panel"}</h2>
+        <div className='flex flex-col gap-1'>
+            <h2 >{id ? "Edit panel" : "Add Panel"}</h2>
+             <div className="flex gap-2 items-center">
+                <Link className="cursor-pointer text-blue-500" to={"/dashboard/admin/panels"}> Panels</Link> / <div>{id ? "Edit panel" : "Add Panel"}</div>
+            </div>
             <p>
                 Add a new panel to your website along with accurate descriptions in multiple languages:
-                {/* <br />
-                <strong>(en)</strong> English, <strong>(ar)</strong> Arabic, <strong>(tr)</strong> Turkish, 
-                <strong>(ru)</strong> Russian, <strong>(hi)</strong> Hindi, <strong>(ur)</strong> Urdu. */}
              </p>
         </div>
         {errorStatus.open && errorStatus.type == "success" && <h4 className="text-center box-success p-2">{errorStatus.msg}</h4>}
@@ -220,7 +238,7 @@ const AddPanel = ()=>{
                         <div className="flex flex-col gap-1">
                             <label>username :</label>
                             <input {...register("username")} type="text" placeholder={"Username"}  />
-                            {errors.url_panel && <p className="pt-0.5 text-error">{errors.url_panel.message}</p>}
+                            {errors.username && <p className="pt-0.5 text-error">{errors.username.message}</p>}
                         </div>
                         <div className="flex flex-col gap-1">
                             <label>Password :</label>
@@ -302,12 +320,16 @@ const AddPanel = ()=>{
                         </div>
                         <div className="flex flex-col gap-1">
                             <label>Whatsapp :</label>
-                            <MobileInput value={watch("whatsapp")} returnedCountry={(res)=>{setCodes(prev=>({...prev,whatsapp:res}))}} register={register("whatsapp")}  />
+                            <input {...register("whatsapp")} type="number" placeholder={"+XX XXX XXXX"}  />
                             {errors.whatsapp && <p className="pt-0.5 text-error">{errors.whatsapp.message}</p>}
                         </div>
                         <div className="flex flex-col gap-1">
                             <label>Telegram :</label>
-                            <MobileInput returnedCountry={(res)=>{setCodes(prev=>({...prev,telegram:res}))}} register={register("telegram")}  />
+                            <div className='flex gap-1 items-center'>
+                                <span><strong>https://t.me/</strong></span>
+                                <input  {...register("telegram")} type="text" placeholder={"username"}  />
+                            </div>
+                            
                             {errors.telegram && <p className="pt-0.5 text-error">{errors.telegram.message}</p>}
                         </div>
                         <div className="flex flex-col gap-1">
@@ -350,8 +372,13 @@ const AddPanel = ()=>{
                 </div>
                 <div className='card p-2 sm:p-4 flex flex-col gap-4'>
                     {/* Upload File */}
-                    <h4><strong>Upload File is not required</strong></h4>
-                    <UploadFile fromApi={photoFromApi} returnedValue={(res)=>setFile(res)}/>
+                    <h4><strong>Photo Panel</strong></h4>
+                    <FileUpload fromApi={photoFromApi} returnedFile={(res)=>setFile(res)} />
+                </div>
+                <div className='card p-2 sm:p-4 flex flex-col gap-4'>
+                    {/* Upload File */}
+                    <h4><strong>Logo Panel</strong></h4>
+                    <FileUpload fromApi={typeof(logoFromApi) == "string" ? logoFromApi: "" } returnedFile={(res)=>setLogo(res)} />
                 </div>
                 <div>
                     <button className='dark-btn w-full' type='submit' disabled={loading}>{loading?<div className='loader m-auto'></div>:"Submit"}</button>

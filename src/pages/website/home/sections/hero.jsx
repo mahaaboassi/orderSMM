@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import SearchInput from "../../../../components/search"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { changePopup } from "../../../../features/popupSlice"
 import OffersProviders from "../../../../components/bestOffers"
 import { useTranslation } from "react-i18next"
@@ -8,6 +8,7 @@ import { Link, useNavigate } from "react-router-dom"
 import { Helper } from "../../../../functionality/helper"
 import { apiRoutes } from "../../../../functionality/apiRoutes"
 import Countries from "../../../../components/countries"
+import { settingsStatus } from "../../../../features/settingsSlice"
 
 const Hero = ()=>{
 
@@ -44,6 +45,8 @@ const Hero = ()=>{
     }]
     const { t, i18n} = useTranslation()
     const dispatch = useDispatch()
+    const settings = useSelector(state => state.settings)
+    const [ settingsObj, setSettingObj ] = useState({})
     const navigate = useNavigate()
     const [ values, setvalues ] = useState({
         search : "",
@@ -93,11 +96,14 @@ const Hero = ()=>{
     const [ panelsActive, setPanelsActive ] = useState([])
     const [ loadingActive, setLoadingActive ] = useState([])
     const [ loadingLatest, setLoadingLatest ] = useState([])
+
+
     useEffect(()=>{
         const controller = new AbortController()
         const signal = controller.signal
         getPanels(signal,"active")
         getPanels(signal,"latest")
+        getSettings(signal)
         return()=> controller.abort()
     },[])
     const getPanels = async (signal, key)=>{
@@ -125,11 +131,27 @@ const Hero = ()=>{
         }
         
     }
+    const getSettings = async (signal)=>{
+        const { response , message } = await Helper({
+            method : "GET",
+            url : apiRoutes.settings.list,
+            signal : signal,
+        })
+        if(response){
+
+            setSettingObj(response.data)
+            dispatch(settingsStatus(response.data))
+        }else{
+            console.log(message);
+            
+        }
+        
+    }
     return<div className="hero px-2  lg:px-16 pt-5 lg:pt-12 pb-5">
         <div className=" xl:px-10 flex flex-col gap-5 lg:gap-14">
             <div className="grid grid-cols-1  md:grid-cols-2 gap-5 lg:gap-10 ">
                 <div className="flex flex-col gap-4 lg:gap-7">
-                    <h1 className="flex gap-2 flex justify-center md:justify-start">Order SMM Panels
+                    <h1 onClick={()=> console.log(settings)} className="flex gap-2 flex justify-center md:justify-start">Order SMM Panels
 
                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="35" viewBox="0 0 52 55" fill="none">
                             <g clipPath="url(#clip0_260_9)">
@@ -148,9 +170,12 @@ const Hero = ()=>{
                     </h2>
                     <div className="card-info  ">
                         <div className="content flex justify-between items-center px-10 lg:px-20">
-                            <div>{t("hero.services")}</div>
-                            <div>{t("hero.panel")}</div>
-                            <div className="flex justify-end">{t("hero.platform")}</div>
+                            <div onClick={()=>{
+                                console.log(settingsObj);
+                                
+                            }}>{settingsObj?.services ?? ""} {t("hero.services")}</div>
+                            <div>{settings?.panels ?? ""} {t("hero.panel")}</div>
+                            <div className="flex justify-end">{settings?.platforms ?? ""} {t("hero.platform")}</div>
                         </div>
                         <div className="left-top-side">{half_border}</div>
                         <div className="right-top-side">{half_border}</div>

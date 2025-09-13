@@ -88,7 +88,7 @@ const SMMPanels = ()=>{
                     </defs>
                     </svg>
                 </div>
-                <Link to={"/dashboard/admin/panel/add"}>Add new panel</Link>
+                <Link to={"/dashboard/admin/panels/add"}>Add new panel</Link>
             </div>
         </div>
         {errorStatus.open && errorStatus.type == "success" && <h4 className="text-center box-success p-2">{errorStatus.msg}</h4>}
@@ -107,7 +107,7 @@ const SMMPanels = ()=>{
                     </div>
                     <div className="flex h-full items-center gap-2">
                         {/* Edit Icon */}
-                        <div onClick={()=>navigate(`/dashboard/admin/panel/edit/${e.id}`)} className="cursor-pointer">
+                        <div onClick={()=>navigate(`/dashboard/admin/panels/edit/${e.id}`)} className="cursor-pointer">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
                                 <g clipPath="url(#clip0_284_27)">
                                 <path fillRule="evenodd" clipRule="evenodd" d="M15.9436 0.361328L19.6347 4.01042C20.122 4.49219 20.122 5.27995 19.6347 5.76172L17.5932 7.77995L12.1306 2.37956L14.1721 0.361328C14.6594 -0.120443 15.4562 -0.120443 15.9436 0.361328ZM11.5544 8.49447V8.49609C11.7058 8.64583 11.7816 8.8444 11.7816 9.03971C11.7816 9.23503 11.7058 9.43197 11.5544 9.58333V9.58496L11.5527 9.58659L6.60046 14.4841H6.59881C6.556 14.5264 6.50826 14.5622 6.46051 14.5931H6.45887C6.40948 14.624 6.35844 14.6484 6.30576 14.6663C6.03246 14.7607 5.71471 14.6989 5.49739 14.4841H5.49575V14.4824C5.45294 14.4401 5.41672 14.3929 5.38544 14.3457V14.3441C5.35416 14.2952 5.32946 14.2448 5.31135 14.1927C5.21586 13.9225 5.27843 13.6084 5.4941 13.3936V13.3919L10.448 8.49447H10.4496C10.6011 8.34473 10.802 8.26986 10.9995 8.26986C11.1971 8.26986 11.3963 8.34473 11.5494 8.49447H11.5544ZM7.48784 17.7588C6.00941 18.2113 4.53262 18.6621 3.05419 19.1146C-0.419631 20.1774 -0.404814 20.8854 0.54349 17.5781L2.03674 12.3698L2.0318 12.3649L11.0967 3.40169L16.5593 8.80208L7.49278 17.7653L7.48784 17.7588ZM2.96858 13.291L6.556 16.8376C5.58465 17.1338 4.6133 17.43 3.64359 17.7246C1.36173 18.4196 1.37161 18.8851 1.99229 16.7122L2.96858 13.291Z" fill="#19770D"/>

@@ -7,6 +7,43 @@ import { Link } from "react-router-dom"
 import Periods from "../../../../components/periods"
 import Prices from "../../../../components/prices"
 
+
+const CustomImage = ({returnedFile,e,removeItem})=>{
+    const inputRef = useRef()
+    const [ photo, setPhoto ] = useState("")
+    return <div>
+        <div className="flex items-center gap-2">
+            <p>Upload a custom photo to boost your ad.&nbsp;
+                <strong onClick={()=>{inputRef.current.click()}} className="cursor-pointer">Add Photo</strong>
+            </p>
+            
+            <input  accept="image/*"  onChange={(ele)=>{
+                setPhoto(URL.createObjectURL(ele.target.files[0]))
+                returnedFile(ele.target.files[0])}} ref={inputRef} className="hidden" type="file"/>
+            {e?.file?.name}
+        </div>
+        {photo && <div className="flex items-center justify-between">
+            <div><img style={{width: "40px",height:"40px",borderRadius:"50%",objectFit:"cover"}} src={photo} alt="img" /></div>
+            <div onClick={()=>{
+                setPhoto("")
+                removeItem(e.id)
+            }}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <g clipPath="url(#clip0_17_1174)">
+                    <path d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z" fill="red"/>
+                    </g>
+                    <defs>
+                    <clipPath id="clip0_17_1174">
+                    <rect width="24" height="24" fill="red"/>
+                    </clipPath>
+                    </defs>
+                </svg>
+            </div>
+            
+        </div>}
+    </div>
+}
+
 const AddWithoutServices = ({id, slug, isAd})=>{
     const [ data, setData ] = useState([])
     const [isloading, setIsLoading ] = useState(false)
@@ -15,7 +52,7 @@ const AddWithoutServices = ({id, slug, isAd})=>{
     const [ panels, setPanels ] = useState([])
     const [ period, setPeriod] = useState({})
     const [basicPrice, setBasicPrice] = useState(0)
-    const inputRef = useRef()
+    
     useEffect(()=>{
         if(slug?.prices){
             const max = Math.max(...slug.prices.map(item => item.price));
@@ -52,19 +89,36 @@ const AddWithoutServices = ({id, slug, isAd})=>{
     }
     const handleChecked = ( value , panel)=>{
         if(value){
-            setPanels(prev=> [...prev, panel])
+            setPanels(prev=> [...prev,{
+                id :  panel,
+                file : ""
+            }])
+            setData(data.map( e => e.id == panel ? {...e, active : true} : e))
         }else{
-            setPanels(prev=>(prev.filter((e)=> e != panel)))
+            setPanels(prev=>(prev.filter((e)=> e.id != panel)))
+            setData(data.map( e => e.id == panel ? {...e, active : false} : e))
         }
     }
+    const changeFile = (value, panel) => {
+        setPanels(panels.map(e => e.id === panel ? { ...e, file: value } : e));  
+    }
+    const removeCustomPhoto = (panel)=>{
+        setPanels(panels.map(e => e.id === panel ? { ...e, file: "" } : e));
+    }
     const submit = async()=>{
+        
         setIsSubmit(true)
         const formData = new FormData()
         formData.append("_method","PUT")
         formData.append("service_id",id)
         panels.forEach((e,i)=>{
-            formData.append(`panel_ids[${i}]`,e)
+            formData.append(`panels[${i}][id]`,e.id)
         })
+        if(isAd){
+            panels.forEach((e,i)=>{
+                formData.append(`panels[${i}][file]`,e.file)
+            }) 
+        }
         
         // formData.append("count","500")
         // formData.append("interval","15h")
@@ -147,12 +201,11 @@ const AddWithoutServices = ({id, slug, isAd})=>{
                                             <input onChange={(ele)=>{handleChecked(ele.target.checked, e.id)}} type="checkbox"/>
                                             {t("Choose")}
                                         </div>
-                                        {isAd && <div className="flex items-center gap-2">
-                                            <p>Upload a custom photo to boost your ad.&nbsp;
-                                                <strong onClick={()=>{inputRef.current.click()}} className="cursor-pointer">Add Photo</strong>
-                                            </p>
-                                            <input ref={inputRef} className="hidden" type="file"/>
-                                        </div>}
+                                        {isAd &&<div className={!e?.active ? "disabled-div" : ""}>
+                                             <CustomImage removeItem={(res)=>{
+                                                        removeCustomPhoto(res)
+                                                    }} returnedFile={(res)=>changeFile(res,e.id)} e={e} />
+                                            </div>}
                                     </div>
                                 </div>
                             </div>))}

@@ -10,7 +10,7 @@ import AddWithServices from "./withServices"
 import AddWithoutServices from "./withoutServices"
 
 const ServicesWrapper = () => {
-    const { slug , id } = useParams()
+    const { slug, id } = useParams()
     const [ loading, setLoading ] = useState(true)
     const [ data, setData ] = useState({})
     const [ authorized, setAuthorized ] = useState(false)
@@ -52,7 +52,7 @@ const ServicesWrapper = () => {
         </div>
 
         <div>
-            {data?.slug == "promotion" && <Promotion slug={data.length>0? data:[]}  id={id}/> }
+            {data?.slug == "promotion" && <Promotion isPromotion={true} slug={data} id={id}/> }
 
             
             {data?.slug == "best_providers" && <AddWithoutServices slug={data} id={id}/> }
@@ -61,7 +61,7 @@ const ServicesWrapper = () => {
             {data?.slug == "search_results" && <AddWithoutServices slug={data} id={id}/> }
             {(data?.slug == "pin_up" || data?.slug == "pin_down") && <AddWithServices slug={data} id={id}/> }
 
-            {data?.slug == "api_emails" && <Promotion id={id}/> }
+            {data?.slug == "api_emails" && <Promotion slug={data} id={id}/> }
 
             {data?.slug == "bumps" && <Bumps  slug={data} id={id}/> }
         </div>

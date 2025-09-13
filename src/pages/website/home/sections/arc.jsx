@@ -3,14 +3,42 @@ import arc from "../../../../assets/images/vector.png"
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay } from 'swiper/modules';
 import 'swiper/css';
-import { panals } from "../../../../data/data";
 import { useTranslation } from "react-i18next";
-
+import { useEffect, useState } from "react";
+import { Helper } from "../../../../functionality/helper"
+import { apiRoutes } from "../../../../functionality/apiRoutes"
+import { Link } from "react-router-dom";
 
 
 const Arc = ()=>{
     const { t } = useTranslation()
-    return(<div className=" px-2  lg:px-16 arc pt-5">
+    const [ data, setData ] = useState([])
+    const [isloading, setIsLoading ] = useState(false)
+    useEffect(()=>{
+        const abortController = new AbortController()
+        const signal  = abortController.signal
+        getData(signal)
+        setIsLoading(true)
+        return () => abortController.abort() 
+    },[])
+    const getData = async (signal)=>{
+        const { response , message, statusCode } = await Helper({
+            url : apiRoutes.panel.list,
+            signal : signal,
+            params : {is_provider: 1},
+            method : "GET",
+            hasToken : false
+        })
+        if(response){
+            setData(response.data)
+            setIsLoading(false)
+            
+        }else{
+            console.log(message);
+            
+        }
+    }
+    return(<div className=" px-2  lg:px-16 arc pt-5 best-provider">
         <div className="flex justify-center w-full">
             <img  className="w-full" src={arc} alt="Arc" />
         </div>
@@ -43,10 +71,18 @@ const Arc = ()=>{
                     }}
                     >
                 
-                    {panals.map((ele,idx)=>( <SwiperSlide key={`Panals_${ele.title}_${idx}`}>
-                        <div className="flex container-img items-center py-2">
-                            <img className="object-contain " src={ele.img} alt={ele.title} />
-                        </div>
+                    {data.map((ele,idx)=>( <SwiperSlide onClick={()=>{
+                                 localStorage.setItem("click",JSON.stringify({
+                                        service_id: 11,
+                                        panel_id: ele.id
+                                    }))
+                            }} key={`Panals_${ele.title}_${idx}`}>
+                        <Link target="_blank" to={ele.website}>
+                            <div  className="flex container-img items-center py-2 logo">
+                                <img className="object-contain " src={ele.logo} alt={ele.name} />
+                            </div>
+                        </Link>
+                        
                     </SwiperSlide>))}
 
                 </Swiper>
@@ -78,10 +114,12 @@ const Arc = ()=>{
                     }}
                     >
                 
-                    {panals.reverse().map((ele,idx)=>( <SwiperSlide key={`Panals_${ele.title}_${idx}`}>
-                        <div className="flex container-img items-center py-2">
-                            <img className="object-contain " src={ele.img} alt={ele.title} />
-                        </div>
+                    {data.reverse().map((ele,idx)=>( <SwiperSlide key={`Panals_${ele.name}_${idx}`}>
+                        <Link target="_blank" to={ele.website}>
+                            <div className="flex container-img items-center py-2 logo">
+                                <img className="object-contain " src={ele.logo} alt={ele.name} />
+                            </div>
+                        </Link>
                     </SwiperSlide>))}
 
                 </Swiper>

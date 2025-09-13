@@ -53,7 +53,7 @@
 .card-pin{
     box-shadow: unset;
     background-color: var(--light);
-    color: var(--green_2);
+    /* color: var(--green_2); */
     border: 2px solid var(--green_2);
 }
 .card-services a{
@@ -62,7 +62,15 @@
 .card-services a:hover{
     color: var(--grey_1);
 }
+
 .card-services h3{
+    font-size: var(--font-size-xs);
+}
+.card-pin h3,.card-pin span{
+    font-size: var(--font-size-xxs);
+}
+.card-services h4 a{
+    font-weight: 800 !important;
     font-size: var(--font-size-xs);
 }
 .card-small-details, .card-services span{

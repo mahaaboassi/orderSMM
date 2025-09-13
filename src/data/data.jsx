@@ -6,13 +6,7 @@ import logo_4 from "../assets/images/logo_4.png"
 import logo_5 from "../assets/images/logo_5.png"
 import logo_6 from "../assets/images/logo_6.png"
 import logo_7 from "../assets/images/logo_7.png"
-// Social Icons
-import social_1 from "../assets/images/social_1.png"
-import social_2 from "../assets/images/social_2.png"
-import social_3 from "../assets/images/social_3.png"
-import social_4 from "../assets/images/social_4.png"
-import social_5 from "../assets/images/social_5.png"
-import social_6 from "../assets/images/social_6.png"
+
 // Ads Images
 import img_1 from "../assets/images/ads_1.png"
 import img_2 from "../assets/images/ads_2.png"
@@ -44,37 +38,7 @@ export const panals= [{
         img : logo_7
     }]
 
-export const social = [{
-    image : social_1,
-    title : "social_1",
-    link : "",
-    hint : "joinOurChannel"
-},{
-    image : social_2,
-    title : "social_2",
-    link : "",
-    hint : "joinOurGroup"
-},{
-    image : social_3,
-    title : "social_3",
-    link : "",
-    hint : "joinOurChannel"
-},{
-    image : social_4,
-    title : "social_4",
-    link : "",
-    hint : "joinOurChannel"
-},{
-    image : social_5,
-    title : "social_5",
-    link : "",
-    hint : "joinOurGroup"
-},{
-    image : social_6,
-    title : "social_6",
-    link : "",
-    hint : "joinOurGroup"
-}]
+
 export const adsImages = [ img_1, img_2, img_3, img_4, img_1, img_2, img_3, img_4,
         img_1, img_2, img_3, img_4, img_1, img_2, img_3, img_4
     ]

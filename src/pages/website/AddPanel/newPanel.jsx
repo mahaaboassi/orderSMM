@@ -10,6 +10,7 @@ import { apiRoutes } from "../../../functionality/apiRoutes";
 import { Helper } from "../../../functionality/helper";
 import MobileInput from "../../../components/mobileInput";
 import Countries from "../../../components/countries";
+import FileUpload from "../../../components/fileUpload";
 
 
 const validationSchema = Yup.object({
@@ -54,10 +55,9 @@ const NewPanel = ()=>{
         whatsapp : ""
     })
     const [ file, setFile ] = useState({})
+    const [ logo, setLogo ] = useState({})
     const [ messageCountry, setMessageCountry ] = useState("")
     const onSubmit = async (data) => {
-        console.log(data);
-        
   
         setErrorStatus({msg: "", open : false})
         if(!country){
@@ -86,9 +86,10 @@ const NewPanel = ()=>{
         values.append("languages[5][name]",data.title)
         values.append("languages[6][name]",data.title)
         values.append("country_id",country)
-        
+        values.append("user_id",JSON.parse(localStorage.getItem("user")).id)
 
         if("name" in file) values.append("file",file)
+        if("name" in logo) values.append("logo_file",logo)
         values.append("_method","PUT")
 
         const {response , message,  statusCode} = await Helper({
@@ -201,8 +202,13 @@ const NewPanel = ()=>{
                     </div>
                 </div>
             </div>
-            <div>
-                <UploadFile returnedValue={(res)=>{setFile(res)}} />
+            <div className="flex flex-col gap-2">
+                <h3><strong>Panel Photo</strong></h3>
+                <FileUpload fromApi={""} returnedFile={(res)=>{setFile(res)}} />
+            </div>
+            <div className="flex flex-col gap-2">
+                <h3><strong>Panel Logo</strong></h3>
+                <FileUpload fromApi={""} returnedFile={(res)=>{setLogo(res)}} />
             </div>
             <div>
                 <button type="submit" className="dark-btn w-full">{loading ? <div className="loader m-auto" ></div> : "Create Panel"}</button>

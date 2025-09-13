@@ -1,5 +1,6 @@
 {
     "navbar" : {
+        "title_0" : "Home",
         "title_1" : "Our Services",
         "title_2" : "Providers",
         "title_3" : "Our Packages",
@@ -13,9 +14,9 @@
         "sentences_3" : "Easily Find the Very Best SMM Services Worldwide.",
         "sentences_4" : "Add Your SMM Panel for Free and Start Attracting Customers.",
         "sentences_5" : "The Perfect Platform for API Users and SMM Providers.",
-        "services": "350K Services",
-        "panel": "150 Panel",
-        "platform": "85 Platform",
+        "services": "Services",
+        "panel": "Panel",
+        "platform": "Platform",
         "finalActivePanels": "Final Active Panels",
         "latestPanelUpdates": "Latest Panel Updates",
         "offer-btn" : "Best Provider Offer This Month"

@@ -68,7 +68,7 @@
     background-color: var(--light);
 }
 /* Settings */
-.card-info{
+.settings .card-info{
     border-radius: 10px;
     display: flex;
     justify-content: center;

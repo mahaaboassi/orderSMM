@@ -7,6 +7,7 @@ import { apiRoutes } from "../../../functionality/apiRoutes"
 import Loading from "../../../components/loading"
 import Service from "../../../components/cards/service"
 import { useTranslation } from "react-i18next"
+import { storeClick } from "../../../functionality/functions"
 
 const DetailsPanel = () => {
     const { name , id } = useParams()
@@ -152,7 +153,10 @@ const DetailsPanel = () => {
                 <div className="sticky-img ">
                     <img src={data.photo? data.photo : ""} alt={name} />
                     <Link target="_blank" to={data.website ? data.website : ""}>
-                        <div className="view-btn flex gap-2 ">
+                        <div onClick={()=>{
+                            const click_info = JSON.parse(localStorage.getItem("click"))
+                            storeClick(click_info.service_id, click_info.panel_id)
+                        }}  className="view-btn flex gap-2 ">
                             <div className="flex items-center">
                             <svg xmlns="http://www.w3.org/2000/svg" width="27" height="26" viewBox="0 0 12 11" fill="none">
                                     <g clipPath="url(#clip0_262_27)">

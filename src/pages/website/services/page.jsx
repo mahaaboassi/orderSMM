@@ -141,19 +141,20 @@ const Services = ()=>{
         <div className="grid grid-cols-4 gap-2 md:gap-10">
             <div className="flex flex-col gap-2 col-span-4 sm:col-span-3">
                 {(services?.data && services.data.length > 0) ? 
-                services.data.map((e,idx)=>(<Service key={`Services_PinnedUp_${e.translations?.en?.name ?? ""}_${idx}`} 
-                    name={e.translations?.en?.name ?? ""} 
-                    category={e.category_translations?.en?.name ?? ""}
-                    panel={e.panel_translations?.en?.name ?? ""}
-                    max={e.max}
-                    min={e.min}
-                    is_top_result={e.is_top_result}
-                    id={e.id}
-                    price={e.price*currency.exchange_factor}
-                    panel_id={e.panel_id}
-                    per_count={e.per_count}
-                    isPinned = {false}
-                    />)): <div className="card p-5">{t("no-data")}</div>
+                    services.data.map((e,idx)=>(<Service key={`Services_PinnedUp_${e.translations?.en?.name ?? ""}_${idx}`} 
+                        name={e.translations?.en?.name ?? ""} 
+                        pin={"up"}
+                        category={e.category_translations?.en?.name ?? ""}
+                        panel={e.panel_translations?.en?.name ?? ""}
+                        max={e.max}
+                        min={e.min}
+                        is_top_result={e.is_top_result}
+                        id={e.id}
+                        price={e.price*currency.exchange_factor}
+                        panel_id={e.panel_id}
+                        per_count={e.per_count}
+                        isPinned = {false}
+                        />)): <div className="card p-5">{t("no-data")}</div>
                 } 
                 <Pagination currentPage={currentPage} lastPage={lastPage} returnedPageNumber={(res)=>{
                     setCurrentPage(res)
@@ -175,6 +176,7 @@ const Services = ()=>{
                 services.pinnedDown.map((e,idx)=>(<Service key={`Services_pinnedDown_${e.translations?.en?.name ?? ""}_${idx}`} 
                     name={e.translations?.en?.name ?? ""} 
                     category={e.category_translations?.en?.name ?? ""}
+                    pin={"down"}
                     panel={e.panel_translations?.en?.name ?? ""}
                     max={e.max}
                     min={e.min}

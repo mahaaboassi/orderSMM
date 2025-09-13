@@ -1,5 +1,6 @@
 {
   "navbar": {
+      "title_0": "Ana Sayfa",
       "title_1": "Hizmetlerimiz",
       "title_2": "Sağlayıcılar",
       "title_3": "Paketlerimiz",
@@ -13,9 +14,9 @@
         "sentences_3": "En İyi SMM Hizmetlerini Dünya Çapında Kolayca Bulun.",
         "sentences_4": "SMM Panelinizi Ücretsiz Ekleyin ve Müşterileri Çekmeye Başlayın.",
         "sentences_5": "API Kullanıcıları ve SMM Sağlayıcıları için Mükemmel Platform.",
-        "services": "350K Hizmet",
-        "panel": "150 Panel",
-        "platform": "85 Platform",
+        "services": "Hizmet",
+        "panel": "Panel",
+        "platform": "Platform",
         "finalActivePanels": "Son Aktif Paneller",
         "latestPanelUpdates": "En Son Panel Güncellemeleri",
         "offer-btn" : "Bu Ayın En İyi Sağlayıcı Teklifi"

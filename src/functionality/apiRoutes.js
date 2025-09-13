@@ -15,7 +15,8 @@ export const apiRoutes = {
         getOne : (id)=>(`${host}panels/${id}`),
         update : (id)=>(`${host}panels/${id}`),
         delete : (id)=>(`${host}panels/${id}`), 
-        byUser : `${host}panels/list/byUser`
+        byUser : `${host}panels/list/byUser`,
+        historyServiceGetOne : (id)=>(`${host}services-requests/by-panel/${id}`),
     },
     panel_services : { 
         list : `${host}panel-services`,
@@ -72,5 +73,8 @@ export const apiRoutes = {
     },
     settings : {
         list : `${host}settings`,
+    },
+    clicks : {
+        add : `${host}clicks`,
     }
 }

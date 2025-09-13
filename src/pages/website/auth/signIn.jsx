@@ -10,6 +10,7 @@ import { Helper } from "../../../functionality/helper";
 import { useDispatch } from "react-redux";
 import { userInfo } from "../../../features/userSlice";
 import Loading from "../../../components/loading";
+import InputPassword from "../../../components/inputPassword";
 
 
 
@@ -88,9 +89,7 @@ const SignIn = ()=>{
             }
             setLoading(false)
             
-        }
-        
-        
+        } 
     };
     useEffect(()=>{
         if(localStorage.getItem("user")){
@@ -123,24 +122,24 @@ const SignIn = ()=>{
     return(<div className="auth-container px-2 lg:px-16">
         <form onSubmit={handleSubmit(onSubmit)} className="auth-card shadow p-4 sm:p-10 flex flex-col gap-3">
             {/* <div> */}
-                <h2 className="text-center">{t("auth.Login")}</h2>
-                {loadingVerify && <Loading/>}
-                {errorStatus.open && errorStatus.type == "success" && <h4 className="text-center box-success p-2">{errorStatus.msg}</h4>}
-                {errorStatus.open && errorStatus.type != "success"&& <h4 className="text-center box-error p-2">{errorStatus.msg}</h4>}
-                <div className="flex flex-col gap-1">
-                    <label>{t("auth.email")} :</label>
-                    <input {...register("email")} type="text" placeholder={t("auth.email")}  />
+            <h2 className="text-center">{t("auth.Login")}</h2>
+            {loadingVerify && <Loading/>}
+            {errorStatus.open && errorStatus.type == "success" && <h4 className="text-center box-success p-2">{errorStatus.msg}</h4>}
+            {errorStatus.open && errorStatus.type != "success"&& <h4 className="text-center box-error p-2">{errorStatus.msg}</h4>}
+            <div className="flex flex-col gap-1">
+                <label>{t("auth.email")} :</label>
+                <input {...register("email")} type="text" placeholder={t("auth.email")}  />
                 {errors.email && <p className="p-0.5 text-error">{errors.email.message}</p>}
-                </div>
-                <div className="flex flex-col gap-1">
-                    <label>{t("auth.password")} :</label>
-                    <input {...register("password")} type="password" placeholder={t("auth.password")}  />
+            </div>
+            <div className="flex flex-col gap-1">
+                <label>{t("auth.password")} :</label>
+                <InputPassword register={register("password")} placeholder={t("auth.password")} />
                 {errors.password && <p className="p-0.5 text-error">{errors.password.message}</p>}
-                </div>
-                <p>{t("auth.don’t-have-an-account-yet")}<Link to="/auth/signUp"><span>{t("auth.sign-up-here")}</span></Link></p>
-                <div>
-                    <button disabled={loading} className="dark-btn w-full">{loading ? <div className="loader m-auto"></div> : t("auth.sign-in") }</button>
-                </div>
+            </div>
+            <p>{t("auth.don’t-have-an-account-yet")}<Link to="/auth/signUp"><span>{t("auth.sign-up-here")}</span></Link></p>
+            <div>
+                <button disabled={loading} className="dark-btn w-full">{loading ? <div className="loader m-auto"></div> : t("auth.sign-in") }</button>
+            </div>
         </form>
     </div>)
 }

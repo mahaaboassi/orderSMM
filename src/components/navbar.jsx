@@ -31,6 +31,9 @@ const logo = <svg className="logo" xmlns="http://www.w3.org/2000/svg" width="145
 const Navbar = ()=>{
     const { t } = useTranslation()
     const data = [{
+        name : t("navbar.title_0"),
+        link : "/"
+    },{
         name : t("navbar.title_1"),
         link : "/our-services"
     },{

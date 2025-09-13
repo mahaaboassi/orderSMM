@@ -43,7 +43,13 @@ const Ads = ({isHome})=>{
             { 
                 data.length > 0 && data.map((e,idx)=>(<div  key={`Ads_${idx}`}>
                 <div className="card-imge "><img src={e.photo ? e.photo :""} alt={`Image_${idx}`} />
-                    <div onClick={()=>navigate(`/smm-panel/${e.translations?.en?.name ?? ""}/${e.id}`)} className="goddy p-3 flex flex-col items-center gap-1"> 
+                    <div onClick={()=>{
+                        navigate(`/smm-panel/${e.translations?.en?.name ?? ""}/${e.id}`)
+                        localStorage.setItem("click",JSON.stringify({
+                                        service_id: 10,
+                                        panel_id: e.id
+                                    }))
+                    }} className="goddy p-3 flex flex-col items-center gap-1"> 
                         <h3>{e.translations?.en?.name ?? ""}</h3>
                         <div className="flex justify-between gap-2 goddy-info">
                             <div className="flex items-center">

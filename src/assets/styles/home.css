@@ -282,6 +282,7 @@ h2{
     height: 200px;
     overflow-y: scroll;
     width: 200px;
+    z-index: 100;
     font-size: var(--font-size-xs);
 }
 .add-panel-country .container-menu{
@@ -317,7 +318,10 @@ h2{
   background: #888; 
   border-radius: 10px;
 }
-
+/* Best Provider */
+.best-provider .logo img{
+    height: 50px;
+}
 @media (max-width:1200px) {
     .hero h2{
         font-size: var(--font-size-xl);

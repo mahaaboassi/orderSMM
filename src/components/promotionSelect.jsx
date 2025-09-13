@@ -3,43 +3,21 @@ import { apiRoutes } from "../functionality/apiRoutes"
 import { Helper } from "../functionality/helper"
 import { useTranslation } from "react-i18next"
 
-const Periods =({price,returnedSelected})=>{
-  console.log(price);
-  
+const PromotionSelect =({prices,returnedSelected})=>{
     const [ data, setData ] = useState([])
     const [isloading, setIsLoading ] = useState(false)
     const { t,i18n } = useTranslation()
     const [selectedId, setSelectedId] = useState();
     useEffect(()=>{
-        const abortController = new AbortController()
-        const signal  = abortController.signal
-        getData(signal)
-        setIsLoading(true)
-        return () => abortController.abort() 
+        returnedSelected(prices[0])
+        setSelectedId(prices[0].id)
     },[])
-    const getData = async (signal)=>{
-        const { response , message, statusCode } = await Helper({
-            url : apiRoutes.payment_periods.list,
-            signal : signal,
-            method : "GET",
-            hasToken : true
-        })
-        if(response){
-            setData(response.data)
-            setIsLoading(false)
-            const week = response.data.find(e=> e.id == 1)
-            returnedSelected(week)
-            setSelectedId(week.id)
-        }else{
-            console.log(message);
-            
-        }
-    }
+   
     return isloading ? <div className="pricing-table-container">
   <table class="pricing-table">
     <thead>
       <tr>
-        <th>Period</th>
+        <th>Services</th>
         <th>Final Price</th>
       </tr>
     </thead>
@@ -62,22 +40,21 @@ const Periods =({price,returnedSelected})=>{
   <table className="pricing-table">
     <thead>
       <tr>
-        <th>Period</th>
+        <th>Services</th>
         <th>Final Price</th>
       </tr>
     </thead>
     <tbody>
-      {data.map((e,idx)=>(<tr
+      {prices.map((e,idx)=>(<tr
             onClick={() => {
                 setSelectedId(e.id)
                 returnedSelected(e)
             }}
-            className={selectedId==e.id ? "selected-row " : "cursor-pointer"}
+            className={selectedId ==e.id ? "selected-row " : "cursor-pointer"}
             key={`Table_For_Period_${idx}`}>
         <td>{e.name}</td>
         <td>
-          {(price*e.factor*e.discount).toFixed(2)}
-          &nbsp;- <span className="offer">({Math.floor((1-e.discount)*100)}%)</span>
+          {e.price}
         </td>
       </tr>))}
     </tbody>
@@ -85,4 +62,4 @@ const Periods =({price,returnedSelected})=>{
 </div>
 
 }
-export default Periods
+export default PromotionSelect

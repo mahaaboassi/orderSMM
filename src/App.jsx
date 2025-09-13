@@ -35,6 +35,7 @@ import Panels from './pages/adminDashboard/panels/panels'
 import AddPanel from './pages/adminDashboard/panels/addPanel'
 import ServicesWrapper from './pages/website/ourServices/slugs/page'
 import AddUser from './pages/adminDashboard/users/addUser'
+import HistoryPanel from './pages/adminDashboard/panels/historyPanel'
 
 
 function App() {
@@ -69,8 +70,9 @@ function App() {
         <Route path='user/edit/:id' element={<AddUser/>}/>
         {/* Panels Collection */}
         <Route path='panels' element={<Panels/>}/>
-        <Route path='panel/add' element={<AddPanel/>}/>
-        <Route path='panel/edit/:id' element={<AddPanel/>}/>
+        <Route path='panels/add' element={<AddPanel/>}/>
+        <Route path='panels/edit/:id' element={<AddPanel/>}/>
+        <Route path='panels/history/:id/:name' element={<HistoryPanel/>}/>
         
         {/* Services Collection */}
         <Route path='services' element={<ServicesAdmin/>}/>

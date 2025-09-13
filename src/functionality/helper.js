@@ -48,7 +48,10 @@ export const  Helper =  async ({url, body , method ,signal, hasToken=false , par
 
    
             const res = await result.json()
-            // console.log("JSON response received:", res);           
+            // console.log("JSON response received:", res); 
+            if(!res.status){
+                return { message: "Something went wrong, please try again." ,statusCode : 500};
+            }
             switch (res.status) {
                 case 200:
                     return {response : res, 
