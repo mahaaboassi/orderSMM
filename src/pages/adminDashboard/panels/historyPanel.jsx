@@ -21,7 +21,7 @@ const HistoryPanel = ()=>{
     const [ loadingDelete, setLoadingDelete ] = useState(false)
     const [openPopup, setOpenPopup] = useState(false)
     const [ currentData , setCurrentData ] = useState({})
-    const [ total , setTotal ] = useState(0)
+    const [ services , setServices ] = useState([])
     const [ errorStatus , setErrorStatus] = useState({
         msg: "",
         open : false,
@@ -67,6 +67,7 @@ const HistoryPanel = ()=>{
         const controller = new AbortController()
         const signal = controller.signal
         getData(signal)
+        getServices(signal)
         
         return () => controller.abort()
         
@@ -90,7 +91,6 @@ const HistoryPanel = ()=>{
         if(response){
             window.scrollTo({top:0})
             setLoading(false)
-            setTotal(response.meta.total)
             setLastPage(response.meta.last_page)
             
             const formattedData = response.data.map(ele => ({
@@ -112,6 +112,26 @@ const HistoryPanel = ()=>{
             
             setData(formattedData);
             
+        }else{
+            console.log(message);
+            
+        }
+    }
+    const getServices = async (signal)=>{
+        setServices([])
+        const { response, message, statusCode} = await Helper({
+            url : apiRoutes.services.list,
+            method : "GET",
+            signal : signal,
+            hasToken: true,
+            params : {
+                page : page,
+                results : perPage
+            }
+        })
+        if(response){
+            console.log(response.data)
+           setData(response.data)
         }else{
             console.log(message);
             

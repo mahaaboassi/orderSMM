@@ -70,7 +70,9 @@ export const apiRoutes = {
     },
     users : { 
         list : `${host}users`,
+        add : `${host}users`,
         getOne : (id)=>(`${host}users/${id}`),
+        update : (id)=>(`${host}users/${id}`),
     },
     settings : {
         list : `${host}settings`,

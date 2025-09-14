@@ -68,7 +68,7 @@ const Users = ()=>{
                     return <div className="flex h-full items-center gap-2">
                             {/* Edit Icon */}
                             <div className="cursor-pointer" onClick={()=>{
-                                navigate(`/dashboard/admin/user/edit/${row.id}`)
+                                navigate(`/dashboard/admin/users/edit/${row.id}`)
                             }}>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
                                     <g clipPath="url(#clip0_284_27)">
@@ -192,7 +192,7 @@ const Users = ()=>{
                     </defs>
                     </svg>
                 </div>
-                <Link to={"/dashboard/admin/user/add"}>Add new user</Link>
+                <Link to={"/dashboard/admin/users/add"}>Add new user</Link>
             </div>
         </div>
         {errorStatus.open && errorStatus.type == "success" && <h4 className="text-center box-success p-2">{errorStatus.msg}</h4>}

@@ -387,7 +387,7 @@ button:disabled{
 }
 /* Dropdown */
 .dropdown{
-    border: 1px solid var(--green_2);
+    border: 2px solid var(--green_1);
     border-radius: 10px;
     position: relative;
 }

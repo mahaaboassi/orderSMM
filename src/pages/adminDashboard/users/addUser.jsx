@@ -6,25 +6,27 @@ import { apiRoutes } from "../../../functionality/apiRoutes";
 import { Helper } from "../../../functionality/helper";
 import { useEffect, useState } from 'react';
 import UploadFile from '../../../components/uploadFile';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import MobileInput from '../../../components/mobileInput';
 import Countries from '../../../components/countries';
 import UsersSelect from '../../../components/users';
+import Dropdown from '../../../components/DropDownComponent';
 
 
 
-const validationSchema = Yup.object({
-    name : Yup.string().required("Name Field is required."),
-    email: Yup.string().email("Invalid email"),
-    telegram: Yup.string(),
-    whatsapp: Yup.string(), 
-    website: Yup.string(), 
-    role: Yup.string(),
 
-});
 const AddUser = ()=>{
     const { id } = useParams()
-    const { register, handleSubmit, watch, setValue, formState: { errors },reset  } = useForm({
+    const validationSchema = Yup.object({
+        name : Yup.string().required("Name Field is required."),
+        email: Yup.string().email("Invalid email").required("Email Field is required."),
+        telegram: Yup.string().required("Telegram Field is required."),
+        whatsapp: Yup.string(), 
+        website: Yup.string(),
+        password : id ? Yup.string() : Yup.string().required("Password Field is required."), 
+
+    });
+    const { register, handleSubmit, formState: { errors },reset  } = useForm({
         resolver: yupResolver(validationSchema),
             mode: 'onChange',
             defaultValues : id ? {} : { approved : 0}
@@ -35,17 +37,11 @@ const AddUser = ()=>{
         open : false,
         type : ""
     })
-    const [ file, setFile ] = useState({})
-    const [ user, setUser ] = useState("")
-    const [ photoFromApi, setPhotoFromApi ] = useState("")
-    const [ codes, setCodes ] = useState({
-        telegram : "",
-        whatsapp : ""
+    const [ values, setValues ] = useState({
+        active: {label : "Active",value : 1},
+        role: {label : "User",value : 2},
     })
-    const [ countryObj, setCountryObj ] = useState({
-        id : "",
-        msg : ""
-    })
+
     useEffect(()=>{
         const controller = new AbortController()
         const signal = controller.signal
@@ -55,7 +51,7 @@ const AddUser = ()=>{
     },[])
     const getData = async (signal)=>{
         const { response, message, statusCode} = await Helper({
-            url : apiRoutes.panel.getOne(id),
+            url : apiRoutes.users.getOne(id),
             method : "GET",
             hasToken : true,
             signal : signal
@@ -66,12 +62,9 @@ const AddUser = ()=>{
                 telegram: response.data.telegram || "",
                 whatsapp: response.data.whatsapp || "",
                 email: response.data.email || "",
-                role: response.data.role || "",
                 website: response.data.website || "",
             };
-            setUser(response.data.user)
-            setCountryObj(prev =>({...prev, id: response.data.country_id ?? ""}))
-            setPhotoFromApi(response.data.photo)
+            // functionality for role and active
             reset(data); 
         }else{
             console.log(message);
@@ -81,32 +74,27 @@ const AddUser = ()=>{
     const onSubmit = async (data) => {
         
         setErrorStatus({msg: "", open : false})
-        if(!countryObj.id){
-            setCountryObj({msg: "Country Feild is required!", id : ""})
-            return
-        }
         setLoading(true)
         
         const values = new FormData()
         values.append("name",data.name)
         values.append("email",data.email)
-        values.append("website",data.url_panel)
+        values.append("website",data.website)
         values.append("telegram",data.telegram)
         values.append("whatsapp",data.whatsapp)
-        values.append("role",data.role)
-        
-        if("name" in file)
-            values.append("file",file)
-        
+        if(data.password) values.append("password",data.password)
+        // values.append("role",data.role)
+        // values.append("active",data.active)
+
         if(!id)
             values.append("_method","PUT")
 
 
         const obj = Object.fromEntries(values.entries());
-        console.log("Data user",obj);
-        return
+        // console.log("Data user",obj);
+        // return
         const {response , message,  statusCode} = await Helper({
-            url: id ? apiRoutes.panel.update(id) : apiRoutes.panel.add,
+            url: id ? apiRoutes.users.update(id) : apiRoutes.users.add,
             method:'POST',
             body:values,
             hasToken : true,
@@ -126,15 +114,18 @@ const AddUser = ()=>{
     };
 
     return(<div className="flex flex-col gap-5">
-        <div>
+        <div className="flex flex-col gap-1">
             <h2>{id ? "Edit User" : "Add User"}</h2>
+            <div className="flex gap-2 items-center">
+                <Link className="cursor-pointer text-blue-500" to={"/dashboard/admin/users"}> Users</Link> / <div>{id ? "Edit User" : "Add User"}</div>
+            </div>
             <p>
                 Add a new user to your website 
              </p>
         </div>
         {errorStatus.open && errorStatus.type == "success" && <h4 className="text-center box-success p-2">{errorStatus.msg}</h4>}
         {errorStatus.open && errorStatus.type != "success"&& <h4 className="text-center box-error p-2">{errorStatus.msg}</h4>}
-        {/* <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
                 <div className="card p-2 sm:p-4 flex flex-col gap-4">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         
@@ -151,9 +142,21 @@ const AddUser = ()=>{
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="flex flex-col gap-1">
-                            <label>username :</label>
-                            <input {...register("username")} type="text" placeholder={"Username"}  />
-                            {errors.url_panel && <p className="pt-0.5 text-error">{errors.url_panel.message}</p>}
+                            <label>Whatsapp :</label>
+                            <input  {...register("whatsapp")} type="number" placeholder={"+XX XXX XXXX"}  />
+                            {errors.whatsapp && <p className="pt-0.5 text-error">{errors.whatsapp.message}</p>}
+                        </div>
+                        <div className="flex flex-col gap-1">
+                            <label>Telegram :</label>
+                            <input  {...register("telegram")} type="text" placeholder={"https://t.me/@username"}  />
+                            {errors.telegram && <p className="pt-0.5 text-error">{errors.telegram.message}</p>}
+                        </div>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="flex flex-col gap-1">
+                            <label>Website :</label>
+                            <input {...register("website")} type="text" placeholder={"Website"}  />
+                            {errors.website && <p className="pt-0.5 text-error">{errors.website.message}</p>}
                         </div>
                         <div className="flex flex-col gap-1">
                             <label>Password :</label>
@@ -162,98 +165,28 @@ const AddUser = ()=>{
                         </div>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div className="flex flex-col gap-1">
-                            <label>API URL :</label>
-                            <input {...register("api_url")} type="text" placeholder={"https://panel.com/api/v2"}  />
-                            {errors.api_url && <p className="pt-0.5 text-error">{errors.api_url.message}</p>}
+                        <div>
+                            <label>Role:</label>
+                            <Dropdown data={[{label : "Admin",value : 1},
+                                {label : "User",value : 2}
+                            ]} defaultOption={values.role} returnedOption={(res)=>{setValues(prev=>({...prev, role : res}))}} /> 
                         </div>
-                        <div className="flex flex-col gap-1">
-                            <label>Token:</label>
-                            <input {...register("api_key")} type="text" placeholder={"123456789123456789"}  />
-                            {errors.api_key && <p className="pt-0.5 text-error">{errors.api_key.message}</p>}
-                        </div>
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div className="flex flex-col gap-1">
-                            <label>Referral Url :</label>
-                            <input {...register("referral_url")} type="text" placeholder={"https://panel.com/"}  />
-                            {errors.referral_url && <p className="pt-0.5 text-error">{errors.referral_url.message}</p>}
-                        </div>
-                        <div className="flex flex-col gap-1">
-                            <label>User:</label>
-                            <UsersSelect currentValue={user} returnedUser={(res)=>{setUser(res)}} />
-                            {errors.referral_url && <p className="pt-0.5 text-error">{errors.referral_url.message}</p>}
+                        <div>
+                            <label>Active:</label>
+                            <Dropdown data={[{label : "Active",value : 1},
+                                {label : "Inactive",value : 0}
+                            ]} defaultOption={values.active} returnedOption={(res)=>{setValues(prev=>({...prev, active : res}))}} /> 
                         </div>
                     </div>
+                    
                     
 
 
                 </div>
-                <div className="card p-2 sm:p-4 flex flex-col gap-4">
-                    <h4><strong>Contact Info</strong></h4>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div className="flex flex-col gap-1">
-                            <label>Email :</label>
-                            <input  {...register("email")} type="text" placeholder={"Email"}  />
-                            {errors.email && <p className="pt-0.5 text-error">{errors.email.message}</p>}
-                        </div>
-                        <div className="flex flex-col gap-1">
-                            <label>Whatsapp :</label>
-                            <MobileInput value={watch("whatsapp")} returnedCountry={(res)=>{setCodes(prev=>({...prev,whatsapp:res}))}} register={register("whatsapp")}  />
-                            {errors.whatsapp && <p className="pt-0.5 text-error">{errors.whatsapp.message}</p>}
-                        </div>
-                        <div className="flex flex-col gap-1">
-                            <label>Telegram :</label>
-                            <MobileInput returnedCountry={(res)=>{setCodes(prev=>({...prev,telegram:res}))}} register={register("telegram")}  />
-                            {errors.telegram && <p className="pt-0.5 text-error">{errors.telegram.message}</p>}
-                        </div>
-                        <div className="flex flex-col gap-1">
-                            <label>Whatsapp Group :</label>
-                            <input  {...register("whatsapp_group")} type="text" placeholder={"https://t.me/mygroup"}  />
-                            {errors.telegram_group && <p className="pt-0.5 text-error">{errors.telegram_group.message}</p>}
-                        </div>
-                        <div className="flex flex-col gap-1">
-                            <label>Whatsapp Channel :</label>
-                            <input  {...register("whatsapp_channel")} type="text" placeholder={"https://chat.whatsapp.com/invitecode"}  />
-                            {errors.whatsapp_channel && <p className="pt-0.5 text-error">{errors.whatsapp_channel.message}</p>}
-                        </div>
-                        <div className="flex flex-col gap-1">
-                            <label>Telegram Group :</label>
-                            <input  {...register("telegram_group")} type="text" placeholder={"https://t.me/mygroup"}  />
-                            {errors.telegram_group && <p className="pt-0.5 text-error">{errors.telegram_group.message}</p>}
-                        </div>
-                        <div className="flex flex-col gap-1">
-                            <label>Tiktok :</label>
-                            <input  {...register("tiktok")} type="text" placeholder={"https://www.tiktok.com/@username"}  />
-                            {errors.tiktok && <p className="pt-0.5 text-error">{errors.tiktok.message}</p>}
-                        </div>
-                        <div className="flex flex-col gap-1">
-                            <label>Facebook :</label>
-                            <input  {...register("facebook")} type="text" placeholder={"https://facebook.com/username"}  />
-                            {errors.facebook && <p className="pt-0.5 text-error">{errors.facebook.message}</p>}
-                        </div>
-                         <div className="flex flex-col gap-1">
-                            <label>Instagram :</label>
-                            <input  {...register("instagram")} type="text" placeholder={"https://instagram.com/username"}  />
-                            {errors.instagram && <p className="pt-0.5 text-error">{errors.instagram.message}</p>}
-                        </div>
-                        <div className="flex flex-col gap-1">
-                            <label>Select Country :</label>
-                            <Countries currentValue={countryObj.id} isAddPanel={true}  returnedCountry={(res)=>{setCountryObj(prev=>({...prev, id:res}))}} />
-                            {<p className="pt-0.5 text-error">{countryObj.msg}</p>}
-                        </div>
-
-                    </div>
-                </div>
-                <div className='card p-2 sm:p-4 flex flex-col gap-4'>
-                    Upload File
-                    <h4><strong>Upload File is not required</strong></h4>
-                    <UploadFile fromApi={photoFromApi} returnedValue={(res)=>setFile(res)}/>
-                </div>
                 <div>
                     <button className='dark-btn w-full' type='submit' disabled={loading}>{loading?<div className='loader m-auto'></div>:"Submit"}</button>
                 </div>
-        </form> */}
+        </form>
     </div>)
 }
 

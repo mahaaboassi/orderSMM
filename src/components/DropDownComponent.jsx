@@ -28,7 +28,6 @@ const Dropdown = ({data,defaultOption,returnedOption=()=>{}})=>{
 
     const handleSelected = (e)=>{
         setIsOpen(false)
-        console.log(e,e.label);
         
         setOption(e)
         returnedOption(e)

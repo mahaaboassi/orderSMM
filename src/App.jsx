@@ -70,8 +70,8 @@ function App() {
         <Route path='' element={<AdminDashboard/>}/>
         <Route path='settings' element={<Settings/>}/>
         <Route path='users' element={<Users/>}/>
-        <Route path='user/add' element={<AddUser/>}/>
-        <Route path='user/edit/:id' element={<AddUser/>}/>
+        <Route path='users/add' element={<AddUser/>}/>
+        <Route path='users/edit/:id' element={<AddUser/>}/>
         {/* Panels Collection */}
         <Route path='panels' element={<Panels/>}/>
         <Route path='panels/add' element={<AddPanel/>}/>

@@ -9,19 +9,92 @@ import MyTanstackTable from "../../../components/dataTable"
 import {
   createColumnHelper,
 } from '@tanstack/react-table';
+import Dropdown from "../../../components/DropDownComponent"
 
 
+const ServicesFilter = ({returnedValue})=>{
+    const [ services , setServices ] = useState([])
+    useEffect(()=>{
+        const controller = new AbortController()
+        const signal = controller.signal
+        getServices(signal)
+        return () => controller.abort()
+    },[])
+    const getServices = async (signal)=>{
+        setServices([])
+        const { response, message, statusCode} = await Helper({
+            url : apiRoutes.services.list,
+            method : "GET",
+            signal : signal,
+            hasToken: true,
+        })
+        if(response){
+            console.log(response.data)
+           setServices(response.data)
+        }else{
+            console.log(message);
+        }
+    }
+    return( <div>
+            {services.length > 0  && <Dropdown returnedOption={(res)=>{
+                 returnedValue(res)
+            }} defaultOption={{label: "Filter by service",value : "1"}}
+                data={services.map(e => ({
+                    label: e?.translations?.en?.name || "",
+                    value: e.id
+                }))} 
+                />}
+        </div>)
+}
+// const ServicesFilter = ({returnedValue})=>{
+//     const [ services , setServices ] = useState([])
+//     const [ defaultValue , setDefaultValue ] = useState({label: "Filter by service",value : "1"})
+//      const [searchParams, setSearchParams] = useSearchParams();
+//     useEffect(()=>{
+//         const controller = new AbortController()
+//         const signal = controller.signal
+//         getServices(signal)
+//         return () => controller.abort()
+//     },[])
+//     useEffect(()=>{
+//         const service = parseInt(searchParams.get('service_id') || '')
+//         setDefaultValue(services.find(e=> e.id == service))
+//     },[ searchParams ])
+//     const getServices = async (signal)=>{
+//         setServices([])
+//         const { response, message, statusCode} = await Helper({
+//             url : apiRoutes.services.list,
+//             method : "GET",
+//             signal : signal,
+//             hasToken: true,
+//         })
+//         if(response){
+//             console.log(response.data)
+//            setServices(response.data)
+//         }else{
+//             console.log(message);
+//         }
+//     }
+//     return( <div>
+//             {services.length > 0  && <Dropdown returnedOption={(res)=>{
+//                  returnedValue(res)
+//             }} defaultOption={defaultValue}
+//                 data={services.map(e => ({
+//                     label: e?.translations?.en?.name || "",
+//                     value: e.id
+//                 }))} 
+//                 />}
+//         </div>)
+// }
 const columnHelper = createColumnHelper();
 
 const HistoryServicesRequest = ()=>{
-    const { id , name} = useParams()
-    const navigate = useNavigate()
     const [ data, setData ] = useState([])
     const [ loading, setLoading ] = useState(false)
     const [ loadingDelete, setLoadingDelete ] = useState(false)
     const [openPopup, setOpenPopup] = useState(false)
     const [ currentData , setCurrentData ] = useState({})
-    const [ total , setTotal ] = useState(0)
+   
     const [ errorStatus , setErrorStatus] = useState({
         msg: "",
         open : false,
@@ -81,7 +154,6 @@ const HistoryServicesRequest = ()=>{
         const controller = new AbortController()
         const signal = controller.signal
         getData(signal)
-        
         return () => controller.abort()
         
     },[ searchParams ])
@@ -91,6 +163,7 @@ const HistoryServicesRequest = ()=>{
         setLoading(true)
         const page = parseInt(searchParams.get('page') || '1')
         const perPage = parseInt(searchParams.get('limit') || '10')
+        const service = parseInt(searchParams.get('service_id') || '')
         const { response, message, statusCode} = await Helper({
             url : apiRoutes.services.history,
             method : "GET",
@@ -98,13 +171,13 @@ const HistoryServicesRequest = ()=>{
             hasToken: true,
             params : {
                 page : page,
-                results : perPage
+                results : perPage,
+                service_id : service
             }
         })
         if(response){
             window.scrollTo({top:0})
             setLoading(false)
-            setTotal(response.meta.total)
             setLastPage(response.meta.last_page)
             
             const formattedData = response.data.map(ele => ({
@@ -133,6 +206,7 @@ const HistoryServicesRequest = ()=>{
             
         }
     }
+    
     return(<div className="flex dashboard flex-col gap-5">
         <div className="flex flex-col gap-1">
             <h2>History Services Requests</h2>
@@ -142,7 +216,13 @@ const HistoryServicesRequest = ()=>{
         </div>
         {errorStatus.open && errorStatus.type == "success" && <h4 className="text-center box-success p-2">{errorStatus.msg}</h4>}
         {errorStatus.open && errorStatus.type != "success"&& <h4 className="text-center box-error p-2">{errorStatus.msg}</h4>}
-        
+        <ServicesFilter returnedValue={(res)=>{
+            setSearchParams({
+                    page: String(1),
+                    limit: String(10),
+                    service_id : String(res.value)
+                });
+        }}/>
         {loading ? <Loading/> :<MyTanstackTable last_Page={lastPage} columns={columns} data={data} />}
 
 
