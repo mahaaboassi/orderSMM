@@ -5,8 +5,8 @@ import * as Yup from 'yup';
 import { apiRoutes } from "../../../functionality/apiRoutes";
 import { Helper } from "../../../functionality/helper";
 import { useEffect, useState } from 'react';
-import UploadFile from '../../../components/uploadFile';
 import { Link, useNavigate, useParams } from 'react-router-dom';
+import FileUpload from '../../../components/fileUpload';
 
 
 const validationSchema = Yup.object({
@@ -69,6 +69,7 @@ const AddService = ()=>{
     })
     const [file, setFile ] = useState({})
     const [photoFromApi, setPhotoFromApi ] = useState("")
+    const [translationsDetails, setTranslationsDetails ] = useState([])
     const navigate = useNavigate()
 
     useEffect(()=>{
@@ -82,6 +83,7 @@ const AddService = ()=>{
         const { response, message, statusCode} = await Helper({
             url : apiRoutes.services.getOne(id),
             method : "GET",
+            params :{ detailed :  1 } ,
             signal : signal
         })
         if(response){
@@ -110,6 +112,8 @@ const AddService = ()=>{
                 description_hi: response.data.translations?.hi?.description || "",
                 description_ur: response.data.translations?.ur?.description || "",
             };
+           
+            setTranslationsDetails(response.data.detailed_translations)
             setPhotoFromApi(response.data.photo)
             
             reset(data); 
@@ -132,18 +136,39 @@ const AddService = ()=>{
             values.append(`prices[${idx}][price]`,element.price)
             values.append(`prices[${idx}][max]`,element.max)
         });
-        values.append("languages[1][name]",data.name_en)
-        values.append("languages[2][name]",data.name_ar)
-        values.append("languages[3][name]",data.name_hi)
-        values.append("languages[4][name]",data.name_tr)
-        values.append("languages[5][name]",data.name_ru)
-        values.append("languages[6][name]",data.name_ur)
-        values.append("languages[1][description]",data.description_en)
-        values.append("languages[2][description]",data.description_ar)
-        values.append("languages[3][description]",data.description_hi)
-        values.append("languages[4][description]",data.description_tr)
-        values.append("languages[5][description]",data.description_ru)
-        values.append("languages[6][description]",data.description_ur)
+        if(id){
+            translationsDetails.forEach((ele)=>{
+                values.append(`languages[${ele[0]?.id}][name]`,ele[0]?.language_id == 1? data.name_en :(
+                    ele[0]?.language_id == 2 ? data.name_ar :(
+                        ele[0]?.language_id == 3 ? data.name_hi: (
+                           ele[0]?.language_id == 4 ? data.name_tr : (
+                                ele[0]?.language_id == 5 ? data.name_ru : data.name_ur
+                           )
+                        )
+                    )))
+                values.append(`languages[${ele[1]?.id}][description]`,ele[1]?.language_id == 1? data.description_en :(
+                    ele[1]?.language_id == 2 ? data.description_ar :(
+                        ele[1]?.language_id == 3 ? data.description_hi: (
+                           ele[1]?.language_id == 4 ? data.description_tr : (
+                                ele[1]?.language_id == 5 ? data.description_ru : data.description_ur
+                           )
+                        )
+                    )))
+            })
+        }else{
+            values.append("languages[1][name]",data.name_en)
+            values.append("languages[2][name]",data.name_ar)
+            values.append("languages[3][name]",data.name_hi)
+            values.append("languages[4][name]",data.name_tr)
+            values.append("languages[5][name]",data.name_ru)
+            values.append("languages[6][name]",data.name_ur)
+            values.append("languages[1][description]",data.description_en)
+            values.append("languages[2][description]",data.description_ar)
+            values.append("languages[3][description]",data.description_hi)
+            values.append("languages[4][description]",data.description_tr)
+            values.append("languages[5][description]",data.description_ru)
+            values.append("languages[6][description]",data.description_ur)
+        }
         if("name" in file)
             values.append("file",file)
         
@@ -367,8 +392,9 @@ const AddService = ()=>{
                 </div>
                 <div className='card p-2 sm:p-4 flex flex-col gap-4'>
                     {/* Upload File */}
-                    <h4><strong>Upload File is not required</strong></h4>
-                    <UploadFile fromApi={photoFromApi} returnedValue={(res)=>setFile(res)}/>
+                    <h4><strong>Upload File </strong></h4>
+                    <FileUpload fromApi={photoFromApi} returnedFile={(res)=>setFile(res)} />
+                    
                 </div>
                 <div>
                     <button className='dark-btn w-full' type='submit' disabled={loading}>{loading?<div className='loader m-auto'></div>:"Submit"}</button>

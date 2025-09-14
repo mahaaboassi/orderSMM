@@ -134,7 +134,7 @@ const AddUser = ()=>{
         </div>
         {errorStatus.open && errorStatus.type == "success" && <h4 className="text-center box-success p-2">{errorStatus.msg}</h4>}
         {errorStatus.open && errorStatus.type != "success"&& <h4 className="text-center box-error p-2">{errorStatus.msg}</h4>}
-        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
+        {/* <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
                 <div className="card p-2 sm:p-4 flex flex-col gap-4">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         
@@ -246,14 +246,14 @@ const AddUser = ()=>{
                     </div>
                 </div>
                 <div className='card p-2 sm:p-4 flex flex-col gap-4'>
-                    {/* Upload File */}
+                    Upload File
                     <h4><strong>Upload File is not required</strong></h4>
                     <UploadFile fromApi={photoFromApi} returnedValue={(res)=>setFile(res)}/>
                 </div>
                 <div>
                     <button className='dark-btn w-full' type='submit' disabled={loading}>{loading?<div className='loader m-auto'></div>:"Submit"}</button>
                 </div>
-        </form>
+        </form> */}
     </div>)
 }
 

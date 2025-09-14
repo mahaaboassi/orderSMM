@@ -57,7 +57,10 @@ const Users = ()=>{
                 header: 'Role',
                 cell: info => (<div className={`${info.getValue() == "user" ? "bg-violet-600" : "bg-blue-600"} p-1 rounded flex justify-center items-center text-white`}>{info.getValue()}</div>),
             }),
-            
+            columnHelper.accessor('created_at', {
+                header: 'Created At',
+                cell: info => info.getValue(),
+            }),
             columnHelper.accessor('action', {
                 header: '',
                 cell: info => {
@@ -79,7 +82,7 @@ const Users = ()=>{
                                 </svg>
                             </div>
                             {/* Delete Icon */}
-                            <div onClick={()=>{
+                            {/* <div onClick={()=>{
                                 setOpenPopup(true)
                                 setCurrentData(row)
                             }} className="cursor-pointer">
@@ -93,7 +96,7 @@ const Users = ()=>{
                                     </clipPath>
                                     </defs>
                                 </svg>
-                            </div>
+                            </div> */}
                         </div>
                 },
             }),
@@ -136,7 +139,7 @@ const Users = ()=>{
                 telegram : ele?.telegram ?? "-",
                 website : ele?.website ?? "-",
                 role : ele?.role ?? "-",
-                // created_at : format(new Date(ele.created_at), "MMMM d, yyyy")
+                created_at : format(new Date(ele.created_at), "MMMM d, yyyy")
                 }));
 
             setData(formattedData);
@@ -176,7 +179,7 @@ const Users = ()=>{
             <div className="flex gap-2 items-center">
                 <Link className="cursor-pointer text-blue-500" to={"/dashboard/admin"}> Dashboard</Link> / <div>Users</div>
             </div>
-            {/* <div className="flex gap-2 items-center">
+            <div className="flex gap-2 items-center">
                 <div>
                     <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
                     <g clipPath="url(#clip0_286_31)">
@@ -190,7 +193,7 @@ const Users = ()=>{
                     </svg>
                 </div>
                 <Link to={"/dashboard/admin/user/add"}>Add new user</Link>
-            </div> */}
+            </div>
         </div>
         {errorStatus.open && errorStatus.type == "success" && <h4 className="text-center box-success p-2">{errorStatus.msg}</h4>}
         {errorStatus.open && errorStatus.type != "success"&& <h4 className="text-center box-error p-2">{errorStatus.msg}</h4>}

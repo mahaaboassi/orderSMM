@@ -36,6 +36,7 @@ import AddPanel from './pages/adminDashboard/panels/addPanel'
 import ServicesWrapper from './pages/website/ourServices/slugs/page'
 import AddUser from './pages/adminDashboard/users/addUser'
 import HistoryPanel from './pages/adminDashboard/panels/historyPanel'
+import HistoryServicesRequest from './pages/adminDashboard/services/historyServicesRequest'
 
 
 function App() {
@@ -43,8 +44,11 @@ function App() {
     <Routes>
       <Route path='/*' element={<Layout/>}>
         <Route path='' element={<Home/>}/>
+        {/* Authentication Routes */}
         <Route path='auth/signIn' element={<SignIn/>}/>
         <Route path='auth/signUp' element={<SignUp/>}/>
+
+
         <Route path='services' element={<Services/>} />
         <Route path='providers' element={<AdsPage/>} />
         <Route path='auth/verification' element={<Verification/>}/>
@@ -73,7 +77,8 @@ function App() {
         <Route path='panels/add' element={<AddPanel/>}/>
         <Route path='panels/edit/:id' element={<AddPanel/>}/>
         <Route path='panels/history/:id/:name' element={<HistoryPanel/>}/>
-        
+        {/* Services Requests */}
+        <Route path="history/servicesRequests" element={<HistoryServicesRequest/>} />
         {/* Services Collection */}
         <Route path='services' element={<ServicesAdmin/>}/>
         <Route path='services/add' element={<AddService/>}/>
@@ -86,7 +91,11 @@ function App() {
         <Route path='tags' element={<Tags/>}/>
         <Route path='tag/add' element={<AddTag/>}/>
       </Route>
-      <Route path='/auth/check/:code' element={<Check/>}/>
+
+        {/* Authentication Routes */}
+        <Route path='/auth/check/:code' element={<Check/>}/>
+        <Route path='/auth/forgetPassword' element={<Check/>}/>
+        <Route path='/auth/typePassword/:code' element={<Check/>}/>
     </Routes>
   </BrowserRouter>
   )

@@ -41,7 +41,8 @@ export const apiRoutes = {
         update : (id)=>(`${host}services/${id}`),
         delete : (id)=>(`${host}services/${id}`),
         request : `${host}services-requests`,
-        confirm : `${host}services-requests/confirm`
+        confirm : `${host}services-requests/confirm`,
+        history : `${host}services-requests`
     },
     payment_periods : { 
         list : `${host}payment-periods`,
