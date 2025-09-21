@@ -19,8 +19,7 @@ const MyTanstackTable = ({
   const pageIndex = parseInt(searchParams.get('page') || '1',10) -1 ;
   const pageSize = parseInt(searchParams.get('limit') || '10');
   const [ lastPage, setLastPage ] = useState(1)
-
-
+  
   useEffect(()=>{
     setLastPage(last_Page)
   },[last_Page])

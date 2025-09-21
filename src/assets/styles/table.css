@@ -27,7 +27,7 @@
 .pricing-table {
   width: 100%;
   border-collapse: collapse;
-  border-radius: 8px;
+  /* border-radius: 8px; */
   overflow: hidden;
   box-shadow: 0 2px 12px rgba(0,0,0,0.05);
 }
@@ -45,7 +45,8 @@
   color: #fff;
 }
 .selected-row {
-  background-color: var(--green-2, #d6f5d6);
+  background-color: var(--green-2, #cbe2cb);
   font-weight: bold;
+  border: 2px solid var(--green_2);
 }
 

@@ -109,10 +109,10 @@ const Promotion = ({slug,isPromotion})=>{
 
             </div>
             <div className="flex flex-col gap-3">
-                 <div className="info-checkout w-full  card p-4 flex flex-col gap-4">
+                 {isPromotion && <div className="info-checkout w-full  card p-4 flex flex-col gap-4">
                     <h4>Choose Your Plan Duration</h4>
                     <Periods returnedSelected={(res)=>setPeriod(res)} price={valuesSelected.price}/>
-                </div>
+                </div>}
                 <div className="info-checkout w-full card p-4 flex flex-col gap-4 ">
                     <h4 >Invoice</h4>
                     <div > Total price : <strong>{isPromotion ? valuesSelected.price * period.factor * period.discount: valuesSelected.price}</strong> </div>

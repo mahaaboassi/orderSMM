@@ -137,6 +137,7 @@ const DetailsPanel = () => {
                     max={e.max}
                     min={e.min}
                     price={e.price}
+                    id={e.id}
                     per_count={e.per_count}
                     isPinned = {false}
                     />)) : <div className="card p-5">{t("no-data")}</div>
@@ -155,7 +156,12 @@ const DetailsPanel = () => {
                     <Link target="_blank" to={data.website ? data.website : ""}>
                         <div onClick={()=>{
                             const click_info = JSON.parse(localStorage.getItem("click"))
-                            storeClick(click_info.service_id, click_info.panel_id)
+                            if(click_info){
+                                storeClick(click_info.service_id , click_info.panel_id)
+                            }else{
+                                storeClick("",id)
+                            }
+                            
                         }}  className="view-btn flex gap-2 ">
                             <div className="flex items-center">
                             <svg xmlns="http://www.w3.org/2000/svg" width="27" height="26" viewBox="0 0 12 11" fill="none">

@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { Helper } from "../../../../functionality/helper"
 import { apiRoutes } from "../../../../functionality/apiRoutes"
 import { Link } from "react-router-dom";
+import Loading from "../../../../components/loading";
 
 
 const Arc = ()=>{
@@ -44,6 +45,7 @@ const Arc = ()=>{
         </div>
         <div className="content-arc flex flex-col gap-2">
             <h2 className="text-center pb-10">{t("topProviders")}</h2>
+            {isloading ? <Loading/> : <>
             <div style={{direction:"ltr"}}>
                 <Swiper
                     modules={[Autoplay]}
@@ -124,6 +126,7 @@ const Arc = ()=>{
 
                 </Swiper>
             </div>
+            </>}
         </div>
     </div>)
 }

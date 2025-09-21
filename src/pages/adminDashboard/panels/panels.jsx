@@ -56,7 +56,7 @@ const Panels = ()=>{
             columnHelper.accessor('status', {
                 header: 'Status',
                 cell: info => (<div>
-                    {info.getValue() == 0 ? <div className="error-card p-2">Not Approved</div>
+                    {info.getValue() == 0 ? <div className="error-card p-2 text-center">Not Approved</div>
                                             :<div className="success-card p-2">Approved</div>}
                 </div>),
             }),
@@ -203,10 +203,10 @@ const Panels = ()=>{
     }
     return(<div className="flex dashboard flex-col gap-5">
         <div className="flex flex-col gap-1">
-            <h2>Panels: total({total})</h2>
             <div className="flex gap-2 items-center">
                 <Link className="cursor-pointer text-blue-500" to={"/dashboard/admin"}> Dashboard</Link> / <div>Panels</div>
             </div>
+            <h2>Panels: total({total})</h2>
             <div className="flex gap-2 items-center">
                 <div>
                     <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">

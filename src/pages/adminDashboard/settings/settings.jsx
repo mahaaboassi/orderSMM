@@ -18,6 +18,9 @@ const validationSchema = Yup.object({
     tiktok : Yup.string().required("Tiktok Field is required."),
     whatsapp : Yup.string().required("Whatsapp Field is required."),
     facebook : Yup.string().required("Facebook is required."),
+    panels : Yup.string().required("Panels is required."),
+    services : Yup.string().required("Services is required."),
+    platforms : Yup.string().required("Platforms is required."),
 });
 
 
@@ -80,7 +83,9 @@ const Settings = ()=>{
         values.append("whatsapp",data.whatsapp)
         values.append("facebook",data.facebook)
         values.append("telegram",data.telegram)
-
+        values.append("panels",data.panels)
+        values.append("platforms",data.platforms)
+        values.append("services",data.services)
 
         const {response , message,  statusCode} = await Helper({
             url:apiRoutes.settings.list,
@@ -109,13 +114,12 @@ const Settings = ()=>{
     };
     
     return (<div className="settings flex flex-col gap-1">
-        
+        <div className="flex gap-2 items-center">
+            <Link className="cursor-pointer text-blue-500" to={"/dashboard/admin"}> Dashboard</Link> / <div>Settings</div>
+        </div>        
         <h2>Settings</h2>
-            <div className="flex gap-2 items-center">
-                <Link className="cursor-pointer text-blue-500" to={"/dashboard/admin"}> Dashboard</Link> / <div>Settings</div>
-            </div>
         {loading ? <Loading/> : <div className="flex flex-col gap-4">
-                <div className="grid grid-cols-1 xs:grid-cols-3 gap-2">
+                {/* <div className="grid grid-cols-1 xs:grid-cols-3 gap-2">
                     <div className="card-info p-1 xs:p-3 gap-3">
                         <h4>Panels</h4>
                         <div className="number"> {data["panels"] ?? ""} </div>
@@ -129,7 +133,7 @@ const Settings = ()=>{
                         <div className="number"> {data["platforms"]??""} </div>
                     </div>
 
-                </div>
+                </div> */}
                 <form onSubmit={handleSubmit(onSubmit)} className="panel-card shadow p-4 sm:p-10 flex flex-col gap-3 rounded">
                     {errorStatus.open && errorStatus.type == "success" && <h4 className="text-center box-success p-2">{errorStatus.msg}</h4>}
                     {errorStatus.open && errorStatus.type != "success"&& <h4 className="text-center box-error p-2">{errorStatus.msg}</h4>}
@@ -138,6 +142,21 @@ const Settings = ()=>{
                         <div className="flex flex-col gap-2">
                             
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div className="flex flex-col gap-1">
+                                    <label>Panels:</label>
+                                    <input  {...register("panels")} type="text" placeholder={"Panels"}  />
+                                    {errors.panels && <p className="pt-0.5 text-error">{errors.panels.message}</p>}
+                                </div>
+                                <div className="flex flex-col gap-1">
+                                    <label>Platforms:</label>
+                                    <input {...register("platforms")} type="text" placeholder={"Platforms"}  />
+                                    {errors.platforms && <p className="pt-0.5 text-error">{errors.platforms.message}</p>}
+                                </div>
+                                <div className="flex flex-col gap-1">
+                                    <label>Services:</label>
+                                    <input {...register("services")} type="text" placeholder={"Services"}  />
+                                    {errors.services && <p className="pt-0.5 text-error">{errors.services.message}</p>}
+                                </div>
                                 <div className="flex flex-col gap-1">
                                     <label>Skybe:</label>
                                     <input  {...register("skybe")} type="text" placeholder={"Skybe"}  />

@@ -448,6 +448,21 @@ button:disabled{
   opacity: 0.5;          /* makes it look disabled */
   cursor: not-allowed;   /* shows "not allowed" cursor */
 }
+.active-div{
+    border-radius: 5px;
+    animation: changeColorDiv 0.3s forwards linear;
+}
+.active-div .image-icon path{
+    fill: var(--green_2);
+}
+@keyframes changeColorDiv {
+    from{
+        background-color: var(--light);
+    }to{
+        border: 1px solid var(--green_2);
+        color: var(--green_2);
+    }
+}
 @media (max-width:1200px){
     nav ul{
         font-size: var(--font-size-xs);

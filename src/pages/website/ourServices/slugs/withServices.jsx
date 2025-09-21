@@ -22,25 +22,27 @@ const AddWithServices = ({id, slug})=>{
     })
     const [basicPrice, setBasicPrice] = useState(0)
     const abortControllerRef = useRef(null)
-
     useEffect(()=>{
         if(slug?.prices){
             const max = Math.max(...slug.prices.map(item => item.price));
             setBasicPrice(parseFloat(max));
         }
     },[slug])
-    useEffect(()=>{
-        const abortController = new AbortController()
-        const signal  = abortController.signal
-        getData(signal)
+    useEffect(()=>{getData()},[])
+    const getData = async (page=1,search)=>{
+        if (abortControllerRef.current) {
+          abortControllerRef.current.abort()
+        }
+        const controller = new AbortController()
+        abortControllerRef.current = controller
+        setData([])
         setIsLoading(true)
-        return () => abortController.abort() 
-    },[])
-    const getData = async (signal)=>{
+        let params = {page}
+        if(search) params.keywords = search
         const { response , message, statusCode } = await Helper({
-            // url : apiRoutes.panel.byUser,
             url : apiRoutes.panel.list,
-            signal : signal,
+            signal : controller.signal,
+            params: params,
             method : "GET",
             hasToken : true
         })
@@ -48,7 +50,7 @@ const AddWithServices = ({id, slug})=>{
             console.log(response);
             setData(response.data)
             setIsLoading(false)
-            
+            setLastPage(response.meta.last_page)
         }else{
             console.log(message);
             
@@ -165,18 +167,20 @@ const AddWithServices = ({id, slug})=>{
         }
     }
     return(<div className="ads-services with-services">
-        { isloading ? <Loading/>:<div className="">
+        <div className="">
             { 
-                data.length > 0 && 
                 <div className="grid grid-cols-1 lg:grid-cols-4 gap-5 lg:gap-10">
                     <div className="col-span-4 lg:col-span-3">
                         <div className="">
                             {
-                                isSelectedPanel == 0 ?<div>
-                                <div className=" bg-zinc-200 flex mb-4 p-2" >
+                                isSelectedPanel == 0 ? <div>
+                                <div className=" bg-zinc-200 flex flex-col gap-3 mb-4 p-2" >
                                     <div className="link"> &lt; Choose Panel What you Want &gt;</div>
+                                    <div>
+                                        <input onChange={(e)=>getData(1,e.target.value)} className="px-2 py-1" placeholder="Search Panel" />
+                                    </div>
                                 </div>
-                                <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 lg:gap-5">
+                                {isloading ? <Loading/>:  data.length > 0  && <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 lg:gap-5">
                                     {
                                         data.map((e,idx)=>(<div
                                                 className="card-panel-user card cursor-pointer relative"  key={`Panels_User_${idx}`}
@@ -214,8 +218,11 @@ const AddWithServices = ({id, slug})=>{
                                             </div>
                                         </div>)) 
                                     }
-                                </div>
-
+                                </div>}
+                                <Pagination currentPage={currentPage} lastPage={lastPage} returnedPageNumber={(res)=>{
+                                            setCurrentPage(res)
+                                            getData(res)
+                                        }}/>
 
 
                                 </div>:
@@ -297,7 +304,7 @@ const AddWithServices = ({id, slug})=>{
                             </div>
                             <div className="info-checkout w-full  card p-4 flex flex-col gap-4">
                                 <h4>Choose Your Plan Duration</h4>
-                                <Periods returnedSelected={(res)=>setPeriod(res)} price={slug?.price}/>
+                                <Periods returnedSelected={(res)=>setPeriod(res)} price={basicPrice}/>
                             </div>
                             <div className="info-checkout w-full card p-4 flex flex-col gap-4">
                                 <h4 >Invoice</h4>
@@ -307,7 +314,7 @@ const AddWithServices = ({id, slug})=>{
                                 <div> Price per services : <strong>{basicPrice}</strong> </div>
                                 
                                 <div> Total price : <strong>{
-                                    isSelectedAllServices ? basicPrice * parseInt(selectedPanel.services_count) * period.factor * period.discount : basicPrice * parseInt(servicesSelected.length) * period.factor * period.discount
+                                    isSelectedAllServices ? basicPrice * parseInt(selectedPanel.services_count) * period.factor * period.discount : (basicPrice * parseInt(servicesSelected.length) * period.factor * period.discount).toFixed(2)
                                     }</strong> </div>
                                 <div> 
                                     <div className="py-2">
@@ -325,7 +332,7 @@ const AddWithServices = ({id, slug})=>{
                 </div> 
             }
 
-        </div>}
+        </div>
 
     </div>)
 }

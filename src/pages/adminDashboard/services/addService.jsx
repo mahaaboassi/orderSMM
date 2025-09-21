@@ -196,10 +196,10 @@ const AddService = ()=>{
     };
     return(<div className="flex flex-col gap-5">
         <div className='flex flex-col gap-1'>
-            <h2 >{id ? "Edit Service": "Add Service"}</h2>
             <div className="flex gap-2 items-center">
                 <Link className="cursor-pointer text-blue-500" to={"/dashboard/admin/services"}> Services</Link> / <div>{id ? "Edit Service": "Add Service"}</div>
             </div>
+            <h2 >{id ? "Edit Service": "Add Service"}</h2>
             <p>
                 Add a new service to your website along with accurate descriptions in multiple languages:<br />
                 <strong>(en)</strong> English, <strong>(ar)</strong> Arabic, <strong>(tr)</strong> Turkish, 

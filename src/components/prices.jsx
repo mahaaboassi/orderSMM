@@ -31,7 +31,7 @@ const Prices =({prices,basicPrice,isBump})=>{
             <td>{e.min}</td>
             <td>{e.max}</td>
             <td>{e.price}
-                &nbsp;- <span className="offer">({Math.floor(((basicPrice-e.price)/basicPrice)*100)}%)</span>
+                {/* &nbsp;- <span className="offer">({Math.floor(((basicPrice-e.price)/basicPrice)*100)}%)</span> */}
             </td>
         </tr>
             }

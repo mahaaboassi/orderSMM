@@ -9,40 +9,11 @@ import { Helper } from "../../../../functionality/helper"
 import { apiRoutes } from "../../../../functionality/apiRoutes"
 import Countries from "../../../../components/countries"
 import { settingsStatus } from "../../../../features/settingsSlice"
+import SocialLine from "../../../../components/socialLine"
 
 const Hero = ()=>{
 
-    const icons = [{
-        name : "Facebook",
-    },{
-        name : "Instagram",
-    },{
-        name : "Twitter",
-    },{
-        name : "Tiktok",
-    },{
-        name : "Pintreset",
-    },{
-        name : "Linkedin",
-    },{
-        name : "Telegram",
-    },{
-        name : "Bottem",
-    },{
-        name : "Snapchat",
-    },{
-        name : "Spotify",
-    },{
-        name : "Youtube",
-    },{
-        name : "Google Play",
-    },{
-        name : "Anghami",
-    },{
-        name : "iOS App store",
-    },{
-        name : "Twitch",
-    }]
+    
     const { t, i18n} = useTranslation()
     const dispatch = useDispatch()
     const settings = useSelector(state => state.settings)
@@ -150,8 +121,8 @@ const Hero = ()=>{
     return<div className="hero px-2  lg:px-16 pt-5 lg:pt-12 pb-5">
         <div className=" xl:px-10 flex flex-col gap-5 lg:gap-14">
             <div className="grid grid-cols-1  md:grid-cols-2 gap-5 lg:gap-10 ">
-                <div className="flex flex-col gap-4 lg:gap-7">
-                    <h1 onClick={()=> console.log(settings)} className="flex gap-2 flex justify-center md:justify-start">Order SMM Panels
+                <div className="">
+                    <h1 className="flex gap-2 flex justify-center md:justify-start">Order SMM 
 
                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="35" viewBox="0 0 52 55" fill="none">
                             <g clipPath="url(#clip0_260_9)">
@@ -165,15 +136,12 @@ const Hero = ()=>{
                             </defs>
                         </svg>
                     </h1>
-                    <h2 className="text-center md:text-start">
+                    <h2 className="justify-center text-center md:text-start md:justify-start flex items-center min-h-30 xs:min-h-20 lg:min-h-30">
                         <span key={indexWord} className="animated-word" >{keywords[indexWord]}</span>  
                     </h2>
                     <div className="card-info  ">
                         <div className="content flex justify-between items-center px-10 lg:px-20">
-                            <div onClick={()=>{
-                                console.log(settingsObj);
-                                
-                            }}>{settingsObj?.services ?? ""} {t("hero.services")}</div>
+                            <div >{settingsObj?.services ?? ""} {t("hero.services")}</div>
                             <div>{settings?.panels ?? ""} {t("hero.panel")}</div>
                             <div className="flex justify-end">{settings?.platforms ?? ""} {t("hero.platform")}</div>
                         </div>
@@ -188,24 +156,30 @@ const Hero = ()=>{
                     {/* <button onClick={openPopup} className="hero-btn">{t("hero.offer-btn")}</button> */}
                 </div>
                 <div className="hidden md:grid grid-cols-2 gap-2">
-                    <div className="card-panals p-2 sm:p-5 flex flex-col gap-1">
+                    <div className="card-panals p-2 sm:p-5 flex flex-col gap-1 ">
                         <h3>
-                            {t("hero.latestPanelUpdates")}
+                            {t("hero.latestPanelUpdates") } (Bumps)
                         </h3>
-                        <div className="flex flex-col justify-between h-full">
+                        <div className="flex flex-col justify-between h-full ">
                             {loadingLatest ? <div className="flex flex-col gap-2 justify-between">
-                                {[...Array(9)].map((_,i)=>(<div className="h-4 w-full rounded-xl bg-gray-300 animate-pulse" key={`Skeleton_Latest_${i}`}>
+                                {[...Array(6)].map((_,i)=>(<div className="h-4 w-full rounded-xl bg-gray-300 animate-pulse" key={`Skeleton_Latest_${i}`}>
                                 </div>))}
-                            </div>: panelsLatest.length > 0 &&  panelsLatest.map((e,idx)=>(<div className="flex justify-between items-center" key={`Panal_Card_${e.title}_${idx}`}>
+                            </div>: panelsLatest.length > 0 &&  panelsLatest.map((e,idx)=>(<div className="flex justify-between items-center" key={`Panal_Card_${e.title}_${idx}`}
+                                    onClick={()=>{
+                                        localStorage.setItem("click",JSON.stringify({
+                                                service_id: 36,
+                                                panel_id: e.id
+                                            }))
+                                    }}>
                                 <div className="flex gap-1 sm:gap-2 items-center">
                                     <div> <img style={{borderRadius:"50%",width:"15px", height:"15px"}}  src={e.photo} /> </div>
-                                    <Link target="_blank" to={e.website}>
-                                      <h4>{e?.translations?.[i18n.language]?.name || ""}</h4>
+                                    <Link target="_blank" to={`/smm-panel/${e.translations?.en?.name ?? ""}/${e.id}`}>
+                                    <h4>{e?.translations?.[i18n.language]?.name || ""}</h4>
                                     </Link>
                                     
-                                </div>
-                            </div>))}
-                        </div>
+                                    </div>
+                                </div>))}
+                            </div>
                     </div>
                     <div className="card-panals p-2 sm:p-5 flex flex-col gap-1">
                         <h3>
@@ -213,14 +187,14 @@ const Hero = ()=>{
                         </h3>
                          <div className="flex flex-col justify-between h-full ">
                             {loadingActive ? <div className="flex flex-col gap-2 justify-between">
-                                {[...Array(9)].map((_,i)=>(<div className="h-4 w-full rounded-xl bg-gray-300 animate-pulse" key={`Skeleton_${i}`}>
+                                {[...Array(6)].map((_,i)=>(<div className="h-4 w-full rounded-xl bg-gray-300 animate-pulse" key={`Skeleton_${i}`}>
 
                                 </div>))}
                             </div>:panelsActive.length > 0 && panelsActive.map((e,idx)=>(<div className="flex justify-between items-center" key={`Panal_Card_${e.title}_${idx}`}>
                                 
                                 <div className="flex gap-1 sm:gap-2 items-center">
                                     <div> <img style={{borderRadius:"50%",width:"15px", height:"15px"}}  src={e.photo} /> </div>
-                                    <Link target="_blank" to={e.website}>
+                                    <Link target="_blank" to={`/smm-panel/${e.translations?.en?.name ?? ""}/${e.id}`}>
                                       <h4>{e?.translations?.[i18n.language]?.name || ""}</h4>
                                     </Link>
                                     
@@ -234,13 +208,9 @@ const Hero = ()=>{
 
             </div>
             <div className="flex flex-col gap-2">
-                <div style={{overflow:"hidden"}} className="flex gap-5">
-                    {icons.map((e,idx)=>(<div  className="flex gap-1 items-center icons-hero" key={`Icons_Before_Search_${e.title}_${idx}`}>
-                        <div onClick={()=>navigate(`/services?keywords=${e.name}`)} className="cursor-pointer" style={{whiteSpace: "nowrap",fontWeight:"600"}}>{e.name}</div>
-                    </div>))}
-                </div>
+                <SocialLine/>
                 <div className="flex gap-2">
-                    <SearchInput onChange={(res)=>setvalues(prev=>({...prev,search:res}))}  onEnter={()=>navigate(`/services?keywords=${values.search}&country=${values.country_id}`)}/>
+                    <SearchInput type="search" onChange={(res)=>setvalues(prev=>({...prev,search:res}))}  onEnter={()=>navigate(`/services?keywords=${values.search}&country=${values.country_id}`)}/>
                     <Countries returnedCountry={(res)=>{setvalues(prev=>({...prev, country_id : res}))}}/>
                     <div onClick={()=>navigate(`/services?keywords=${values.search}&country=${values.country_id}`)} style={{whiteSpace: "nowrap"}} className="flex p-2 justify-center items-center container-search ">{t("search")}</div>
                 </div>
@@ -250,16 +220,22 @@ const Hero = ()=>{
             <div className="grid md:hidden flex grid-cols-2 gap-2">
                     <div className="card-panals p-2 sm:p-5 flex flex-col gap-1">
                         <h3>
-                            {t("hero.latestPanelUpdates")}
+                            {t("hero.latestPanelUpdates")} (Bumps)
                         </h3>
                         <div className="flex flex-col justify-between h-full">
                             {loadingLatest ? <div className="flex flex-col gap-2 justify-between">
                                 {[...Array(9)].map((_,i)=>(<div className="h-4 w-full rounded-xl bg-gray-300 animate-pulse" key={`Skeleton_Latest_${i}`}>
                                 </div>))}
-                            </div>: panelsLatest.length > 0 &&  panelsLatest.map((e,idx)=>(<div className="flex justify-between items-center" key={`Panal_Card_${e.title}_${idx}`}>
+                            </div>: panelsLatest.length > 0 &&  panelsLatest.map((e,idx)=>(<div className="flex justify-between items-center" key={`Panal_Card_${e.title}_${idx}`}
+                                    onClick={()=>{
+                                        localStorage.setItem("click",JSON.stringify({
+                                                service_id: 36,
+                                                panel_id: e.id
+                                            }))
+                                    }}>
                                 <div className="flex gap-1 sm:gap-2 items-center">
                                     <div> <img style={{borderRadius:"50%",width:"15px", height:"15px"}}  src={e.photo} /> </div>
-                                    <Link target="_blank" to={e.website}>
+                                    <Link target="_blank" to={`/smm-panel/${e.translations?.en?.name ?? ""}/${e.id}`}>
                                       <h4>{e?.translations?.[i18n.language]?.name || ""}</h4>
                                     </Link>
                                     
@@ -269,7 +245,7 @@ const Hero = ()=>{
                     </div>
                     <div className="card-panals p-2 sm:p-5 flex flex-col gap-1">
                         <h3>
-                            {t("hero.finalActivePanels")}
+                            {t("hero.finalActivePanels")} 
                         </h3>
                          <div className="flex flex-col justify-between h-full ">
                             {loadingActive ? <div className="flex flex-col gap-2 justify-between">
@@ -280,7 +256,7 @@ const Hero = ()=>{
                                 
                                 <div className="flex gap-1 sm:gap-2 items-center">
                                     <div> <img style={{borderRadius:"50%",width:"15px", height:"15px"}}  src={e.photo} /> </div>
-                                    <Link target="_blank" to={e.website}>
+                                    <Link target="_blank" to={`/smm-panel/${e.translations?.en?.name ?? ""}/${e.id}`}>
                                       <h4>{e?.translations?.[i18n.language]?.name || ""}</h4>
                                     </Link>
                                     

@@ -23,6 +23,11 @@
 .info-panel{
     font-size: var(--font-size-xxs);
 }
+.ads-services input{
+    background-color: var(--light);
+    border-radius: 10px;
+    border: 1px solid var(--green_2);
+}
 .ads-services h4{
     font-size: var(--font-size-l);
     font-weight: 600;

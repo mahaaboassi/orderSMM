@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { useNavigate, useParams } from "react-router-dom"
+import { Link, useNavigate, useParams } from "react-router-dom"
 import { apiRoutes } from "../../../../functionality/apiRoutes"
 import { Helper } from "../../../../functionality/helper"
 import Loading from "../../../../components/loading"
@@ -47,14 +47,16 @@ const ServicesWrapper = () => {
     if(!authorized) return null
     return(loading? <Loading/>:<div className="px-2 lg:px-16 flex flex-col gap-5 ">
         <div>
+            <div className="flex gap-2 items-center">
+                <Link className="cursor-pointer text-blue-500" to={"/our-services"}> Services</Link> / <div>{data?.translations?.[i18n.language]?.name ?? ""}</div>
+            </div>
             <h2>{data?.translations?.[i18n.language]?.name}</h2>
             <p>{data?.translations?.[i18n.language]?.description}</p>
+            
         </div>
 
         <div>
             {data?.slug == "promotion" && <Promotion isPromotion={true} slug={data} id={id}/> }
-
-            
             {data?.slug == "best_providers" && <AddWithoutServices slug={data} id={id}/> }
             {data?.slug == "ads" && <AddWithoutServices isAd={true} slug={data}  id={id}/> }
 

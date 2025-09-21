@@ -192,10 +192,10 @@ const AddPanel = ()=>{
 
     return(<div className="flex flex-col gap-5">
         <div className='flex flex-col gap-1'>
-            <h2 >{id ? "Edit panel" : "Add Panel"}</h2>
              <div className="flex gap-2 items-center">
                 <Link className="cursor-pointer text-blue-500" to={"/dashboard/admin/panels"}> Panels</Link> / <div>{id ? "Edit panel" : "Add Panel"}</div>
             </div>
+            <h2 >{id ? "Edit panel" : "Add Panel"}</h2>
             <p>
                 Add a new panel to your website along with accurate descriptions in multiple languages:
              </p>

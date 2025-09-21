@@ -35,11 +35,13 @@ const Periods =({price,returnedSelected})=>{
             
         }
     }
-    return isloading ? <div className="pricing-table-container">
+    return isloading ? <div className="pricing-table-container ">
   <table class="pricing-table">
     <thead>
       <tr>
         <th>Period</th>
+        <th>Total Price</th>
+        <th>Discount</th>
         <th>Final Price</th>
       </tr>
     </thead>
@@ -47,12 +49,18 @@ const Periods =({price,returnedSelected})=>{
       <tr>
         <td><span className="skeleton-box"></span></td>
         <td><span className="skeleton-box"></span></td>
-      </tr>
-      <tr>
         <td><span className="skeleton-box"></span></td>
         <td><span className="skeleton-box"></span></td>
       </tr>
       <tr>
+        <td><span className="skeleton-box"></span></td>
+        <td><span className="skeleton-box"></span></td>
+        <td><span className="skeleton-box"></span></td>
+        <td><span className="skeleton-box"></span></td>
+      </tr>
+      <tr>
+        <td><span className="skeleton-box"></span></td>
+        <td><span className="skeleton-box"></span></td>
         <td><span className="skeleton-box"></span></td>
         <td><span className="skeleton-box"></span></td>
       </tr>
@@ -63,6 +71,8 @@ const Periods =({price,returnedSelected})=>{
     <thead>
       <tr>
         <th>Period</th>
+        <th>Total Price</th>
+        <th>Discount</th>
         <th>Final Price</th>
       </tr>
     </thead>
@@ -75,10 +85,9 @@ const Periods =({price,returnedSelected})=>{
             className={selectedId==e.id ? "selected-row " : "cursor-pointer"}
             key={`Table_For_Period_${idx}`}>
         <td>{e.name}</td>
-        <td>
-          {(price*e.factor*e.discount).toFixed(2)}
-          &nbsp;- <span className="offer">({Math.floor((1-e.discount)*100)}%)</span>
-        </td>
+        <td>{price*e.factor}</td>
+        <td><span className="offer">({Math.floor((1-e.discount)*100)}%)</span></td>
+        <td>{(price*e.factor*e.discount).toFixed(2)}</td>
       </tr>))}
     </tbody>
   </table>

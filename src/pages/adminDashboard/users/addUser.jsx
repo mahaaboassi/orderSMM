@@ -115,10 +115,10 @@ const AddUser = ()=>{
 
     return(<div className="flex flex-col gap-5">
         <div className="flex flex-col gap-1">
-            <h2>{id ? "Edit User" : "Add User"}</h2>
             <div className="flex gap-2 items-center">
                 <Link className="cursor-pointer text-blue-500" to={"/dashboard/admin/users"}> Users</Link> / <div>{id ? "Edit User" : "Add User"}</div>
             </div>
+            <h2>{id ? "Edit User" : "Add User"}</h2>
             <p>
                 Add a new user to your website 
              </p>

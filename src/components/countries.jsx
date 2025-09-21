@@ -108,7 +108,7 @@ const Countries = ({currentValue,returnedCountry,isAddPanel})=>{
         returnedCountry(e.id)
     }
     return(<div className={`relative ${isAddPanel ? "add-panel-country" : ""}`}>
-        <div onClick={()=>setOpen(!open)} style={{whiteSpace: "nowrap"}} className={`flex ${isAddPanel?"py-1 px-2":"p-2"} items-center country-select`}>
+        <div onClick={()=>setOpen(!open)} style={{whiteSpace: "nowrap"}} className={`flex ${isAddPanel?"py-1 px-2":"p-2"} items-center country-select h-full`}>
             {country.substring(0,7)} &nbsp; <svg style={{transform:"rotate(90deg)"}} xmlns="http://www.w3.org/2000/svg" width="8" height="12" viewBox="0 0 8 12" fill="none">
                 <path d="M0.589966 10.59L5.16997 6L0.589966 1.41L1.99997 0L7.99997 6L1.99997 12L0.589966 10.59Z" fill="#08392B"/>
             </svg>

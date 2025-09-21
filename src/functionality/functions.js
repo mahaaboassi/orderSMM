@@ -3,7 +3,7 @@ import { Helper } from "./helper"
 
 export const storeClick  = async(service_id,panel_id) => {
     const data = new FormData()
-    data.append("service_id",service_id)
+    if(service_id) data.append("service_id",service_id)
     data.append("panel_id",panel_id)
     data.append("_method","PUT")
 

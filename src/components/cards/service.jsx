@@ -43,9 +43,9 @@ const Service = ({name, category, panel, pin="", panel_id, min , max , price, pe
             {!isPinned && <div>
                 <strong>{id}</strong>
             </div>}
-            <div className="flex justify-between ">
+            <div className="flex justify-between gap-2">
                 {<h3>{name}</h3>}
-                <span>{ (is_top_result == 1 ? <strong>#Ad</strong> : category )}</span>
+                <span>{ (is_top_result == 1 || isPinned? <strong>#Ad</strong> : category )}</span>
             </div>
             <div className="flex card-small-details justify-between">
                 <div className="flex gap-2">

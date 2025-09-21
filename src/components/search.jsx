@@ -16,7 +16,7 @@ const SearchInput = ({onChange,onEnter,value,type,placeholder})=>{
     useEffect(()=>{setValueInput(value)},[value])
     return(<div className="input-search w-full">
                 <div className="search-icon">{search_icon}</div>
-                <input placeholder={placeholder ?? "TikTok follower"} type={type ?? "text"} value={valueInput} onChange={(e)=>{
+                <input name="q" placeholder={placeholder ?? "TikTok follower"} type={type ?? "text"} value={valueInput} onChange={(e)=>{
                     onChange(e.target.value)
                     setValueInput(e.target.value)
                 }}

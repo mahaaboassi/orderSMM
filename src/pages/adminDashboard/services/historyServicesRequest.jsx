@@ -209,10 +209,10 @@ const HistoryServicesRequest = ()=>{
     
     return(<div className="flex dashboard flex-col gap-5">
         <div className="flex flex-col gap-1">
-            <h2>History Services Requests</h2>
             <div className="flex gap-2 items-center">
                 <Link className="cursor-pointer text-blue-500" to={"/dashboard/admin/panels"}> Panels</Link> / <div>Services Requests</div>
             </div>
+            <h2>History Services Requests</h2>
         </div>
         {errorStatus.open && errorStatus.type == "success" && <h4 className="text-center box-success p-2">{errorStatus.msg}</h4>}
         {errorStatus.open && errorStatus.type != "success"&& <h4 className="text-center box-error p-2">{errorStatus.msg}</h4>}
