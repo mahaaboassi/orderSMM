@@ -41,6 +41,8 @@ const pending = <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" v
 
 const Notifications = ()=>{
     const { t, i18n } = useTranslation()
+    const language = i18n.language.split('-')[0];
+    
     const dispatch = useDispatch()
     const [ data, setData ] = useState([])
     const [ loading, setLoading ] = useState(false)
@@ -140,7 +142,7 @@ const Notifications = ()=>{
                             { e.name == "New Panel Added" && accept }
                             { e.name == "Panel Approved" && accept }
                         </div>
-                        <div>{e.translations?.[i18n.language]?.description.substring(0,50)+"..."}</div>
+                        <div>{e.translations?.[language]?.description.substring(0,50)+"..."}</div>
                     </div>
                     <div className="flex justify-end">
                         <span>{format(new Date(e.created_at), "MMM d, yyyy, h:mm a")}</span>

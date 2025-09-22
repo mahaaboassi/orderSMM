@@ -174,7 +174,7 @@ const Hero = ()=>{
                                 <div className="flex gap-1 sm:gap-2 items-center">
                                     <div> <img style={{borderRadius:"50%",width:"15px", height:"15px"}}  src={e.photo} /> </div>
                                     <Link target="_blank" to={`/smm-panel/${e.translations?.en?.name ?? ""}/${e.id}`}>
-                                    <h4>{e?.translations?.[i18n.language]?.name || ""}</h4>
+                                    <h4>{e?.translations?.en?.name || ""}</h4>
                                     </Link>
                                     
                                     </div>
@@ -195,7 +195,7 @@ const Hero = ()=>{
                                 <div className="flex gap-1 sm:gap-2 items-center">
                                     <div> <img style={{borderRadius:"50%",width:"15px", height:"15px"}}  src={e.photo} /> </div>
                                     <Link target="_blank" to={`/smm-panel/${e.translations?.en?.name ?? ""}/${e.id}`}>
-                                      <h4>{e?.translations?.[i18n.language]?.name || ""}</h4>
+                                      <h4>{e?.translations?.en?.name || ""}</h4>
                                     </Link>
                                     
                                 </div>
@@ -236,7 +236,7 @@ const Hero = ()=>{
                                 <div className="flex gap-1 sm:gap-2 items-center">
                                     <div> <img style={{borderRadius:"50%",width:"15px", height:"15px"}}  src={e.photo} /> </div>
                                     <Link target="_blank" to={`/smm-panel/${e.translations?.en?.name ?? ""}/${e.id}`}>
-                                      <h4>{e?.translations?.[i18n.language]?.name || ""}</h4>
+                                      <h4>{e?.translations?.en?.name || ""}</h4>
                                     </Link>
                                     
                                 </div>
@@ -257,7 +257,7 @@ const Hero = ()=>{
                                 <div className="flex gap-1 sm:gap-2 items-center">
                                     <div> <img style={{borderRadius:"50%",width:"15px", height:"15px"}}  src={e.photo} /> </div>
                                     <Link target="_blank" to={`/smm-panel/${e.translations?.en?.name ?? ""}/${e.id}`}>
-                                      <h4>{e?.translations?.[i18n.language]?.name || ""}</h4>
+                                      <h4>{e?.translations?.en?.name || ""}</h4>
                                     </Link>
                                     
                                 </div>
