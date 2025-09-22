@@ -39,7 +39,10 @@
     "name-validation": "İsim gereklidir",
     "confirmation-password": "Şifreyi Onayla",
     "enter-6-digit-code": "Lütfen geçerli 6 haneli bir kod girin.",
-
+    "reset-password" : "Şifreyi Sıfırla",
+    "enter-your-email": "E-postanızı girin",
+    "forget-password": "Şifremi Unuttum?",
+    "remember-me": "Beni Hatırla",
     "whatsapp": "Whatsapp",
     "telegram": "Telegram",
     "website": "Web sitesi",

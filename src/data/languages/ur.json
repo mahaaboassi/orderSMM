@@ -36,7 +36,10 @@
     "name-validation": "نام درکار ہے",
     "confirmation-password": "پاس ورڈ کی تصدیق کریں",
     "enter-6-digit-code": "براہ کرم درست 6 ہندسوں کا کوڈ درج کریں۔",
-
+    "reset-password" : "پاس ورڈ ری سیٹ کریں",
+    "enter-your-email": "اپنا ای میل درج کریں",
+    "forget-password": "پاس ورڈ بھول گئے؟",
+    "remember-me": "مجھے یاد رکھیں",
     "whatsapp": "واٹس ایپ",
     "telegram": "ٹیلیگرام",
     "website": "ویب سائٹ",

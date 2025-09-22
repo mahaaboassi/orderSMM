@@ -24,6 +24,11 @@ const Check = ()=>{
         open : false
     })
     useEffect(()=>{
+        if(!code || localStorage.getItem("user")){
+            navigate("/",{
+                state: { message: "Denid access." },
+            })
+        }
         sendCode()
     },[])
     const sendCode = async (data) => {
@@ -80,11 +85,6 @@ const Check = ()=>{
         
         
     };
-    useEffect(()=>{
-        if(localStorage.getItem("user")){
-            navigate("/")
-        }
-    },[])
     return(<div className="auth-container px-2 lg:px-16 h-screen">
         <div className="auth-card shadow p-4 sm:p-10 flex flex-col gap-3">
             {/* <div> */}

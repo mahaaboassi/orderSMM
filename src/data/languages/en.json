@@ -52,7 +52,10 @@
         "verfication-msg" : "We have just sent you a verification code to your email. Please check your inbox — and don't forget to check your spam or junk folder in case it landed there.",
         "Didn’t-receive-a-code" : "Didn’t receive a code? ",
         "resend-now" : "Resend Now",
-
+        "reset-password" : "Reset Password",
+        "enter-your-email": "Enter Your Email",
+        "forget-password": "Forget Password?",
+        "remember-me": "Remember me",
         "name": "Name",
         "whatsapp" : "Whatsapp",
         "telegram" : "Telegram",

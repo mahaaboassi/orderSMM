@@ -35,7 +35,8 @@
     "name-validation": "Имя обязательно",
     "confirmation-password": "Подтвердите пароль",
     "enter-6-digit-code": "Пожалуйста, введите действительный 6-значный код.",
-
+    "reset-password" : "Сброс пароля",
+    "enter-your-email": "Введите свою электронную почту",
     "whatsapp": "Ватсап",
     "telegram": "Телеграм",
     "website": "Вебсайт",

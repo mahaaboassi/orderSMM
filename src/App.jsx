@@ -37,6 +37,8 @@ import ServicesWrapper from './pages/website/ourServices/slugs/page'
 import AddUser from './pages/adminDashboard/users/addUser'
 import HistoryPanel from './pages/adminDashboard/panels/historyPanel'
 import HistoryServicesRequest from './pages/adminDashboard/services/historyServicesRequest'
+import TypeEmail from './pages/website/auth/typeEmail'
+import ForgetPassword from './pages/website/auth/forgetPassword'
 
 
 function App() {
@@ -47,6 +49,8 @@ function App() {
         {/* Authentication Routes */}
         <Route path='auth/signIn' element={<SignIn/>}/>
         <Route path='auth/signUp' element={<SignUp/>}/>
+        <Route path='auth/typeEmail' element={<TypeEmail/>}/>
+        <Route path='auth/typePassword/:code' element={<ForgetPassword/>}/>
 
 
         <Route path='services' element={<Services/>} />
@@ -94,8 +98,6 @@ function App() {
 
         {/* Authentication Routes */}
         <Route path='/auth/check/:code' element={<Check/>}/>
-        <Route path='/auth/forgetPassword' element={<Check/>}/>
-        <Route path='/auth/typePassword/:code' element={<Check/>}/>
     </Routes>
   </BrowserRouter>
   )

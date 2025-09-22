@@ -9,8 +9,11 @@ import Service from "../../../../components/cards/service"
 import Pagination from "../../../../components/pagination"
 import Prices from "../../../../components/prices"
 import SearchInput from "../../../../components/search"
+import { useDispatch } from "react-redux"
+import { callStatus } from "../../../../features/callNotification"
 
 const AddWithServices = ({id, slug})=>{
+    const dispatch = useDispatch()
     const [ data, setData ] = useState([])
     const [isloading, setIsLoading ] = useState(false)
     const [ isSubmit, setIsSubmit ] = useState(false)
@@ -105,6 +108,7 @@ const AddWithServices = ({id, slug})=>{
             setTimeout(()=>{
                 setErrorStatus({msg: "", open : false,type:""})
             },3000)
+            dispatch(callStatus({isCall : true}))
         }else{
             console.log(message);
              setIsSubmit(false)

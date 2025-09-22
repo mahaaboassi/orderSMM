@@ -36,6 +36,10 @@
     "confirmation-password": "पासवर्ड की पुष्टि करें",
     "enter-6-digit-code": "कृपया एक मान्य 6-अंकीय कोड दर्ज करें।",
 
+    "reset-password" : "पासवर्ड रीसेट करें",
+    "enter-your-email": "अपना ईमेल दर्ज करें",
+    "forget-password": "पासवर्ड भूल गए?",
+    "remember-me": "मुझे याद रखें",
     "name": "नाम",
     "whatsapp": "व्हाट्सएप",
     "telegram": "टेलीग्राम",

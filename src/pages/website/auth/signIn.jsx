@@ -17,15 +17,14 @@ import InputPassword from "../../../components/inputPassword";
 const SignIn = ()=>{
     const { t } = useTranslation()
     const dispatch = useDispatch()
-    const navigate = useNavigate()
     const location = useLocation()
-    
+    const navigate = useNavigate()
     const validationSchema = Yup.object({
         email: Yup.string().email(t("auth.invalid-email")).required(t('auth.email-is-required')),
         password: Yup.string().min(3,t("auth.password-length-validation")).required(t("auth.password-validation")),
     });
 
-    const { register, handleSubmit, formState: { errors },watch } = useForm({
+    const { register, handleSubmit, reset, watch, formState: { errors } } = useForm({
         resolver: yupResolver(validationSchema),
             mode: 'onChange'
         });
@@ -35,6 +34,17 @@ const SignIn = ()=>{
         msg: "",
         open : false
     })
+    useEffect(()=>{
+        if(localStorage.getItem("user")){
+            navigate("/")
+        }
+        if(localStorage.getItem("email")){
+            reset({email: localStorage.getItem("email")})
+        }
+        const message = location.state?.message;
+        if(message) 
+            setErrorStatus({msg:message,open:true,type: location.state?.type || ""})
+    },[])
     const onSubmit = async (data) => {
         setErrorStatus({msg: "", open : false})
         setLoading(true)
@@ -49,33 +59,33 @@ const SignIn = ()=>{
         })
         if(response){
             setLoading(false)
-                window.location.reload()
-                dispatch(userInfo({
-                    email: response.data.email,
-                    phone : response.data.phone,
-                    photo: response.data.photo,
-                    mobile : response.data.Mobile,
-                    name : response.data.name,
-                    id: response.data.id,
-                    telegram : response.data.telegram,
-                    website : response.data.website,
-                    whatsapp : response.data.whatsapp,
-                    role : response.data.role
-                }))
-                localStorage.setItem("user",JSON.stringify({
-                    email: response.data.email,
-                    phone : response.data.phone,
-                    photo: response.data.photo,
-                    mobile : response.data.Mobile,
-                    name : response.data.name,
-                    id: response.data.id,
-                    telegram : response.data.telegram,
-                    website : response.data.website,
-                    whatsapp : response.data.whatsapp,
-                    role : response.data.role
-                }))
-                localStorage.setItem("token",response.data.access_token)  
-            
+            window.location.reload()
+            dispatch(userInfo({
+                email: response.data.email,
+                phone : response.data.phone,
+                photo: response.data.photo,
+                mobile : response.data.Mobile,
+                name : response.data.name,
+                id: response.data.id,
+                telegram : response.data.telegram,
+                website : response.data.website,
+                whatsapp : response.data.whatsapp,
+                role : response.data.role
+            }))
+            localStorage.setItem("user",JSON.stringify({
+                email: response.data.email,
+                phone : response.data.phone,
+                photo: response.data.photo,
+                mobile : response.data.Mobile,
+                name : response.data.name,
+                id: response.data.id,
+                telegram : response.data.telegram,
+                website : response.data.website,
+                whatsapp : response.data.whatsapp,
+                role : response.data.role
+            }))
+            localStorage.setItem("token",response.data.access_token) 
+            localStorage.removeItem("email") 
         }else{
             if(message == "WRONG_CREDENTIALS"){
                 setErrorStatus({msg: t("error.wrong_credentials"), open : true})
@@ -91,14 +101,7 @@ const SignIn = ()=>{
             
         } 
     };
-    useEffect(()=>{
-        if(localStorage.getItem("user")){
-            navigate("/")
-        }
-        const message = location.state?.message;
-        if(message) 
-            setErrorStatus({msg:message,open:true})
-    },[])
+
     const sendCode = async(email) =>{
         setLoadingVerify(true)
         const {response , message,  statusCode} = await Helper({
@@ -135,6 +138,18 @@ const SignIn = ()=>{
                 <label>{t("auth.password")} :</label>
                 <InputPassword register={register("password")} placeholder={t("auth.password")} />
                 {errors.password && <p className="p-0.5 text-error">{errors.password.message}</p>}
+            </div>
+            <div className="flex justify-between gap-2">
+                <div className="flex gap-1 items-center">
+                    <input onChange={(e)=>{
+                        if(e.target.checked) {localStorage.setItem("email",watch("email"))}
+                        if(!e.target.checked) localStorage.removeItem("email")
+                    }} type="checkbox" />
+                    <p>{t("auth.remember-me")}</p>
+                </div>
+                <div>
+                    <p><Link to="/auth/typeEmail"><span>{t("auth.forget-password")}</span></Link></p>
+                </div>
             </div>
             <p>{t("auth.don’t-have-an-account-yet")}<Link to="/auth/signUp"><span>{t("auth.sign-up-here")}</span></Link></p>
             <div>

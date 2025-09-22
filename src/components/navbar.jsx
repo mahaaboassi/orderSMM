@@ -4,6 +4,7 @@ import Currency from "./currency"
 import { useTranslation } from "react-i18next"
 import { useEffect, useState } from "react"
 import Avatar from "./avatar"
+import Notifications from "./notifications"
 
 const logo = <svg className="logo" xmlns="http://www.w3.org/2000/svg" width="145" height="55" viewBox="0 0 205 74" fill="none">
 <g clipPath="url(#clip0_257_4)">
@@ -90,6 +91,7 @@ const Navbar = ()=>{
                 { Object.keys(currentUser).length == 0 && <div><Link aria-label="Sign In" to="/auth/signIn"><button>{t("sign-in")}</button></Link></div>}
                 <Flag/>
                 <Currency/>
+                {localStorage.getItem("user") && <Notifications/>}
                 <div onClick={()=>setIsOpenMenu(true)} className="icon-menu-sm cursor-pointer">{menuIcon} </div>
                 { Object.keys(currentUser).length > 0 && <Avatar/>}
             </div>

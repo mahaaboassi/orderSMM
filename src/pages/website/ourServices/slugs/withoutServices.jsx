@@ -7,6 +7,8 @@ import { Link } from "react-router-dom"
 import Periods from "../../../../components/periods"
 import Prices from "../../../../components/prices"
 import Pagination from "../../../../components/pagination"
+import { callStatus } from "../../../../features/callNotification"
+import { useDispatch } from "react-redux"
 
 
 const CustomImage = ({returnedFile,e,removeItem,memoryPhoto})=>{
@@ -59,6 +61,7 @@ const CustomImage = ({returnedFile,e,removeItem,memoryPhoto})=>{
 
 const AddWithoutServices = ({id, slug, isAd})=>{
     const [ data, setData ] = useState([])
+    const dispatch = useDispatch()
     const [isloading, setIsLoading ] = useState(false)
     const [ isSubmit, setIsSubmit ] = useState(false)
     const { t,i18n } = useTranslation()
@@ -190,6 +193,7 @@ const AddWithoutServices = ({id, slug, isAd})=>{
             setTimeout(()=>{
                 setErrorStatus({msg: "", open : false,type:""})
             },3000)
+            dispatch(callStatus({isCall : true}))
         }else{
             console.log(message);
              setIsSubmit(false)
@@ -207,7 +211,6 @@ const AddWithoutServices = ({id, slug, isAd})=>{
                             <input onChange={(e)=>getData(1,e.target.value)} className="px-2 py-1" placeholder="Search Panel" />
                         </div>
                     </div>
-                    
                 <div className="grid grid-cols-1 lg:grid-cols-4 gap-5 lg:gap-10">
                     <div className="col-span-4 lg:col-span-3">
                         { isloading ? <Loading/> :  <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 lg:gap-5">

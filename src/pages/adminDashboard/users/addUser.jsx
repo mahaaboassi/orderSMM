@@ -64,7 +64,12 @@ const AddUser = ()=>{
                 email: response.data.email || "",
                 website: response.data.website || "",
             };
+
             // functionality for role and active
+            setValues(prev=>( {
+                role : response.data?.role == "admin" ? {label : "Admin",value : 1}: {label : "User",value : 2},
+                active : response.data?.active == "0" ? {label : "Inactive",value : 0}: {label : "Active",value : 1}
+            }))  
             reset(data); 
         }else{
             console.log(message);
@@ -76,27 +81,27 @@ const AddUser = ()=>{
         setErrorStatus({msg: "", open : false})
         setLoading(true)
         
-        const values = new FormData()
-        values.append("name",data.name)
-        values.append("email",data.email)
-        values.append("website",data.website)
-        values.append("telegram",data.telegram)
-        values.append("whatsapp",data.whatsapp)
-        if(data.password) values.append("password",data.password)
-        // values.append("role",data.role)
-        // values.append("active",data.active)
+        const value = new FormData()
+        value.append("name",data.name)
+        value.append("email",data.email)
+        value.append("website",data.website)
+        value.append("telegram",data.telegram)
+        value.append("whatsapp",data.whatsapp)
+        if(data.password) value.append("password",data.password)
+        value.append("role_id",values.role.value)
+        value.append("active",values.active.value)
 
         if(!id)
-            values.append("_method","PUT")
+            value.append("_method","PUT")
 
 
-        const obj = Object.fromEntries(values.entries());
+        const obj = Object.fromEntries(value.entries());
         // console.log("Data user",obj);
         // return
         const {response , message,  statusCode} = await Helper({
             url: id ? apiRoutes.users.update(id) : apiRoutes.users.add,
             method:'POST',
-            body:values,
+            body:value,
             hasToken : true,
         })
         if(response){

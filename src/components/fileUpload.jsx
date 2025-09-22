@@ -15,9 +15,8 @@ export default function FileUpload({returnedFile, fromApi}) {
   };
   useEffect(()=>{setApiFile(fromApi)},[fromApi])
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-2 file-upload">
       <FileUploader
-        className="w-full"
         multiple={true}
         handleChange={handleChange}
         name="file"

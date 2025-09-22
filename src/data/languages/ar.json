@@ -36,7 +36,10 @@
     "have-an-account": "هل لديك حساب؟",
     "sign-up": "إنشاء حساب",
     "verification-code": "رمز التحقق",
-
+    "reset-password" : "إعادة تعيين كلمة المرور",
+    "enter-your-email": "أدخل بريدك الإلكتروني",
+    "forget-password": "هل نسيت كلمة المرور؟",
+    "remember-me": "تذكرني",
     "name-validation": "الاسم مطلوب",
     "confirmation-password": "تأكيد كلمة المرور",
     "enter-6-digit-code": "يرجى إدخال رمز مكون من 6 أرقام بشكل صحيح.",

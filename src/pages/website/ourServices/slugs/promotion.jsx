@@ -6,11 +6,17 @@ import { useEffect, useState } from 'react';
 import PromotionSelect from '../../../../components/promotionSelect';
 import FileUpload from "../../../../components/fileUpload";
 import Periods from "../../../../components/periods";
+import { callStatus } from "../../../../features/callNotification";
+import { useDispatch } from "react-redux";
+import GetPanels from "./getPanels";
 
 
 const Promotion = ({slug,isPromotion})=>{
     const {t} = useTranslation()
     const navigate = useNavigate()
+    const dispatch = useDispatch()
+    // Track selected panel
+    const [selectedPanel, setSelectedPanel] = useState(null)
     useEffect(()=>{
         if(!localStorage.getItem("user")){
             navigate("/auth/signIn",{
@@ -35,9 +41,14 @@ const Promotion = ({slug,isPromotion})=>{
             setBasicPrice(parseFloat(max));
         }
     },[slug])
+
     const submit = async()=>{
         if(!messageForm){
             setErrorStatus({msg: "Message is required!", open : true})
+            return
+        }
+        if(!selectedPanel){
+            setErrorStatus({msg: "Select Panel!", open : true})
             return
         }
         setIsSubmit(true)
@@ -45,7 +56,8 @@ const Promotion = ({slug,isPromotion})=>{
         formData.append("_method","PUT")
         formData.append("service_id",slug.id)
         formData.append("description",messageForm)
-        if( "name" in file ) formData.append("file",file)
+        formData.append(`panels[0][id]`,selectedPanel)
+        if( file &&  "name" in file ) formData.append("file",file)
         // formData.append("count","500")
         // formData.append("interval","15h")
         if(isPromotion) formData.append("payment_period_id",period.id)
@@ -82,15 +94,16 @@ const Promotion = ({slug,isPromotion})=>{
             setTimeout(()=>{
                 setErrorStatus({msg: "", open : false,type:""})
             },3000)
+            dispatch(callStatus({isCall : true}))
         }else{
             console.log(message);
-             setIsSubmit(false)
+            setIsSubmit(false)
             setErrorStatus({msg: message, open : true})
             
         }
     } 
-    return(<div className=''>
-        <div className='grid grid-cols-2 gap-5 lg:gap-10'>
+    return(<div className='flex flex-col gap-5'>
+        <div className='grid grid-cols-1 md:grid-cols-2 gap-5 lg:gap-10'>
             <div className="flex flex-col gap-3">
                 <div className="card p-4 flex flex-col gap-4">
                     <h4>Select</h4>
@@ -108,27 +121,38 @@ const Promotion = ({slug,isPromotion})=>{
                 </div>
 
             </div>
-            <div className="flex flex-col gap-3">
-                 {isPromotion && <div className="info-checkout w-full  card p-4 flex flex-col gap-4">
-                    <h4>Choose Your Plan Duration</h4>
-                    <Periods returnedSelected={(res)=>setPeriod(res)} price={valuesSelected.price}/>
-                </div>}
-                <div className="info-checkout w-full card p-4 flex flex-col gap-4 ">
-                    <h4 >Invoice</h4>
-                    <div > Total price : <strong>{isPromotion ? valuesSelected.price * period.factor * period.discount: valuesSelected.price}</strong> </div>
-                    <div> 
-                        <div className="py-2">
-                            {errorStatus.open && errorStatus.type == "success" && <h4 className="text-center box-success p-2">{errorStatus.msg}</h4>}
-                            {errorStatus.open && errorStatus.type != "success"&& <h4 className="text-center box-error p-2">{errorStatus.msg}</h4>}
+            <div className="md:hidden block">
+                <GetPanels returnedPanelId={(res)=>{
+                    setErrorStatus({msg: "", open : false})
+                    setSelectedPanel(res)}}/>
+            </div>
+            <div className=" relative">
+                 <div className="sticky top-20 flex flex-col gap-3">
+                    {isPromotion && <div className="info-checkout w-full  card p-4 flex flex-col gap-4">
+                        <h4>Choose Your Plan Duration</h4>
+                        <Periods returnedSelected={(res)=>setPeriod(res)} price={valuesSelected.price}/>
+                    </div>}
+                    <div className="info-checkout w-full card p-4 flex flex-col gap-4 ">
+                        <h4 >Invoice</h4>
+                        <div > Total price : <strong>{isPromotion ? valuesSelected.price * period.factor * period.discount: valuesSelected.price}</strong> </div>
+                        <div> 
+                            <div className="py-2">
+                                {errorStatus.open && errorStatus.type == "success" && <h4 className="text-center box-success p-2">{errorStatus.msg}</h4>}
+                                {errorStatus.open && errorStatus.type != "success"&& <h4 className="text-center box-error p-2">{errorStatus.msg}</h4>}
+                            </div>
+                            <button disabled={isSubmit} onClick={submit} className="dark-btn w-full">
+                                {isSubmit? <div className="loader m-auto"></div>:"Checkout"}
+                            </button> 
                         </div>
-                        <button disabled={isSubmit} onClick={submit} className="dark-btn w-full">
-                            {isSubmit? <div className="loader m-auto"></div>:"Checkout"}
-                        </button> 
                     </div>
-                </div>
+                 </div>
             </div>
         </div>
-        
+        <div className="hidden md:block">
+            <GetPanels returnedPanelId={(res)=>{
+                setErrorStatus({msg: "", open : false})
+                setSelectedPanel(res)}}/>
+        </div>
             
     </div>)
 }

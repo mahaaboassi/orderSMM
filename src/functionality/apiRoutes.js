@@ -6,7 +6,8 @@ export const apiRoutes = {
         signIn : `${host}auth`,
         signUp : `${host}auth`,
         sendCode : `${host}auth/send-code`,
-        verifyCode : `${host}auth/verify`
+        verifyCode : `${host}auth/verify`,
+        forgetPassword : `${host}auth/forget-password`
     },
     panel : {
         list : `${host}panels`,
@@ -73,6 +74,9 @@ export const apiRoutes = {
         add : `${host}users`,
         getOne : (id)=>(`${host}users/${id}`),
         update : (id)=>(`${host}users/${id}`),
+    },
+    notifications : {
+        list : `${host}notifications`,
     },
     settings : {
         list : `${host}settings`,

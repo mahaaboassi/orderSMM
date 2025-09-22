@@ -79,7 +79,7 @@ const Arc = ()=>{
                                         panel_id: ele.id
                                     }))
                             }} key={`Panals_${ele.title}_${idx}`}>
-                        <Link target="_blank" to={ele.website}>
+                        <Link target="_blank" to={`/smm-panel/${ele.translations?.en?.name ?? ""}/${ele.id}`}>
                             <div  className="flex container-img items-center py-2 logo">
                                 <img className="object-contain " src={ele.logo} alt={ele.name} />
                             </div>
@@ -116,8 +116,13 @@ const Arc = ()=>{
                     }}
                     >
                 
-                    {data.reverse().map((ele,idx)=>( <SwiperSlide key={`Panals_${ele.name}_${idx}`}>
-                        <Link target="_blank" to={ele.website}>
+                    {data.reverse().map((ele,idx)=>( <SwiperSlide onClick={()=>{
+                                 localStorage.setItem("click",JSON.stringify({
+                                        service_id: 11,
+                                        panel_id: ele.id
+                                    }))
+                            }} key={`Panals_${ele.name}_${idx}`}>
+                        <Link target="_blank" to={`/smm-panel/${ele.translations?.en?.name ?? ""}/${ele.id}`}>
                             <div className="flex container-img items-center py-2 logo">
                                 <img className="object-contain " src={ele.logo} alt={ele.name} />
                             </div>

@@ -8,12 +8,15 @@ import Periods from "../../../../components/periods"
 import Prices from "../../../../components/prices"
 import Dropdown from "../../../../components/DropDownComponent" 
 import Pagination from "../../../../components/pagination"
+import { useDispatch } from "react-redux"
+import { callStatus } from "../../../../features/callNotification"
 
 const Bumps = ({id, slug})=>{
     const [ data, setData ] = useState([])
     const [isloading, setIsLoading ] = useState(false)
     const [ isSubmit, setIsSubmit ] = useState(false)
     const { t,i18n } = useTranslation()
+    const dispatch = useDispatch()
     const [ panels, setPanels ] = useState([])
     const abortControllerRef = useRef(null)
     // For Pagination
@@ -129,6 +132,7 @@ const Bumps = ({id, slug})=>{
             setTimeout(()=>{
                 setErrorStatus({msg: "", open : false,type:""})
             },3000)
+            dispatch(callStatus({isCall : true}))
         }else{
             console.log(message);
              setIsSubmit(false)

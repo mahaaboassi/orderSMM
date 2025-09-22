@@ -238,7 +238,43 @@ button:disabled{
         color: var(--green_2);
     }
 }
-
+/* Notifications */
+.notification-menu{
+    position: absolute;
+    top: 37px;
+    background-color: var(--light);
+    color: var(--green_1);
+    font-size: var(--font-size-xxs);
+    width: 250px;
+    border-radius: 10px;
+    height: 300px;
+    overflow: auto;
+    
+}
+.notification-menu a{
+    color: var(--green_1);
+    font-weight: 800;
+    font-size: var(--font-size-xs);
+}
+.new{
+    width: 10px;
+    height: 10px;
+    background-color: var(--error-color);
+    border-radius: 50%;
+    top: -5px
+}
+.notification-menu::-webkit-scrollbar {
+  width: 6px;
+}
+.notification-item{
+    border-bottom: 2px solid rgba(128, 128, 128, 0.368);
+    
+}
+.notification-item span{
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--green_2);
+}
 /* Flag */
 .flag-container{
     position: relative;
@@ -514,6 +550,10 @@ button:disabled{
         }
     }
   
+}
+/* File Upload */
+.file-upload input{
+    width: 100% ;
 }
 @media (max-width:768px) {
     .icons-card img{
