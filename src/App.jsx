@@ -15,7 +15,7 @@ import DetailsPanel from './pages/website/ads/detailsPanel'
 import Dashboard from './pages/dashboard/page'
 import Account from './pages/dashboard/account'
 import Finances from './pages/dashboard/finances'
-import SMMPanels from './pages/dashboard/smmPanels'
+import SMMPanels from './pages/dashboard/panels/smmPanels'
 import Services from './pages/website/services/page'
 import Check from './pages/website/auth/check'
 import AdsPage from './pages/website/ads/page'
@@ -39,6 +39,7 @@ import HistoryPanel from './pages/adminDashboard/panels/historyPanel'
 import HistoryServicesRequest from './pages/adminDashboard/services/historyServicesRequest'
 import TypeEmail from './pages/website/auth/typeEmail'
 import ForgetPassword from './pages/website/auth/forgetPassword'
+import NotificationList from './pages/commonElements/notifications/page'
 
 
 function App() {
@@ -69,7 +70,11 @@ function App() {
         <Route path='settings' element={<Account/>}/>
         <Route path='finances' element={<Finances/>}/>
         <Route path='SMMPanels' element={<SMMPanels/>}/>
+        {/* Notifications Interfaces */}
+        <Route path='notifications' element={<NotificationList/>}/>
       </Route>
+
+
       <Route path='/dashboard/admin/*' element={<LayoutAdminDashboard/>}>
         <Route path='' element={<AdminDashboard/>}/>
         <Route path='settings' element={<Settings/>}/>
@@ -87,7 +92,8 @@ function App() {
         <Route path='services' element={<ServicesAdmin/>}/>
         <Route path='services/add' element={<AddService/>}/>
         <Route path='services/edit/:id' element={<AddService/>}/>
-
+        {/* Notifications Interfaces */}
+        <Route path='notifications' element={<NotificationList/>}/>
 
         <Route path='category/add' element={<AddCategory/>}/>
         <Route path='categories' element={<Categories/>}/>

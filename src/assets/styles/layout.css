@@ -270,11 +270,12 @@ button:disabled{
     border-bottom: 2px solid rgba(128, 128, 128, 0.368);
     
 }
-.notification-item span{
+.notification-item span,.notification-item-list span{
     font-size: 12px;
     font-weight: 500;
     color: var(--green_2);
 }
+
 /* Flag */
 .flag-container{
     position: relative;

@@ -50,6 +50,7 @@ const Notifications = ()=>{
     const [ finalObj, setFinalObj ] = useState({})
     const [ isOpen, setIsOpen ] = useState(false) 
     const isCallRedux = useSelector(state => state.isCall )
+    const user = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : {}
     const types = ["New Service Request","Service Request Confirmed","New Panel Added","Panel Approved"]
     useEffect(()=>{
         const controller = new AbortController()
@@ -150,7 +151,7 @@ const Notifications = ()=>{
                 </div>)) 
                 }
                 
-                    <Link to={"/"}>  
+                    <Link to={`/dashboard/${user?.role == "admin"? "admin/notifications" : "notifications" }`}>  
                         <div className="flex gap-2 items-center">
                             See All
                             <svg xmlns="http://www.w3.org/2000/svg" width="12" height="13" viewBox="0 0 52 53" fill="none">

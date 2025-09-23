@@ -32,7 +32,17 @@ i18n
       hi: { translation: hindi },
       ur: { translation: urdu }
 
+    },
+    detection: {
+      // Strip region codes (e.g., en-GB → en)
+      load: 'languageOnly', 
     }
+  }).then(()=>{
+      // normalize language manually:
+      const lang = i18n.language.split('-')[0]; // 'en-GB' -> 'en'
+      if (i18n.language !== lang) {
+        i18n.changeLanguage(lang);
+      }
   });
 
 export default i18n;

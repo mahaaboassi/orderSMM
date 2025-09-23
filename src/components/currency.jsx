@@ -25,7 +25,9 @@ const Currency = ()=>{
     },[])
     const getData = async (signal) => {
         setLoading(true)
-        const temp = {page :1}
+        const temp = {page: 1,
+            results: 30
+        }
         const { response , message, statusCode } = await Helper({
             url : apiRoutes.currencies.list,
             signal : signal,
