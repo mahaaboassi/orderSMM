@@ -66,7 +66,7 @@ const NotificationList = ()=>{
             setData(response.data)
             setLoading(false)
 
-            // setLastPage(response.meta.last_page)
+            setLastPage(response.meta.last_page)
         }else{
             console.log(message);
   

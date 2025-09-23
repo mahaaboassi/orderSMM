@@ -164,16 +164,14 @@ const HistoryServicesRequest = ()=>{
         const page = parseInt(searchParams.get('page') || '1')
         const perPage = parseInt(searchParams.get('limit') || '10')
         const service = parseInt(searchParams.get('service_id') || '')
+        let params = { page, perPage}
+        if(service) params.service_id = service
         const { response, message, statusCode} = await Helper({
             url : apiRoutes.services.history,
             method : "GET",
             // signal : signal,
             hasToken: true,
-            params : {
-                page : page,
-                results : perPage,
-                service_id : service
-            }
+            params : params
         })
         if(response){
             window.scrollTo({top:0})
@@ -187,7 +185,7 @@ const HistoryServicesRequest = ()=>{
                 clicks : ele?.clicks ?? "0",
                 status :  ele?.status ?? "0",
                 panels : ele?.panels ?? [] ,
-                user : ele.panels.length > 0 ? ele.panels[0]?.user?.email :"",
+                user : ele?.user?.email ?? "",
                 ends_at : ele.ends_at 
                     ? format(new Date(ele.ends_at), "MMMM d, yyyy") 
                     : "-",
