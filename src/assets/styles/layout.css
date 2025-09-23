@@ -471,6 +471,13 @@ button:disabled{
     align-items: center;
     border-radius: 10px;
 }
+.info-card{
+    background-color: var(--info-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+}
 .hDEoCR{
     border-color: var(--green_2) !important;
     width: 100%  !important;

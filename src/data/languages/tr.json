@@ -79,7 +79,8 @@
 
       "your_account_is_not_verified" : "Hesabınız doğrulanmadı. Lütfen hesabınızı etkinleştirmek için e-postanızı kontrol edin.",
       "reverify_now": "Yeniden doğrula",
-      "invalid_code" : "Doğrulama bağlantısı geçersiz veya zaten kullanılmış. Lütfen yeni bir bağlantı isteyin."
+      "invalid_code" : "Doğrulama bağlantısı geçersiz veya zaten kullanılmış. Lütfen yeni bir bağlantı isteyin.",
+      "permission_login": "Burada oturum açma izniniz yok."
     },
   "success" : {
       "verified":"Başarıyla kaydoldunuz. E-posta adresinize bir doğrulama bağlantısı gönderdik. Lütfen hesabınızı etkinleştirmek için e-postanızı kontrol edin."

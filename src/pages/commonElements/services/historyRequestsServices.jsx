@@ -10,91 +10,65 @@ import {
   createColumnHelper,
 } from '@tanstack/react-table';
 import Dropdown from "../../../components/DropDownComponent"
+import UsersSelect from "../../../components/users"
 
 
 const ServicesFilter = ({returnedValue})=>{
     const [ services , setServices ] = useState([])
+    const [ defaultValue , setDefaultValue ] = useState({label: "Filter by service",value : "1"})
+     const [searchParams, setSearchParams] = useSearchParams();
     useEffect(()=>{
         const controller = new AbortController()
         const signal = controller.signal
         getServices(signal)
+        
         return () => controller.abort()
-    },[])
+    },[searchParams])
     const getServices = async (signal)=>{
         setServices([])
+        const service = parseInt(searchParams.get('service_id') || '')
         const { response, message, statusCode} = await Helper({
             url : apiRoutes.services.list,
             method : "GET",
             signal : signal,
+            params: { results: 20 },
             hasToken: true,
         })
         if(response){
             console.log(response.data)
-           setServices(response.data)
+            setServices(response.data)
+            const currentValue = response.data.find(e=> e.id == service)
+            if(currentValue) {setDefaultValue({
+                label: currentValue?.translations?.en?.name || "",
+                value: currentValue.id
+            })}else{
+                setDefaultValue({label: "Filter by service",value : "1"})
+            }
         }else{
             console.log(message);
         }
     }
-    return( <div>
-            {services.length > 0  && <Dropdown returnedOption={(res)=>{
+    return( <div >
+            {<Dropdown returnedOption={(res)=>{
                  returnedValue(res)
-            }} defaultOption={{label: "Filter by service",value : "1"}}
-                data={services.map(e => ({
+            }} defaultOption={defaultValue}
+                data={services.length > 0  ?services.map(e => ({
                     label: e?.translations?.en?.name || "",
                     value: e.id
-                }))} 
+                })):[]} 
                 />}
         </div>)
 }
-// const ServicesFilter = ({returnedValue})=>{
-//     const [ services , setServices ] = useState([])
-//     const [ defaultValue , setDefaultValue ] = useState({label: "Filter by service",value : "1"})
-//      const [searchParams, setSearchParams] = useSearchParams();
-//     useEffect(()=>{
-//         const controller = new AbortController()
-//         const signal = controller.signal
-//         getServices(signal)
-//         return () => controller.abort()
-//     },[])
-//     useEffect(()=>{
-//         const service = parseInt(searchParams.get('service_id') || '')
-//         setDefaultValue(services.find(e=> e.id == service))
-//     },[ searchParams ])
-//     const getServices = async (signal)=>{
-//         setServices([])
-//         const { response, message, statusCode} = await Helper({
-//             url : apiRoutes.services.list,
-//             method : "GET",
-//             signal : signal,
-//             hasToken: true,
-//         })
-//         if(response){
-//             console.log(response.data)
-//            setServices(response.data)
-//         }else{
-//             console.log(message);
-//         }
-//     }
-//     return( <div>
-//             {services.length > 0  && <Dropdown returnedOption={(res)=>{
-//                  returnedValue(res)
-//             }} defaultOption={defaultValue}
-//                 data={services.map(e => ({
-//                     label: e?.translations?.en?.name || "",
-//                     value: e.id
-//                 }))} 
-//                 />}
-//         </div>)
-// }
+
 const columnHelper = createColumnHelper();
 
-const HistoryServicesRequest = ()=>{
+const HistoryRequestServices = ()=>{
     const [ data, setData ] = useState([])
     const [ loading, setLoading ] = useState(false)
     const [ loadingDelete, setLoadingDelete ] = useState(false)
     const [openPopup, setOpenPopup] = useState(false)
     const [ currentData , setCurrentData ] = useState({})
-   
+    const user = JSON.parse(localStorage.getItem("user"))
     const [ errorStatus , setErrorStatus] = useState({
         msg: "",
         open : false,
@@ -123,10 +97,6 @@ const HistoryServicesRequest = ()=>{
                 header: 'Price',
                 cell: info => info.getValue(),
             }),
-            columnHelper.accessor('user', {
-                header: 'User',
-                cell: info => info.getValue(),
-            }),
             columnHelper.accessor('panels', {
                 header: 'Panels',
                 cell: info => (<div style={{minWidth : "150px"}}>
@@ -145,11 +115,15 @@ const HistoryServicesRequest = ()=>{
                 header: 'Status',
                 cell: info => (<div>
                     {info.getValue() == 0 ? <div className="error-card p-2">Pending</div>
-                                            :<div className="success-card p-2">Paid</div>}
+                                            :( info.getValue() == 1 ? <div className="success-card p-2">Paid</div>:
+                                            <div className="info-card p-2">Closed</div>)}
                 </div>),
             }),
             ]
-    
+    if(user?.role == "admin") columns.splice(5,0,columnHelper.accessor('user', {
+                header: 'User',
+                cell: info => info.getValue(),
+            }),)
     useEffect(()=>{
         const controller = new AbortController()
         const signal = controller.signal
@@ -167,7 +141,7 @@ const HistoryServicesRequest = ()=>{
         let params = { page, perPage}
         if(service) params.service_id = service
         const { response, message, statusCode} = await Helper({
-            url : apiRoutes.services.history,
+            url : user?.role == "admin" ? apiRoutes.services.history : apiRoutes.services.historyByUser,
             method : "GET",
             // signal : signal,
             hasToken: true,
@@ -214,13 +188,23 @@ const HistoryServicesRequest = ()=>{
         </div>
         {errorStatus.open && errorStatus.type == "success" && <h4 className="text-center box-success p-2">{errorStatus.msg}</h4>}
         {errorStatus.open && errorStatus.type != "success"&& <h4 className="text-center box-error p-2">{errorStatus.msg}</h4>}
-        <ServicesFilter returnedValue={(res)=>{
-            setSearchParams({
-                    page: String(1),
-                    limit: String(10),
-                    service_id : String(res.value)
-                });
-        }}/>
+        
+        {/* Filter Section */}
+        <div className="grid grid-cols-1 xs:grid-cols-3 gap-3">
+             <ServicesFilter returnedValue={(res)=>{
+                setSearchParams({
+                        page: String(1),
+                        limit: String(10),
+                        service_id : String(res.value)
+                    });
+            }}/>
+            <div onClick={()=>{
+                setSearchParams({page: String(1),
+                        limit: String(10),})
+            }}>
+                <button>Reset</button>
+            </div>
+        </div>
         {loading ? <Loading/> :<MyTanstackTable last_Page={lastPage} columns={columns} data={data} />}
 
 
@@ -237,4 +221,4 @@ const HistoryServicesRequest = ()=>{
     </div>)
 }
 
-export default HistoryServicesRequest
+export default HistoryRequestServices

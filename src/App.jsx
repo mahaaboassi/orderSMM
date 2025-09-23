@@ -36,10 +36,11 @@ import AddPanel from './pages/adminDashboard/panels/addPanel'
 import ServicesWrapper from './pages/website/ourServices/slugs/page'
 import AddUser from './pages/adminDashboard/users/addUser'
 import HistoryPanel from './pages/adminDashboard/panels/historyPanel'
-import HistoryServicesRequest from './pages/adminDashboard/services/historyServicesRequest'
 import TypeEmail from './pages/website/auth/typeEmail'
 import ForgetPassword from './pages/website/auth/forgetPassword'
 import NotificationList from './pages/commonElements/notifications/page'
+import SignInAdmin from './pages/website/auth/signInAdmin'
+import HistoryRequestServices from './pages/commonElements/services/historyRequestsServices'
 
 
 function App() {
@@ -49,6 +50,7 @@ function App() {
         <Route path='' element={<Home/>}/>
         {/* Authentication Routes */}
         <Route path='auth/signIn' element={<SignIn/>}/>
+        <Route path='auth/admin' element={<SignInAdmin/>}/>
         <Route path='auth/signUp' element={<SignUp/>}/>
         <Route path='auth/typeEmail' element={<TypeEmail/>}/>
         <Route path='auth/typePassword/:code' element={<ForgetPassword/>}/>
@@ -70,6 +72,7 @@ function App() {
         <Route path='settings' element={<Account/>}/>
         <Route path='finances' element={<Finances/>}/>
         <Route path='SMMPanels' element={<SMMPanels/>}/>
+        <Route path='SMMServices' element={<HistoryRequestServices/>}/>
         {/* Notifications Interfaces */}
         <Route path='notifications' element={<NotificationList/>}/>
       </Route>
@@ -87,7 +90,7 @@ function App() {
         <Route path='panels/edit/:id' element={<AddPanel/>}/>
         <Route path='panels/history/:id/:name' element={<HistoryPanel/>}/>
         {/* Services Requests */}
-        <Route path="history/servicesRequests" element={<HistoryServicesRequest/>} />
+        <Route path="history/servicesRequests" element={<HistoryRequestServices/>} />
         {/* Services Collection */}
         <Route path='services' element={<ServicesAdmin/>}/>
         <Route path='services/add' element={<AddService/>}/>

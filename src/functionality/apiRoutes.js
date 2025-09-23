@@ -43,7 +43,9 @@ export const apiRoutes = {
         delete : (id)=>(`${host}services/${id}`),
         request : `${host}services-requests`,
         confirm : `${host}services-requests/confirm`,
-        history : `${host}services-requests`
+        history : `${host}services-requests`,
+        historyByUser : `${host}services-requests/by-user`
+        
     },
     payment_periods : { 
         list : `${host}payment-periods`,

@@ -32,16 +32,16 @@ const Dropdown = ({data,defaultOption,returnedOption=()=>{}})=>{
         setOption(e)
         returnedOption(e)
     }
-    return(  <div ref={menuRef} className="dropdown">
-            <div onClick={()=>setIsOpen(!isOpen)} className="cursor-pointer items-center flex justify-between px-2 py-1">
-               <div>{option.label} </div>
+    return(  <div ref={menuRef} className="dropdown h-full ">
+            <div onClick={()=>setIsOpen(!isOpen)} className="cursor-pointer h-full items-center flex justify-between px-2 py-1">
+               <div>{option?.label.substring(0,20)+".."} </div>
                <div>
                     <svg style={{transform:"rotate(90deg)"}} xmlns="http://www.w3.org/2000/svg" width="8" height="12" viewBox="0 0 8 12" fill="none">
                         <path d="M0.590088 10.59L5.17009 6L0.590088 1.41L2.00009 0L8.00009 6L2.00009 12L0.590088 10.59Z" fill="#08392B"/>
                     </svg>
                </div>
             </div>
-            {isOpen && <div  className={`menu-dropdown top-9  ${(i18n.language == "ar" || i18n.language == "ur")?"left-0":"right-0"}`}>
+            {isOpen && <div className={`menu-dropdown top-9  ${(i18n.language == "ar" || i18n.language == "ur")?"left-0":"right-0"}`}>
                 {data.map((e,idx)=>(<div onClick={()=>handleSelected(e)} className={`option-dropdown p-1 ${e.value == option.value?"active":""}`} key={`Dropdown_${e.label}_${idx}`}>
                     {e.label}
                 </div>))}

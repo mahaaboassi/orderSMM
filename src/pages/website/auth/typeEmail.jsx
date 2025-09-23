@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next"
-import { Link, useNavigate } from "react-router-dom"
+import { Link, useNavigate, useSearchParams } from "react-router-dom"
 // for validation
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -13,7 +13,8 @@ import { Helper } from "../../../functionality/helper";
 const TypeEmail = ()=>{
     const { t } = useTranslation()
     const navigate = useNavigate()
-
+    const [searchParams] = useSearchParams();
+    const role = searchParams.get("role") || "";
     
     const validationSchema = Yup.object({
         email: Yup.string().email(t("auth.invalid-email")).required(t('auth.email-is-required')),
@@ -70,7 +71,7 @@ const TypeEmail = ()=>{
                 <input {...register("email")} type="text" placeholder={t("auth.email")}  />
                 {errors.email && <p className="p-0.5 text-error">{errors.email.message}</p>}
             </div>
-            <p>{t("auth.have-an-account")}<Link to="/auth/signIn"><span>{t("auth.sign-in-here")}</span></Link></p>
+            <p>{t("auth.have-an-account")}<Link to={role?`/auth/admin`:`/auth/signIn`}><span>{t("auth.sign-in-here")}</span></Link></p>
             <div>
                 <button disabled={loading} className="dark-btn w-full">{loading ? <div className="loader m-auto"></div> : t("submit") }</button>
             </div>

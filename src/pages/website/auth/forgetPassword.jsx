@@ -54,6 +54,7 @@ const ForgetPassword = ()=>{
             setLoading(false)
             window.scrollTo({top : 0, behavior : "smooth"})
             setErrorStatus({msg: t("success"), open : true,type : "success"})
+            // TO DO => add if the user is user or admin
             navigate("/auth/signIn",{
                     state: { message: response.message,type: "success"},
                 })
