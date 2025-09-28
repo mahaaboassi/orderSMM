@@ -59,7 +59,7 @@ const Bumps = ({id, slug})=>{
                 interval: intervalInfo[0],
                 count : {
                 ...maxPriceObj,
-                label : max,
+                label : JSON.stringify(max),
                 value :max
             }
             })
@@ -200,19 +200,30 @@ const Bumps = ({id, slug})=>{
                         </div>
                         <div className="info-checkout w-full  card p-4 flex flex-col gap-4">
                             <div>
-                                <h4 >Choose Count of Bumps</h4>
-                                <Dropdown defaultOption={selectedOptions.count} count={true} returnedOption={(res)=>{
+                                <h4 onClick={()=>{
+                                    console.log(selectedOptions)
+                                }} >Choose Count of Bumps</h4>
+                                <Dropdown 
+                                    defaultOption={selectedOptions.count} 
+                                    count={true} 
+                                    selected={selectedOptions.count ? selectedOptions.count : null}
+                                    returnedOption={(res)=>{
                                     setSelectedOptions(prev=>({...prev,count:res}))}} 
-                                data={slug?.prices.map(e=>({
-                                    ...e,
-                                    label: e.max,
-                                    value : e.max,
-                                }))} />
+                                    data={slug?.prices.map(e=>({
+                                        ...e,
+                                        label: e.max,
+                                        value : e.max,
+                                    }))}
+                                 />
                             </div>
                             <div className="opacity-20"> <hr/></div>
                             <div>
                                 <h4>Choose Bump Interval:</h4>
-                                <Dropdown defaultOption={selectedOptions.interval} returnedOption={(res)=>{setSelectedOptions(prev=>({...prev,interval:res}))}} 
+                                <Dropdown  
+                                    count={true} 
+                                    defaultOption={selectedOptions.interval} 
+                                    selected={selectedOptions.interval? selectedOptions.interval : null}
+                                    returnedOption={(res)=>{setSelectedOptions(prev=>({...prev,interval:res}))}} 
                                     data={intervalInfo} />
                             </div>
 
@@ -227,7 +238,15 @@ const Bumps = ({id, slug})=>{
                             <div> 
                                 <div className="py-2">
                                     {errorStatus.open && errorStatus.type == "success" && <h4 className="text-center box-success p-2">{errorStatus.msg}</h4>}
-                                    {errorStatus.open && errorStatus.type != "success"&& <h4 className="text-center box-error p-2">{errorStatus.msg}</h4>}
+                                    {errorStatus.open && errorStatus.type != "success"&& <div className="flex flex-col gap-1">
+                                        <h4 className="text-center box-error p-2">{errorStatus.msg}</h4>
+                                        {errorStatus.msg == "NOT_ENOUGH_BALANCE" && <Link className="flex justify-center" to={JSON.parse(localStorage.getItem("user"))?.role == "admin" ? 
+                                            "/dashboard/admin/transactions"
+                                            : "/dashboard/transactions"}>
+                                            <button className="dark-btn">Add balance</button>
+                                        </Link>}
+                                    </div>}
+                                
                                 </div>
                                 <button disabled={isSubmit || panels.length==0} onClick={submit} className="dark-btn w-full">
                                     {isSubmit? <div className="loader m-auto"></div>:"Checkout"}

@@ -69,26 +69,6 @@ const Promotion = ({slug,isPromotion})=>{
         })
         if(response){
             console.log(response);
-            confirm(response.data.id)
-        }else{
-            console.log(message);
-            setIsSubmit(false)
-            setErrorStatus({msg: message, open : true})
-            
-        }
-    } 
-    const confirm = async(id)=>{
-        const data = {
-            service_request_id: id,
-            payment_id : "1"
-        }
-        const {response , message,  statusCode} = await Helper({
-            url:apiRoutes.services.confirm,
-            method:'POST',
-            body: data,
-            hasToken: true,
-        })
-        if(response){
             setIsSubmit(false)
             setErrorStatus({msg: response.message, open : true,type:"success"})
             setTimeout(()=>{
@@ -102,6 +82,7 @@ const Promotion = ({slug,isPromotion})=>{
             
         }
     } 
+
     return(<div className='flex flex-col gap-5'>
         <div className='grid grid-cols-1 md:grid-cols-2 gap-5 lg:gap-10'>
             <div className="flex flex-col gap-3">
@@ -138,7 +119,14 @@ const Promotion = ({slug,isPromotion})=>{
                         <div> 
                             <div className="py-2">
                                 {errorStatus.open && errorStatus.type == "success" && <h4 className="text-center box-success p-2">{errorStatus.msg}</h4>}
-                                {errorStatus.open && errorStatus.type != "success"&& <h4 className="text-center box-error p-2">{errorStatus.msg}</h4>}
+                                {errorStatus.open && errorStatus.type != "success"&& <div className="flex flex-col gap-1">
+                                        <h4 className="text-center box-error p-2">{errorStatus.msg}</h4>
+                                        {errorStatus.msg == "NOT_ENOUGH_BALANCE" && <Link className="flex justify-center" to={JSON.parse(localStorage.getItem("user"))?.role == "admin" ? 
+                                            "/dashboard/admin/transactions"
+                                            : "/dashboard/transactions"}>
+                                            <button className="dark-btn">Add balance</button>
+                                        </Link>}
+                                    </div>}
                             </div>
                             <button disabled={isSubmit} onClick={submit} className="dark-btn w-full">
                                 {isSubmit? <div className="loader m-auto"></div>:"Checkout"}

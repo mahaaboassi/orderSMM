@@ -42,6 +42,8 @@ export const apiRoutes = {
         update : (id)=>(`${host}services/${id}`),
         delete : (id)=>(`${host}services/${id}`),
         request : `${host}services-requests`,
+        getOneRequest : (id)=>(`${host}services-requests/${id}`),
+        updateRequest : (id)=>(`${host}services-requests/${id}`),
         confirm : `${host}services-requests/confirm`,
         history : `${host}services-requests`,
         historyByUser : `${host}services-requests/by-user`
@@ -79,11 +81,25 @@ export const apiRoutes = {
     },
     notifications : {
         list : `${host}notifications`,
+        byUser : `${host}notifications/byUser`,
     },
     settings : {
         list : `${host}settings`,
     },
     clicks : {
         add : `${host}clicks`,
+    },
+    wallet : {
+        list: `${host}wallets`,
+        getOne : (id)=>(`${host}wallets/${id}`),
+        charge: `${host}wallets/charge`
+    },
+    transactions: {
+        list: `${host}transactions`,
+        byUser: `${host}transactions/byUser`,
+        getOne : (id)=>(`${host}transactions/${id}`),
+    },
+    payment_methods : {
+       list: `${host}payment-methods`, 
     }
 }

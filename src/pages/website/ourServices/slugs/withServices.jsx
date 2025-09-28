@@ -83,26 +83,6 @@ const AddWithServices = ({id, slug})=>{
         })
         if(response){
             console.log(response);
-            confirm(response.data.id)
-        }else{
-            console.log(message);
-             setIsSubmit(false)
-            setErrorStatus({msg: message, open : true})  
-        }
-    } 
-    const confirm = async(id)=>{
-        const data = {
-            service_request_id: id,
-            payment_id : "1"
-        }
-        const {response , message,  statusCode} = await Helper({
-            url:apiRoutes.services.confirm,
-            method:'POST',
-            body: data,
-            hasToken: true,
-        })
-        if(response){
-            console.log(response);
             setIsSubmit(false)
             setErrorStatus({msg: response.message, open : true,type:"success"})
             setTimeout(()=>{
@@ -112,10 +92,10 @@ const AddWithServices = ({id, slug})=>{
         }else{
             console.log(message);
              setIsSubmit(false)
-            setErrorStatus({msg: message, open : true})
-            
+            setErrorStatus({msg: message, open : true})  
         }
     } 
+
     // 0 the panels appear, 1 the interface (all services , or specific services with search  )
     const [ isSelectedPanel, setIsSelectedPanel ] = useState(0) 
     const [ selectedPanel , setSelectedPanel ] = useState({})
@@ -323,7 +303,14 @@ const AddWithServices = ({id, slug})=>{
                                 <div> 
                                     <div className="py-2">
                                         {errorStatus.open && errorStatus.type == "success" && <h4 className="text-center box-success p-2">{errorStatus.msg}</h4>}
-                                        {errorStatus.open && errorStatus.type != "success"&& <h4 className="text-center box-error p-2">{errorStatus.msg}</h4>}
+                                        {errorStatus.open && errorStatus.type != "success"&& <div className="flex flex-col gap-1">
+                                            <h4 className="text-center box-error p-2">{errorStatus.msg}</h4>
+                                            {errorStatus.msg == "NOT_ENOUGH_BALANCE" && <Link className="flex justify-center" to={JSON.parse(localStorage.getItem("user"))?.role == "admin" ? 
+                                                "/dashboard/admin/transactions"
+                                                : "/dashboard/transactions"}>
+                                                <button className="dark-btn">Add balance</button>
+                                            </Link>}
+                                        </div>}
                                     </div>
                                     <button disabled={isSubmit || (!isSelectedAllServices && servicesSelected.length === 0)
                                     } onClick={submit} className="dark-btn w-full">

@@ -8,7 +8,8 @@ const initialState = {
     telegram: "",
     website: "",
     photo : "",
-    id: ""
+    id: "",
+    balance: 0,
 };
 
 export const userSlice = createSlice({
@@ -23,7 +24,8 @@ export const userSlice = createSlice({
     state.telegram = action.payload.telegram,
     state.website = action.payload.website,
     state.photo = action.payload.photo,
-    state.id = action.payload.id
+    state.id = action.payload.id,
+    state.balance = action.payload.balance
     },
   },
 });

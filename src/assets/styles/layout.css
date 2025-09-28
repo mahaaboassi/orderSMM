@@ -251,6 +251,16 @@ button:disabled{
     overflow: auto;
     
 }
+.notification-menu-min{
+    position: absolute;
+    top: 37px;
+    background-color: var(--light);
+    color: var(--green_1);
+    font-size: var(--font-size-xxs);
+    width: 250px;
+    border-radius: 10px;
+    
+}
 .notification-menu a{
     color: var(--green_1);
     font-weight: 800;
@@ -463,6 +473,10 @@ button:disabled{
     justify-content: center;
     align-items: center;
     border-radius: 10px;
+}
+.charge{
+    border:  2px solid var(--success-color);
+    border-radius: 20px;
 }
 .success-card{
     background-color: var(--success-color);

@@ -13,7 +13,7 @@ import InputPassword from "../../../components/inputPassword";
 
 const ForgetPassword = ()=>{
     const { t } = useTranslation()
-    const { code } = useParams()
+    const { code, role } = useParams()
     const navigate = useNavigate()
     useEffect(()=>{
         if(!code || localStorage.getItem("user")){
@@ -55,9 +55,15 @@ const ForgetPassword = ()=>{
             window.scrollTo({top : 0, behavior : "smooth"})
             setErrorStatus({msg: t("success"), open : true,type : "success"})
             // TO DO => add if the user is user or admin
-            navigate("/auth/signIn",{
+            if(role && role == "admin"){
+                navigate("/auth/admin",{
                     state: { message: response.message,type: "success"},
                 })
+            }else{
+                navigate("/auth/signIn",{
+                    state: { message: response.message,type: "success"},
+                })
+            }
             
         }else{
             console.log(message);

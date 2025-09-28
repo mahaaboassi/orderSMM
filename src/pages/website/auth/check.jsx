@@ -53,7 +53,8 @@ const Check = ()=>{
                     telegram : response.data.telegram,
                     website : response.data.website,
                     whatsapp : response.data.whatsapp,
-                     role : response.data.role.id
+                    role : response.data.role.id,
+                    balance :  response.data?.wallet?.balance
                 }))
                 localStorage.setItem("user",JSON.stringify({
                     email: response.data.email,
@@ -65,7 +66,8 @@ const Check = ()=>{
                     telegram : response.data.telegram,
                     website : response.data.website,
                     whatsapp : response.data.whatsapp,
-                    role : response.data.role.id
+                    role : response.data.role.id,
+                    balance :  response.data?.wallet?.balance
                 }))
                 localStorage.setItem("token",response.data.access_token)  
             

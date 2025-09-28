@@ -5,7 +5,7 @@ import userReducer from './features/userSlice';
 import currencyReducer from "./features/currencySlice"
 import settingsReducer from "./features/settingsSlice"
 import callNotificationReducer from "./features/callNotification"
-
+import socialReducer from "./features/social"
 
 export const store = configureStore({
   reducer: {
@@ -13,6 +13,7 @@ export const store = configureStore({
     user: userReducer,
     currency: currencyReducer,
     settings: settingsReducer,
-    isCall: callNotificationReducer
+    isCall: callNotificationReducer,
+    social: socialReducer
   },
 });

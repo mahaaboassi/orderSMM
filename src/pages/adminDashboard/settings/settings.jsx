@@ -12,15 +12,24 @@ import { useTranslation } from "react-i18next";
 
 
 const validationSchema = Yup.object({
-    skybe : Yup.string().required("Skybe Field is required."),
-    telegram : Yup.string().required("Telegram Field is required."),
-    instagram : Yup.string().required("Instagram Field is required."),
-    tiktok : Yup.string().required("Tiktok Field is required."),
-    whatsapp : Yup.string().required("Whatsapp Field is required."),
-    facebook : Yup.string().required("Facebook is required."),
-    panels : Yup.string().required("Panels is required."),
-    services : Yup.string().required("Services is required."),
-    platforms : Yup.string().required("Platforms is required."),
+    // skybe : Yup.string().required("Skybe Field is required."),
+    // telegram : Yup.string().required("Telegram Field is required."),
+    // instagram : Yup.string().required("Instagram Field is required."),
+    // tiktok : Yup.string().required("Tiktok Field is required."),
+    // whatsapp : Yup.string().required("Whatsapp Field is required."),
+    // facebook : Yup.string().required("Facebook is required."),
+    // panels : Yup.string().required("Panels is required."),
+    // services : Yup.string().required("Services is required."),
+    // platforms : Yup.string().required("Platforms is required."),
+    skybe : Yup.string(),
+    telegram : Yup.string(),
+    instagram : Yup.string(),
+    tiktok : Yup.string(),
+    whatsapp : Yup.string(),
+    facebook : Yup.string(),
+    panels : Yup.string(),
+    services : Yup.string(),
+    platforms : Yup.string(),
 });
 
 

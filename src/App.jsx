@@ -41,6 +41,8 @@ import ForgetPassword from './pages/website/auth/forgetPassword'
 import NotificationList from './pages/commonElements/notifications/page'
 import SignInAdmin from './pages/website/auth/signInAdmin'
 import HistoryRequestServices from './pages/commonElements/services/historyRequestsServices'
+import DetailsServiceRequest from './pages/commonElements/services/detailsServiceRequest'
+import Transactions from './pages/commonElements/transactions/transactions'
 
 
 function App() {
@@ -54,6 +56,7 @@ function App() {
         <Route path='auth/signUp' element={<SignUp/>}/>
         <Route path='auth/typeEmail' element={<TypeEmail/>}/>
         <Route path='auth/typePassword/:code' element={<ForgetPassword/>}/>
+        <Route path='auth/typePassword/:code/:role' element={<ForgetPassword/>}/>
 
 
         <Route path='services' element={<Services/>} />
@@ -70,9 +73,10 @@ function App() {
       <Route path='/dashboard/*' element={<LayoutDashboard/>}>
         <Route path='' element={<Dashboard/>}/>
         <Route path='settings' element={<Account/>}/>
-        <Route path='finances' element={<Finances/>}/>
+        <Route path='transactions' element={<Transactions/>}/>
         <Route path='SMMPanels' element={<SMMPanels/>}/>
         <Route path='SMMServices' element={<HistoryRequestServices/>}/>
+        <Route path='SMMServices/:id' element={<DetailsServiceRequest/>}/>
         {/* Notifications Interfaces */}
         <Route path='notifications' element={<NotificationList/>}/>
       </Route>
@@ -91,14 +95,17 @@ function App() {
         <Route path='panels/history/:id/:name' element={<HistoryPanel/>}/>
         {/* Services Requests */}
         <Route path="history/servicesRequests" element={<HistoryRequestServices/>} />
+        <Route path='history/servicesRequests/:id' element={<DetailsServiceRequest/>}/>
         {/* Services Collection */}
         <Route path='services' element={<ServicesAdmin/>}/>
         <Route path='services/add' element={<AddService/>}/>
         <Route path='services/edit/:id' element={<AddService/>}/>
         {/* Notifications Interfaces */}
         <Route path='notifications' element={<NotificationList/>}/>
-
-        <Route path='category/add' element={<AddCategory/>}/>
+        {/* Transctions */}
+        <Route path='transactions' element={<Transactions/>}/>
+        <Route path='transactions/:type' element={<Transactions/>}/>
+        
         <Route path='categories' element={<Categories/>}/>
         <Route path='category/add' element={<AddCategory/>}/>
         <Route path='tags' element={<Tags/>}/>

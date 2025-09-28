@@ -83,7 +83,7 @@ const MyTanstackTable = ({
             ))}
           </thead>
           <tbody>
-            {table.getRowModel().rows.map(row => (
+            {table.getRowModel().rows.length > 0 ? table.getRowModel().rows.map(row => (
               <tr key={row.id}>
                 {row.getVisibleCells().map(cell => (
                   <td className="border px-4 py-2" key={cell.id}>
@@ -91,7 +91,17 @@ const MyTanstackTable = ({
                   </td>
                 ))}
               </tr>
-            ))}
+            )) :  <tr>
+                  <td
+                    colSpan={table.getHeaderGroups()[0]?.headers.length || 1}
+                    className="border px-4 py-10 "
+                  >
+                    
+                    <div className='flex justify-center items-center gap-3'>
+                        No data found!
+                    </div>
+                  </td>
+                </tr>}
           </tbody>
         </table>
       </div>
@@ -116,9 +126,12 @@ const MyTanstackTable = ({
         <button
           onClick={() => {
             if (pageIndex + 1 < lastPage) {
-              setSearchParams({
-                page: String(pageIndex + 2),
-                limit: String(pageSize),
+              setSearchParams(prev=>{
+                const newParams = new URLSearchParams(prev)
+                newParams.set("page", String(pageIndex + 2));
+                newParams.set("limit", String(pageSize));
+
+                return newParams;
               });
             }
           }}

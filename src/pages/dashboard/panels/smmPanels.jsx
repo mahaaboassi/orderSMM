@@ -102,7 +102,7 @@ const SMMPanels = ()=>{
                                     </defs>
                                 </svg>
                             </div>
-                            {/* Delete Icon */}
+                            {/* Delete Icon
                             <div onClick={()=>{
                                 setOpenPopup(true)
                                 setCurrentData(row)
@@ -117,7 +117,7 @@ const SMMPanels = ()=>{
                                     </clipPath>
                                     </defs>
                                 </svg>
-                            </div>
+                            </div> */}
                         </div>
                 },
             }),

@@ -106,7 +106,8 @@ const Verification = () => {
                     id: response.data.id,
                     telegram : response.data.telegram,
                     website : response.data.website,
-                    whatsapp : response.data.whatsapp
+                    whatsapp : response.data.whatsapp,
+                    balance :  response.data?.wallet?.balance
                 }))
                 localStorage.setItem("user",JSON.stringify({
                     email: response.data.email,
@@ -117,7 +118,8 @@ const Verification = () => {
                     id: response.data.id,
                     telegram : response.data.telegram,
                     website : response.data.website,
-                    whatsapp : response.data.whatsapp
+                    whatsapp : response.data.whatsapp,
+                    balance :  response.data?.wallet?.balance
                 }))
                 localStorage.removeItem("email")
                 localStorage.setItem("token",response.data.access_token) 

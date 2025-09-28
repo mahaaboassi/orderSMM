@@ -59,33 +59,40 @@ const SignIn = ()=>{
         })
         if(response){
             setLoading(false)
-            window.location.reload()
-            dispatch(userInfo({
-                email: response.data.email,
-                phone : response.data.phone,
-                photo: response.data.photo,
-                mobile : response.data.Mobile,
-                name : response.data.name,
-                id: response.data.id,
-                telegram : response.data.telegram,
-                website : response.data.website,
-                whatsapp : response.data.whatsapp,
-                role : response.data.role
-            }))
-            localStorage.setItem("user",JSON.stringify({
-                email: response.data.email,
-                phone : response.data.phone,
-                photo: response.data.photo,
-                mobile : response.data.Mobile,
-                name : response.data.name,
-                id: response.data.id,
-                telegram : response.data.telegram,
-                website : response.data.website,
-                whatsapp : response.data.whatsapp,
-                role : response.data.role
-            }))
-            localStorage.setItem("token",response.data.access_token) 
-            localStorage.removeItem("email") 
+             if(response.data.role == "admin"){
+                setErrorStatus({msg: t("error.permission_login"), open : true})
+             }else{
+                window.location.reload()
+                dispatch(userInfo({
+                    email: response.data.email,
+                    phone : response.data.phone,
+                    photo: response.data.photo,
+                    mobile : response.data.Mobile,
+                    name : response.data.name,
+                    id: response.data.id,
+                    telegram : response.data.telegram,
+                    website : response.data.website,
+                    whatsapp : response.data.whatsapp,
+                    role : response.data.role,
+                    balance :  response.data?.wallet?.balance
+                }))
+                localStorage.setItem("user",JSON.stringify({
+                    email: response.data.email,
+                    phone : response.data.phone,
+                    photo: response.data.photo,
+                    mobile : response.data.Mobile,
+                    name : response.data.name,
+                    id: response.data.id,
+                    telegram : response.data.telegram,
+                    website : response.data.website,
+                    whatsapp : response.data.whatsapp,
+                    role : response.data.role,balance :  response.data?.wallet?.balance
+                    
+                }))
+                localStorage.setItem("token",response.data.access_token) 
+                localStorage.removeItem("email") 
+             }
+
         }else{
             if(message == "WRONG_CREDENTIALS"){
                 setErrorStatus({msg: t("error.wrong_credentials"), open : true})
