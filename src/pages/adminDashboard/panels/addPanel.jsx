@@ -32,6 +32,8 @@ const validationSchema = Yup.object({
     facebook : Yup.string(),
     instagram : Yup.string(),
     approved : Yup.string(),
+    domain_start_date : Yup.string(),
+    domain_end_date : Yup.string(),
     // name_en: Yup.string().required("Name Field in English language is required."),
     // name_ar: Yup.string().required("Name Field in Arabic language is required."),
     // name_tr: Yup.string().required("Name Field in Turkish language is required."),
@@ -45,7 +47,7 @@ const AddPanel = ()=>{
     const { register, handleSubmit, watch, setValue, formState: { errors },reset  } = useForm({
         resolver: yupResolver(validationSchema),
             mode: 'onChange',
-            defaultValues : id ? {} : { approved : 0}
+            defaultValues : id ? {} : { approved : 1}
         });
     const [loading, setLoading] = useState(false)
     const [ errorStatus , setErrorStatus] = useState({
@@ -79,11 +81,12 @@ const AddPanel = ()=>{
             signal : signal
         })
         if(response){
+
             const data = {
                 title: response.data.translations?.en?.name || "",
                 username: response.data.username || "",
                 password: response.data.password || "",
-                telegram: response.data.telegram || "",
+                telegram: response.data.telegram.split("/").pop() || "",
                 whatsapp: response.data.whatsapp || "",
                 email: response.data.email || "",
                 url_panel: response.data.website || "",
@@ -96,7 +99,9 @@ const AddPanel = ()=>{
                 tiktok : response.data.tiktok || "",
                 facebook : response.data.facebook || "",
                 instagram : response.data.instagram || "",
-                approved : response.data.approved || 0
+                approved : response.data.approved || 0,
+                domain_start_date : response.data.domain_start_date || "",
+                domain_end_date : response.data.domain_end_date || "",
                 // name_en: response.data.translations?.en?.name || "",
                 // name_ar: response.data.translations?.ar?.name || "",
                 // name_tr: response.data.translations?.tr?.name || "",
@@ -141,6 +146,8 @@ const AddPanel = ()=>{
         values.append("facebook",data.facebook)
         values.append("instagram",data.instagram)
         values.append("approved",data.approved)
+        values.append("domain_start_date",data.domain_start_date)
+        values.append("domain_end_date",data.domain_end_date)
         values.append("user_id",user?.id ?? JSON.parse(localStorage.getItem("user")).id)
         values.append("telegram","https://t.me/" + data.telegram)
         values.append("whatsapp",data.whatsapp)
@@ -180,7 +187,7 @@ const AddPanel = ()=>{
             console.log(response);
             setLoading(false)
             setErrorStatus({msg: response.message, open : true,type: "success"})
-            setTimeout(()=>setErrorStatus({msg: "", open : false,type: ""}),1000)
+            setTimeout(()=>setErrorStatus({msg: "", open : false,type: ""}),3000)
             window.scrollTo({top: 0})
         }else{
             console.log(message);
@@ -368,6 +375,22 @@ const AddPanel = ()=>{
                             {<p className="pt-0.5 text-error">{countryObj.msg}</p>}
                         </div>
 
+                    </div>
+                </div>
+                <div className="card p-2 sm:p-4 flex flex-col gap-4">
+                    <h4><strong>Domain Informations</strong></h4>
+                    <div className='charge p-2 text-center'>You can check this information by useing this link <Link to="https://www.whois.com/" target='_blank'>Check</Link></div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="flex flex-col gap-1">
+                            <label>Register On :</label>
+                            <input  {...register("domain_start_date")} type="date"  />
+                            {errors.domain_start_date && <p className="pt-0.5 text-error">{errors.domain_start_date.message}</p>}
+                        </div>
+                        <div className="flex flex-col gap-1">
+                            <label>Expired On :</label>
+                            <input {...register("domain_end_date")} type="date" />
+                            {errors.domain_end_date && <p className="pt-0.5 text-error">{errors.domain_end_date.message}</p>}
+                        </div>
                     </div>
                 </div>
                 <div className='card p-2 sm:p-4 flex flex-col gap-4'>

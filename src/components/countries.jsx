@@ -38,7 +38,7 @@ const Countries = ({currentValue,returnedCountry,isAddPanel})=>{
         const temp = {
             page : pageNum,
         }
-        if(name) temp.name = name
+        if(name) temp.keywords = name
         const { response, message } = await Helper({
             url : apiRoutes.countries.list,
             signal: controller.signal,
