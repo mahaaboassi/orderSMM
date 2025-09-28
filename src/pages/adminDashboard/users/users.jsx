@@ -53,6 +53,10 @@ const Users = ()=>{
                 header: 'Website',
                 cell: info => info.getValue(),
             }),
+            columnHelper.accessor('balance', {
+                header: 'Balance',
+                cell: info => info.getValue(),
+            }),
             columnHelper.accessor('role', {
                 header: 'Role',
                 cell: info => (<div className={`${info.getValue() == "user" ? "bg-violet-600" : "bg-blue-600"} p-1 rounded flex justify-center items-center text-white`}>{info.getValue()}</div>),
@@ -139,6 +143,7 @@ const Users = ()=>{
                 telegram : ele?.telegram ?? "-",
                 website : ele?.website ?? "-",
                 role : ele?.role ?? "-",
+                balance: ele?.wallet?.balance ?? "-",
                 created_at : format(new Date(ele.created_at), "MMMM d, yyyy")
                 }));
 

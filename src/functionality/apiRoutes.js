@@ -92,12 +92,13 @@ export const apiRoutes = {
     wallet : {
         list: `${host}wallets`,
         getOne : (id)=>(`${host}wallets/${id}`),
-        charge: `${host}wallets/charge`
+        charge: `${host}wallets/charge`,
     },
     transactions: {
         list: `${host}transactions`,
         byUser: `${host}transactions/byUser`,
         getOne : (id)=>(`${host}transactions/${id}`),
+        transfer: `${host}transactions/chargeUser`
     },
     payment_methods : {
        list: `${host}payment-methods`, 

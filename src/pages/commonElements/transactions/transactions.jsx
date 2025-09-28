@@ -11,6 +11,7 @@ import {
 import Dropdown from "../../../components/DropDownComponent"
 import AddBalance from "../../dashboard/transactions/addBalance"
 import { useSelector } from "react-redux"
+import TransferBalance from "../../dashboard/transactions/transferBalance"
 
 
 
@@ -21,6 +22,7 @@ const Transactions = ()=>{
     const [ data, setData ] = useState([])
     const [ loading, setLoading ] = useState(false)
     const [ openCharge, setOpenCharge ] = useState(false)
+    const [ openTransfer, setOpenTransfer] = useState(false)
     const user = JSON.parse(localStorage.getItem("user"))
     const navigation = useNavigate()
     const userRedux = useSelector(state=> state.user)
@@ -84,8 +86,6 @@ const Transactions = ()=>{
         const page = parseInt(searchParams.get('page') || '1')
         const perPage = parseInt(searchParams.get('limit') || '10')
         const type = searchParams.get('type') || ''
-        console.log(type);
-        
         let params = { page, perPage}
         if(type) params.type = type
         const { response, message, statusCode} = await Helper({
@@ -124,7 +124,10 @@ const Transactions = ()=>{
     }
     const dataType = [{label: "credit",value: "credit"},
                         {label: "debit",value: "debit"}]
-    const close = ()=>{setOpenCharge(false)}
+    const close = ()=>{
+        setOpenTransfer(false)
+        setOpenCharge(false)
+    }
     return(<div className="flex dashboard flex-col gap-5">
         <div className="flex flex-col gap-1">
             <div className="flex gap-2 items-center">
@@ -136,10 +139,11 @@ const Transactions = ()=>{
             <p>The charging process is still pending. Once it is completed, We will inform you.</p>
             <p>Thank you!</p>
         </div>}
-        { user?.role == "user" &&  <div className="card p-4 flex justify-between items-center">
+        { user?.role == "user" ?<div className="card p-4 flex justify-between items-center">
             <div><strong>Your balance is :  </strong>{userRedux.balance}</div>
             <button className="dark-btn" onClick={()=>setOpenCharge(true)}>Add Balance</button>
-
+        </div>: <div>
+            <button className="dark-btn" onClick={()=>setOpenTransfer(true)}>Transfer Balance</button>
         </div>}
         {/* Filter Section */}
         <div className="grid grid-cols-1 xs:grid-cols-3 gap-3">
@@ -164,7 +168,7 @@ const Transactions = ()=>{
         </div>
         {loading ? <Loading/> :<MyTanstackTable last_Page={lastPage} columns={columns} data={data} />}
         { openCharge &&  <AddBalance close={close} />}
-
+        { openTransfer &&  <TransferBalance close={close} />}
     </div>)
 }
 

@@ -73,7 +73,8 @@ const SignInAdmin = ()=>{
                     website : response.data.website,
                     whatsapp : response.data.whatsapp,
                     role : response.data.role,
-                    balance :  response.data?.wallet?.balance
+                    balance :  response.data?.wallet?.balance,
+                    wallet :  response.data?.wallet?.id,
                 }))
                 localStorage.setItem("user",JSON.stringify({
                     email: response.data.email,
@@ -86,7 +87,8 @@ const SignInAdmin = ()=>{
                     website : response.data.website,
                     whatsapp : response.data.whatsapp,
                     role : response.data.role,
-                    balance :  response.data?.wallet?.balance
+                    balance :  response.data?.wallet?.balance,
+                    wallet :  response.data?.wallet?.id,
                 }))
                 localStorage.setItem("token",response.data.access_token) 
                 localStorage.removeItem("email") 

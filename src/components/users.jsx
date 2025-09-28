@@ -37,7 +37,7 @@ const UsersSelect = ({currentValue,returnedUser})=>{
         const temp = {
             page : pageNum,
         }
-        if(name) temp.name = name
+        if(name) temp.keywords = name
         const { response, message } = await Helper({
             url : apiRoutes.users.list,
             signal: controller.signal,
