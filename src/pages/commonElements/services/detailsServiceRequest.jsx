@@ -160,7 +160,10 @@ const DetailsServiceRequest = ()=>{
                     <div><strong>{user?.role == "user" ? "Note from Admin":"User Message"}</strong></div>
                     <p> { user?.role == "user" ? data?.notes || "No notes here." : data?.description || "No message here." } </p>
                     {user?.role == "admin" && <p> 
-                        { data.photo ? <a href={data.photo} download >
+                        { data.photo ? <a href={data.photo} 
+                                download 
+                                target="_blank" 
+                                rel="noopener noreferrer" >
                             Download File
                         </a> : "No File here." }
                     </p>}
