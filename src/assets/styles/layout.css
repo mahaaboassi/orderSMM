@@ -503,15 +503,15 @@ button:disabled{
     align-items: center;
     border-radius: 10px;
 }
-/* .hDEoCR{
+.custom-upload-style{
     border-color: var(--green_2) !important;
     width: 100%  !important;
     max-width: unset !important;
     min-width: unset !important;
 }
-.hDEoCR path{
+.custom-upload-style path{
     fill: var(--green_2) ;
-} */
+} 
 .disabled-div {
   pointer-events: none;   /* disables clicks */
   opacity: 0.5;          /* makes it look disabled */

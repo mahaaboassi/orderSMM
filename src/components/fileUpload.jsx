@@ -17,6 +17,7 @@ export default function FileUpload({returnedFile, fromApi}) {
   return (
     <div className="flex flex-col gap-2 file-upload">
       <FileUploader
+        classes="custom-upload-style"
         multiple={true}
         handleChange={handleChange}
         name="file"
