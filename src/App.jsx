@@ -9,7 +9,7 @@ import SignIn from './pages/website/auth/signIn'
 import SignUp from './pages/website/auth/signUp'
 import Verification from './pages/website/auth/verification'
 import NewPanel from './pages/website/AddPanel/newPanel'
-import DetailsPanel from './pages/website/ads/detailsPanel'
+import DetailsPanel from './pages/website/panel/detailsPanel'
 
 // Pages Dashboard
 import Dashboard from './pages/dashboard/page'
@@ -18,7 +18,6 @@ import Finances from './pages/dashboard/finances'
 import SMMPanels from './pages/dashboard/panels/smmPanels'
 import Services from './pages/website/services/page'
 import Check from './pages/website/auth/check'
-import AdsPage from './pages/website/ads/page'
 import Paltforms from './pages/website/platforms/page'
 import OurServices from './pages/website/ourServices/page'
 import LayoutAdminDashboard from './layouts/layoutAdminDashboard'
@@ -43,6 +42,7 @@ import SignInAdmin from './pages/website/auth/signInAdmin'
 import HistoryRequestServices from './pages/commonElements/services/historyRequestsServices'
 import DetailsServiceRequest from './pages/commonElements/services/detailsServiceRequest'
 import Transactions from './pages/commonElements/transactions/transactions'
+import ProviderPage from './pages/website/provider/page'
 
 
 function App() {
@@ -60,7 +60,7 @@ function App() {
 
 
         <Route path='services' element={<Services/>} />
-        <Route path='providers' element={<AdsPage/>} />
+        <Route path='providers' element={<ProviderPage/>} />
         <Route path='auth/verification' element={<Verification/>}/>
         <Route path='smm-panel/new' element={<NewPanel/>}/>
         <Route path='smm-panel/:name/:id' element={<DetailsPanel/>} />

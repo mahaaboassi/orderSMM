@@ -14,6 +14,8 @@
 }
 .card h3{
     font-size: var(--font-size-s);
+    font-weight: 600;
+    color: var(--green_2);
 }
 .card p{
     font-size: var(--font-size-xxs);

@@ -289,6 +289,17 @@ button:disabled{
 /* Flag */
 .flag-container{
     position: relative;
+   
+}
+.border-right{
+    border-right: 1px solid var(--light);
+    padding: 5px;
+    border-radius: 10px;
+}
+.border-left{
+    border-left: 1px solid var(--light);
+    padding: 5px;
+    border-radius: 10px;
 }
 .menu-flag{
     position: absolute;
@@ -492,7 +503,7 @@ button:disabled{
     align-items: center;
     border-radius: 10px;
 }
-.hDEoCR{
+/* .hDEoCR{
     border-color: var(--green_2) !important;
     width: 100%  !important;
     max-width: unset !important;
@@ -500,7 +511,7 @@ button:disabled{
 }
 .hDEoCR path{
     fill: var(--green_2) ;
-}
+} */
 .disabled-div {
   pointer-events: none;   /* disables clicks */
   opacity: 0.5;          /* makes it look disabled */
@@ -575,8 +586,9 @@ button:disabled{
 }
 /* File Upload */
 .file-upload input{
-    width: 100% ;
+    width: 100% !important;
 }
+
 @media (max-width:768px) {
     .icons-card img{
         width: 30px;

@@ -30,7 +30,7 @@ const logo = <svg className="logo" xmlns="http://www.w3.org/2000/svg" width="145
 </svg>
 
 const Navbar = ()=>{
-    const { t } = useTranslation()
+    const { t,i18n } = useTranslation()
     const data = [{
         name : t("navbar.title_0"),
         link : "/"
@@ -45,10 +45,11 @@ const Navbar = ()=>{
     //     name : t("navbar.title_6"),
     //     link : "/"
     // },
+    // {
+    //     name : t("navbar.title_3"),
+    //     link : "/"
+    // },
     {
-        name : t("navbar.title_3"),
-        link : "/"
-    },{
         name : t("navbar.title_4"),
         link : "/platforms"
     },{
@@ -73,7 +74,7 @@ const Navbar = ()=>{
     </defs>
     </svg>
     const menuIcon = <svg className="menu-icon" width="20" height="20" xmlns="http://www.w3.org/2000/svg" version="1.1" id="Layer_1" x="0px" y="0px" viewBox="0 0 122.88 95.95" ><g><path fill="white"  d="M8.94,0h105c4.92,0,8.94,4.02,8.94,8.94l0,0c0,4.92-4.02,8.94-8.94,8.94h-105C4.02,17.88,0,13.86,0,8.94l0,0 C0,4.02,4.02,0,8.94,0L8.94,0z M8.94,78.07h105c4.92,0,8.94,4.02,8.94,8.94l0,0c0,4.92-4.02,8.94-8.94,8.94h-105 C4.02,95.95,0,91.93,0,87.01l0,0C0,82.09,4.02,78.07,8.94,78.07L8.94,78.07z M8.94,39.03h105c4.92,0,8.94,4.02,8.94,8.94l0,0 c0,4.92-4.02,8.94-8.94,8.94h-105C4.02,56.91,0,52.89,0,47.97l0,0C0,43.06,4.02,39.03,8.94,39.03L8.94,39.03z"/></g></svg>
-    return(<nav className="px-2  lg:px-16">
+    return(<nav style={(i18n.language == "ar" || i18n.language == "ur")?{direction:"rtl"}:{direction:"ltr"}} className="px-2  lg:px-16">
         <div className="nav-content py-4 px-6 ">
             <div className="flex items-center ">
                 <Link to={"/"}>{logo}</Link>
@@ -83,7 +84,7 @@ const Navbar = ()=>{
                 <ul className={`gap-5 ${isOpenMenu?"open-menu-sm":""}`}>
                     {isOpenMenu && <li className="icon-close" onClick={()=>setIsOpenMenu(false)}>{closeIcon}</li>}
                 
-                    {data.map((e,idx)=>(<li key={`Navbar_${e.name}_${idx}`}><Link to={e.link}>{e.name}</Link></li>))}
+                    {data.map((e,idx)=>(<li onClick={()=>setIsOpenMenu(false)} key={`Navbar_${e.name}_${idx}`}><Link to={e.link}>{e.name}</Link></li>))}
                 </ul>
             </div>
             <div className="flex items-center  gap-2  sm:gap-3">

@@ -143,7 +143,7 @@ const Services = ()=>{
                     />))
             }
         </div>
-        <div className="grid grid-cols-4 gap-2 md:gap-10">
+        <div className="grid grid-cols-4 gap-2 md:gap-5 lg:gap-10">
             <div className="flex flex-col gap-2 col-span-4 sm:col-span-3">
                 { loading ? <Loading/> : (services?.data && services.data.length > 0) ? 
                     services.data.map((e,idx)=>(<Service key={`Services_PinnedUp_${e.translations?.en?.name ?? ""}_${idx}`} 
@@ -168,13 +168,13 @@ const Services = ()=>{
             </div>
             <div className=" flex-col gap-5 hidden sm:flex sm:col-span-1">
                 { loadingAds ? [...Array(4)].map((_,i)=>(<div  className="h-20 w-full rounded-xl bg-gray-300 animate-pulse" key={`Skeleton_Ads_${i}`} >
-
-                </div>)): ads && ads.length > 0 && ads.map((e,idx)=>(<Ad key={`Ads_Services_Page_${e.translations?.en?.name ?? ""}_${idx}`} name={e.translations?.en?.name ?? ""} id={e.id}
+                </div>)): ads && ads.length > 0 && ads.map((e,idx)=>(<Ad key={`Ads_Services_Page_${e.translations?.en?.name ?? ""}_${idx}`}
+                    name={e.translations?.en?.name ?? ""} 
+                    id={e.id}
                     photo={e.photo ? e.photo :""}
                     rating={e.rating ? e.rating : 0}
                     services_count={e.services_count ? e.services_count: 0}
                 />)) }
-            
             </div>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">

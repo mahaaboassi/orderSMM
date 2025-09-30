@@ -58,6 +58,8 @@ const Flag = ()=>{
     const menuRef = useRef(null);
     useEffect(() => {
         const lang = data.find(e => e.lng === i18n.language)
+        console.log(lang);
+        
         if (lang) setCurrectLanguage(lang)
     }, [i18n.language])
     useEffect(() => {
@@ -76,8 +78,14 @@ const Flag = ()=>{
         document.removeEventListener("mousedown", handleClickOutside);
         };
     }, [isOpen]);
-    return( currectLanguage && "flag" in currectLanguage && <div ref={menuRef} className="flag-container">
-            <img onClick={()=>setIsOpen(!isOpen)} className="w-8 cursor-pointer" src={currectLanguage.flag} alt={currectLanguage.name} />
+    return( currectLanguage && "flag" in currectLanguage && <div ref={menuRef} className={`flag-container ${ (i18n.language == "ar" || i18n.language == "ur")? "border-left":"border-right"} flex items-center gap-2 cursor-pointer`}>
+            <span onClick={()=>setIsOpen(!isOpen)}>{currectLanguage.lng}</span>
+            <div onClick={()=>setIsOpen(!isOpen)} className="arrow-currency">
+                <svg xmlns="http://www.w3.org/2000/svg" width="8" height="12" viewBox="0 0 8 12" fill="none">
+                    <path d="M0.590088 10.59L5.17009 6L0.590088 1.41L2.00009 0L8.00009 6L2.00009 12L0.590088 10.59Z" fill="white"/>
+                </svg>
+            </div>
+            {/* <img onClick={()=>setIsOpen(!isOpen)} className="w-8 cursor-pointer" src={currectLanguage.flag} alt={currectLanguage.name} /> */}
             {isOpen && <div className={`menu-flag p-3 flex flex-col gap-2 ${(i18n.language == "ar" || i18n.language == "ur")?"left-0":"right-0"}`}>
                 {data.map((ele,idx)=>(<div onClick={()=>handleLanguage(ele)} className="flex gap-2 select-flag" key={`Flag_Navbar_${ele.name}_${idx}`}>
                     <div><img className="" src={ele.flag} alt={ele.name} /></div>

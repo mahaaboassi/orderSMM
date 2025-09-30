@@ -25,7 +25,8 @@ const SignUp= ()=>{
         password: Yup.string().min(8,t("auth.password-length-validation")).required(t("auth.password-validation")),
         confirmPassword: Yup.string()
         .oneOf([Yup.ref('password'), null], t("auth.confirm-password-not-matching")),
-        telegram: Yup.string().required(t("auth.telegram-is-required")),
+        // telegram: Yup.string().required(t("auth.telegram-is-required")),
+        telegram: Yup.string(),
         whatsapp: Yup.string(), 
         name: Yup.string().required(t("auth.name-validation")), 
         website: Yup.string()
@@ -39,14 +40,13 @@ const SignUp= ()=>{
             mode: 'onChange'
         });
     const [loading, setLoading] = useState(false)
-    const [ codeTelegarm, setCodeTelegarm] = useState("")
     const [ codewhatsapp, setCodeWhatsapp] = useState("")
     const [ errorStatus , setErrorStatus] = useState({
         msg: "",
         open : false
     })
     const onSubmit = async (data) => {
-  
+        
         setErrorStatus({msg: "", open : false})
         setLoading(true)
 
@@ -54,7 +54,7 @@ const SignUp= ()=>{
         values.append("email",data.email)
         values.append("password",data.password)
         values.append("website",data.website)
-        values.append("telegram",codeTelegarm.dial_code.replace("+","") + data.telegram)
+        values.append("telegram",data.telegram)
         values.append("whatsapp",codewhatsapp.dial_code.replace("+","") + data.whatsapp)
         values.append("name",data.name)
         values.append("phone","0")
@@ -119,17 +119,15 @@ const SignUp= ()=>{
                     <input {...register("name")} type="text" placeholder={t("auth.name")}  />
                     {errors.name && <p className="pt-0.5 text-error">{errors.name.message}</p>}
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-2">
-                    <div className="flex flex-col gap-1">
-                        <label>{t("auth.whatsapp")} :</label>
-                        <MobileInput register={register("whatsapp")} placeholder={t("auth.whatsapp")} returnedCountry={(res)=>{setCodeWhatsapp(res)}} />
-                        {errors.whatsapp && <p className="pt-0.5 text-error">{errors.whatsapp.message}</p>}
-                    </div>
-                    <div className="flex flex-col gap-1">
-                        <label>{t("auth.telegram")} :</label>
-                        <MobileInput register={register("telegram")} returnedCountry={(res)=>{setCodeTelegarm(res)}} />
-                        {errors.telegram && <p className="pt-0.5 text-error">{errors.telegram.message}</p>}
-                    </div>
+                 <div className="flex flex-col gap-1">
+                    <label>{t("auth.whatsapp")} :</label>
+                    <MobileInput register={register("whatsapp")} placeholder={t("auth.whatsapp")} returnedCountry={(res)=>{setCodeWhatsapp(res)}} />
+                    {errors.whatsapp && <p className="pt-0.5 text-error">{errors.whatsapp.message}</p>}
+                </div>
+                <div className="flex flex-col gap-1">
+                    <label>{t("auth.telegram")} :</label>
+                    <input {...register("telegram")} placeholder="https://t.me/example" />
+                    {errors.telegram && <p className="pt-0.5 text-error">{errors.telegram.message}</p>}
                 </div>
                 <div className="flex flex-col gap-1">
                     <label>{t("auth.website")} :</label>

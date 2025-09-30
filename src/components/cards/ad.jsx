@@ -1,5 +1,8 @@
+import { useNavigate } from "react-router-dom"
+
 const Ad = ({photo,name,id,rating,services_count}) => {
-    return (<div className="card-imge "><img src={photo} alt={`Image_${name}`} />
+    const navigate = useNavigate()
+    return (<div className="card-imge"><img src={photo} alt={`Image_${name}`} />
                 <div onClick={()=>{
                     localStorage.setItem("click",JSON.stringify({
                                     service_id: 10,

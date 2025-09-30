@@ -4,9 +4,8 @@ import { useEffect, useState } from "react"
 import { Helper } from "../../../functionality/helper"
 import { apiRoutes } from "../../../functionality/apiRoutes"
 import Loading from "../../../components/loading"
-import { storeClick } from "../../../functionality/functions"
 
-const AdsPage = ({isHome})=>{
+const ProviderPage = ({isHome})=>{
     const { t } = useTranslation()
     const navigate = useNavigate()
     const [ data, setData ] = useState([])
@@ -35,13 +34,13 @@ const AdsPage = ({isHome})=>{
             
         }
     }
-    return(<div className={`px-2  lg:px-16 ${isHome ? "py-20":"flex flex-col gap-5"}`}>
+    return(<div className={`px-2 lg:px-16 ${isHome ? "py-20":"flex flex-col gap-5"}`}>
         <div>
             <h2 className={`${isHome? "text-center pb-10":""}  `}>{"Best Provider"}</h2>
             {!isHome && <p> Showing 0 - 18 of all SMM Panels in our SMM Panel Database</p>}
         </div>
         
-        { isloading ? <Loading/>:<div className="grid grid-cols-2 lg:grid-cols-4 gap-5 lg:gap-10">
+        { isloading ? <Loading/>:<div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-4 gap-5 lg:gap-10">
             { 
                 data.length > 0 && data.map((e,idx)=>(<div  key={`Ads_${idx}`}>
                 <div className="card-imge "><img src={e.photo ? e.photo :""} alt={`Image_${idx}`} />
@@ -79,4 +78,4 @@ const AdsPage = ({isHome})=>{
         
     </div>)
 }
-export default AdsPage
+export default ProviderPage

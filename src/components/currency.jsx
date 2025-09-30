@@ -64,7 +64,7 @@ const Currency = ()=>{
         document.removeEventListener("mousedown", handleClickOutside);
         };
     }, [isOpen]);
-    return(<div ref={menuRef} className="flex items-center gap-2 cursor-pointer currency">
+    return(<div ref={menuRef} className={`flex items-center gap-2 cursor-pointer ${ (i18n.language == "ar" || i18n.language == "ur")? "border-left":"border-right"} currency`}>
             <span onClick={()=>setIsOpen(!isOpen)}>{currentCurrency.code}</span>
             <div onClick={()=>setIsOpen(!isOpen)} className="arrow-currency">
                 <svg xmlns="http://www.w3.org/2000/svg" width="8" height="12" viewBox="0 0 8 12" fill="none">
