@@ -60,6 +60,16 @@ const Transactions = ()=>{
                      
                 </div>),
             }),
+            columnHelper.accessor('status', {
+                header: 'Status',
+                cell: info => (<div>
+                    {info.getValue() == "pending" ? 
+                        <div className="error-card p-2 ">{info.getValue()}</div> : 
+                        <div className="success-card p-2">{info.getValue()}</div> 
+                    }
+                     
+                </div>),
+            }),
             columnHelper.accessor('created_at', {
                 header: 'Created At',
                 cell: info => info.getValue(),
@@ -102,6 +112,7 @@ const Transactions = ()=>{
             const formattedData = response.data.map(ele => ({
                 id : ele.id,
                 type : ele?.type ?? "-",
+                status : ele?.status ?? "-",
                 amount : ele?.amount ?? "0",
                 balance :  ele?.balance_after ?? "0",
                 reference_id : ele?.reference_id ?? [] ,
@@ -131,9 +142,9 @@ const Transactions = ()=>{
     return(<div className="flex dashboard flex-col gap-5">
         <div className="flex flex-col gap-1">
             <div className="flex gap-2 items-center">
-                <Link className="cursor-pointer text-blue-500" to={user?.role == "admin" ? "/dashboard/admin" :"/dashboard"}> Dashboard</Link> / <div> History transctions</div>
+                <Link className="cursor-pointer text-blue-500" to={user?.role == "admin" ? "/dashboard/admin" :"/dashboard"}> Dashboard</Link> / <div> History funds</div>
             </div>
-            <h2>History transctions</h2>
+            <h2>History funds</h2>
         </div>
         { isCharge && <div className="charge p-5 flex justify-center flex-col gap-1 items-center ">
             <p>The charging process is still pending. Once it is completed, We will inform you.</p>
@@ -141,9 +152,9 @@ const Transactions = ()=>{
         </div>}
         { user?.role == "user" ?<div className="card p-4 flex justify-between items-center">
             <div><strong>Your balance is :  </strong>{userRedux.balance}</div>
-            <button className="dark-btn" onClick={()=>setOpenCharge(true)}>Add Balance</button>
+            <button className="dark-btn" onClick={()=>setOpenCharge(true)}>Add funds</button>
         </div>: <div>
-            <button className="dark-btn" onClick={()=>setOpenTransfer(true)}>Transfer Balance</button>
+            <button className="dark-btn" onClick={()=>setOpenTransfer(true)}>Transfer funds</button>
         </div>}
         {/* Filter Section */}
         <div className="grid grid-cols-1 xs:grid-cols-3 gap-3">

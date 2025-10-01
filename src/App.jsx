@@ -14,7 +14,6 @@ import DetailsPanel from './pages/website/panel/detailsPanel'
 // Pages Dashboard
 import Dashboard from './pages/dashboard/page'
 import Account from './pages/dashboard/account'
-import Finances from './pages/dashboard/finances'
 import SMMPanels from './pages/dashboard/panels/smmPanels'
 import Services from './pages/website/services/page'
 import Check from './pages/website/auth/check'
@@ -43,6 +42,7 @@ import HistoryRequestServices from './pages/commonElements/services/historyReque
 import DetailsServiceRequest from './pages/commonElements/services/detailsServiceRequest'
 import Transactions from './pages/commonElements/transactions/transactions'
 import ProviderPage from './pages/website/provider/page'
+import ResultPaltforms from './pages/website/platforms/resultPlatforms'
 
 
 function App() {
@@ -65,6 +65,8 @@ function App() {
         <Route path='smm-panel/new' element={<NewPanel/>}/>
         <Route path='smm-panel/:name/:id' element={<DetailsPanel/>} />
         <Route path='platforms' element={<Paltforms/>} />
+        <Route path='platforms/:id' element={<ResultPaltforms/>} />
+        <Route path='platforms/:id/:subId' element={<ResultPaltforms/>} />
         {/* Services in website */}
         <Route path='our-services' element={<OurServices/>} />
         <Route path='our-services/:slug/:id' element={<ServicesWrapper/>} />
@@ -73,7 +75,7 @@ function App() {
       <Route path='/dashboard/*' element={<LayoutDashboard/>}>
         <Route path='' element={<Dashboard/>}/>
         <Route path='settings' element={<Account/>}/>
-        <Route path='transactions' element={<Transactions/>}/>
+        <Route path='funds' element={<Transactions/>}/>
         <Route path='SMMPanels' element={<SMMPanels/>}/>
         <Route path='SMMServices' element={<HistoryRequestServices/>}/>
         <Route path='SMMServices/:id' element={<DetailsServiceRequest/>}/>
@@ -103,8 +105,8 @@ function App() {
         {/* Notifications Interfaces */}
         <Route path='notifications' element={<NotificationList/>}/>
         {/* Transctions */}
-        <Route path='transactions' element={<Transactions/>}/>
-        <Route path='transactions/:type' element={<Transactions/>}/>
+        <Route path='funds' element={<Transactions/>}/>
+        <Route path='funds/:type' element={<Transactions/>}/>
         
         <Route path='categories' element={<Categories/>}/>
         <Route path='category/add' element={<AddCategory/>}/>

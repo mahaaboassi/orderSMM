@@ -241,9 +241,9 @@ const Bumps = ({id, slug})=>{
                                     {errorStatus.open && errorStatus.type != "success"&& <div className="flex flex-col gap-1">
                                         <h4 className="text-center box-error p-2">{errorStatus.msg}</h4>
                                         {errorStatus.msg == "NOT_ENOUGH_BALANCE" && <Link className="flex justify-center" to={JSON.parse(localStorage.getItem("user"))?.role == "admin" ? 
-                                            "/dashboard/admin/transactions"
-                                            : "/dashboard/transactions"}>
-                                            <button className="dark-btn">Add balance</button>
+                                            "/dashboard/admin/funds"
+                                            : "/dashboard/funds"}>
+                                            <button className="dark-btn">Add funds</button>
                                         </Link>}
                                     </div>}
                                 

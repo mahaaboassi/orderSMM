@@ -102,5 +102,9 @@ export const apiRoutes = {
     },
     payment_methods : {
        list: `${host}payment-methods`, 
+    },
+    platforms: {
+        list: `${host}platforms`,
+        getOne : (id)=>(`${host}platforms/${id}`), 
     }
 }

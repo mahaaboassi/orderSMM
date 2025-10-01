@@ -51,7 +51,6 @@ const NewPanel = ()=>{
         open : false
     })
     const [ codes, setCodes ] = useState({
-        telegram : "",
         whatsapp : ""
     })
     const [ file, setFile ] = useState({})
@@ -77,7 +76,7 @@ const NewPanel = ()=>{
         values.append("tiktok",data.tiktok)
         values.append("facebook",data.facebook)
         values.append("instagram",data.instagram)
-        values.append("telegram",codes.telegram.dial_code + data.telegram)
+        values.append("telegram",data.telegram)
         values.append("whatsapp",codes.whatsapp.dial_code + data.whatsapp)
         values.append("languages[1][name]",data.title)
         values.append("languages[2][name]",data.title)
@@ -161,7 +160,7 @@ const NewPanel = ()=>{
                         </div>
                         <div className="flex flex-col gap-1">
                             <label>Telegram:</label>
-                            <MobileInput returnedCountry={(res)=>{setCodes(prev=>({...prev,telegram:res}))}}  register={register("telegram")}   />
+                            <input {...register("telegram")} placeholder="https://t.me/example"   />
                             {errors.telegram && <p className="pt-0.5 text-error">{errors.telegram.message}</p>}
                         </div>
                          <div className="flex flex-col gap-1">

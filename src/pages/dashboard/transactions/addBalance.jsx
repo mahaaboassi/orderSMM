@@ -127,7 +127,7 @@ const AddBalance = ({close})=>{
     return(<div className='popup'>
         <div className="flex flex-col gap-5 content-popup p-4 ">
             <div className="flex justify-between">
-                <h2>Add Balance </h2>
+                <h2>Add Funds </h2>
                 <div className="cursor-pointer" onClick={close}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                         <g clipPath="url(#clip0_17_1174)">

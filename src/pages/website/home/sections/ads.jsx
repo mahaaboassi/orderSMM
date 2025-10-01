@@ -32,7 +32,7 @@ const Ads = ({isHome})=>{
             
         }
     }
-    return(<div className={`px-2  lg:px-16 ${isHome ? "py-20":"flex flex-col gap-5"}`}>
+    return(<div className={`px-2  lg:px-16 ${isHome ? "":"flex flex-col gap-5"}`}>
         <div>
             <h2 className={`${isHome? "text-center pb-10":""}  `}>{t("featuredSMMPanels")}</h2>
             {!isHome && <p> Showing 0 - 18 of all SMM Panels in our SMM Panel Database</p>}

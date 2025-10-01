@@ -91,11 +91,40 @@
     font-weight: 500;
     border-bottom: 1px solid var(--green_2); 
 }
+/* Platforms */
+.line-links-platforms{
+    background: var(--green_2);
+    font-size: var(--font-size-s);
+    font-weight: 600;
+    color: var(--light);
+    /* border-radius: 10px; */
+    text-transform: uppercase;
+}
+.child-link{
+    border: 1px solid var(--light);
+}
+.child-link span{
+    font-size: 13px;
+    font-weight: 400;
+    text-transform: capitalize;
+}
+.active-child-link{
+    background-color: var(--light);
+    color: var(--green_2);
+    border: 1px solid var(--green_2);
+}
 @media (max-width:500px) {
     .card-info .number{
         font-size: var(--font-size-s);
     }
     .card-info h4{
         font-size: var(--font-size-xs);
+    }
+    /* Platforms */
+    .line-links-platforms{
+        font-size: var(--font-size-xxs);
+    }
+    .child-link span{
+        font-size: 10px;
     }
 }

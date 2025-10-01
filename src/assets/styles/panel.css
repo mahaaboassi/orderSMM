@@ -25,16 +25,29 @@
     box-shadow: var(--shadow-box);
     border-radius: 10px; 
 }
+.card-platform a{
+    font-size: var(--font-size-l);
+    font-weight: 600;
+    color: var(--green_1);
+}
+.card-platform a:hover{
+    color: var(--green_2);
+}
 .card-platform hr{
     color: var(--grey_2);
 }
+.container-child{
+    overflow: hidden;
+}
 .child-platforms{
-    background-color: var(--grey_2);
+    background-color: rgb(225, 225, 225);
     border-radius: 10px;
     font-size: var(--font-size-xxs);
     cursor: pointer;
     transition: 0.3s;
-    color: var(--light);
+    color: var(--green_2);
+    text-transform: uppercase;
+    font-weight: 500;
 }
 .child-platforms:hover{
     background-color: var(--green_2);

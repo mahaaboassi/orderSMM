@@ -4,64 +4,24 @@ import Loading from "../../../components/loading"
 import { Helper } from "../../../functionality/helper"
 import { apiRoutes } from "../../../functionality/apiRoutes"
 import Ad from "../../../components/cards/ad"
+import { Link, useNavigate } from "react-router-dom"
 
 const Paltforms = ()=>{
-    const platforms = [{
-        name : "Youtube",
-        icon : <svg xmlns="http://www.w3.org/2000/svg" width="30" height="35" viewBox="0 0 134 139" fill="none">
-                <path d="M133.895 69.4647C133.895 104.171 108.838 132.863 76.2901 137.52C73.2457 137.955 70.1319 138.181 66.9719 138.181C63.3225 138.181 59.7424 137.88 56.251 137.302C24.3887 132.036 0.0488281 103.664 0.0488281 69.4607C0.0488281 31.5098 30.0112 0.744629 66.9719 0.744629C103.933 0.744629 133.895 31.5098 133.895 69.4607V69.4647Z" fill="#FF0209"/>
-                <path d="M109.502 55.0971C108.974 49.8265 107.83 44.0059 103.621 40.9432C100.357 38.569 96.072 38.482 92.0719 38.486C83.6131 38.4939 75.1542 38.5018 66.6954 38.5097C58.5603 38.5176 50.4251 38.5255 42.29 38.5334C38.891 38.5334 35.5885 38.2644 32.4323 39.772C29.7193 41.0698 27.5998 43.535 26.328 46.2772C24.5553 50.0956 24.1815 54.4166 23.9696 58.6386C23.5765 66.323 23.6189 74.0311 24.0929 81.7075C24.4359 87.3145 25.3107 93.5071 29.5305 97.0802C33.2724 100.246 38.5519 100.4 43.3999 100.404C58.7992 100.416 74.1985 100.428 89.5978 100.444C91.5709 100.444 93.6326 100.408 95.6443 100.182C99.6059 99.7432 103.379 98.5799 105.922 95.5687C108.489 92.5337 109.148 88.3037 109.541 84.3033C110.489 74.6009 110.477 64.7956 109.502 55.0971ZM57.7895 83.0727V55.8569L80.7459 69.4648L57.7895 83.0727Z" fill="white"/>
-                </svg>,
-        services : [{name : "Likes",id:1},{name : "DisLike",id:3},{name : "Subscribers",id:4}],
-        count_services : 105220
-    },{
-        name : "TikTok",
-        icon : <svg xmlns="http://www.w3.org/2000/svg" width="30" height="35" viewBox="0 0 134 138" fill="none">
-                <path d="M133.946 68.7201C133.946 103.426 108.889 132.118 76.3409 136.775C73.2965 137.211 70.1827 137.436 67.0227 137.436C63.3733 137.436 59.7932 137.135 56.3017 136.558C24.4395 131.291 0.0996094 102.92 0.0996094 68.7161C0.0996094 30.7652 30.062 0 67.0227 0C103.983 0 133.946 30.7652 133.946 68.7161V68.7201Z" fill="black"/>
-                <path d="M101.365 54.4117V67.5408C99.1262 67.3192 96.2282 66.7969 93.0104 65.5861C88.8137 64.0073 85.6884 61.8468 83.6459 60.173V86.7161L83.5958 86.633C83.6305 87.1593 83.6459 87.6935 83.6459 88.2356C83.6459 101.42 73.2024 112.147 60.3581 112.147C47.5138 112.147 37.0703 101.416 37.0703 88.2356C37.0703 75.055 47.5138 64.3199 60.3581 64.3199C61.6144 64.3199 62.8476 64.4228 64.0538 64.6206V77.5637C62.8938 77.1364 61.6529 76.9069 60.3581 76.9069C54.277 76.9069 49.325 81.9876 49.325 88.2356C49.325 94.4836 54.277 99.5643 60.3581 99.5643C66.4392 99.5643 71.3912 94.4796 71.3912 88.2356C71.3912 88.0021 71.3873 87.7687 71.3719 87.5352V35.9526H84.1546C84.2009 37.0645 84.2471 38.1843 84.2895 39.2962C84.3743 41.4844 85.1334 43.5856 86.4552 45.3068C88.0083 47.3288 90.2974 49.6792 93.5191 51.5548C96.5327 53.3077 99.3613 54.0596 101.365 54.4157V54.4117Z" fill="#FF004F"/>
-                <path d="M96.9726 43.7518V56.8809C94.7336 56.6593 91.8356 56.137 88.6178 54.9262C84.4211 53.3474 81.2958 51.1869 79.2534 49.5131V76.0562L79.2033 75.9731C79.2379 76.4994 79.2534 77.0336 79.2534 77.5757C79.2534 90.7602 68.8099 101.487 55.9655 101.487C43.1212 101.487 32.6777 90.7562 32.6777 77.5757C32.6777 64.3951 43.1212 53.66 55.9655 53.66C57.2218 53.66 58.455 53.7629 59.6612 53.9607V66.9038C58.5013 66.4765 57.2604 66.247 55.9655 66.247C49.8844 66.247 44.9324 71.3277 44.9324 77.5757C44.9324 83.8237 49.8844 88.9044 55.9655 88.9044C62.0466 88.9044 66.9986 83.8197 66.9986 77.5757C66.9986 77.3422 66.9948 77.1088 66.9794 76.8753V25.2927H79.762C79.8083 26.4046 79.8545 27.5244 79.8969 28.6363C79.9817 30.8245 80.7409 32.9256 82.0627 34.6469C83.6157 36.6689 85.9048 39.0193 89.1265 40.8949C92.1401 42.6478 94.9687 43.3997 96.9726 43.7558V43.7518Z" fill="#00F7EF"/>
-                <path d="M99.7695 49.4894V62.6185C97.5305 62.3969 94.6325 61.8746 91.4147 60.6637C87.218 59.0849 84.0927 56.9244 82.0502 55.2507V81.7938L82.0001 81.7107C82.0348 82.2369 82.0502 82.7711 82.0502 83.3132C82.0502 96.4977 71.6067 107.225 58.7624 107.225C45.9181 107.225 35.4746 96.4938 35.4746 83.3132C35.4746 70.1327 45.9181 59.3975 58.7624 59.3975C60.0187 59.3975 61.2519 59.5004 62.4581 59.6983V72.6414C61.2981 72.214 60.0572 71.9845 58.7624 71.9845C52.6813 71.9845 47.7293 77.0652 47.7293 83.3132C47.7293 89.5612 52.6813 94.6419 58.7624 94.6419C64.8435 94.6419 69.7955 89.5573 69.7955 83.3132C69.7955 83.0798 69.7917 82.8463 69.7763 82.6129V31.0303H82.5589C82.6051 32.1422 82.6514 33.262 82.6938 34.3739C82.7786 36.5621 83.5377 38.6632 84.8595 40.3845C86.4126 42.4065 88.7017 44.7569 91.9234 46.6325C94.937 48.3854 97.7656 49.1372 99.7695 49.4933V49.4894Z" fill="white"/>
-                </svg>,
-        services : [{name : "Views",id:1},{name : "Likes",id:2},{name : "Shares",id:3},{name : "Followers",id:4}],
-        count_services : 105220
-    },{
-        name : "Instagram",
-        icon : <svg xmlns="http://www.w3.org/2000/svg" width="30" height="35" viewBox="0 0 134 138" fill="none">
-            <path d="M133.895 68.7201C133.895 103.426 108.838 132.118 76.2901 136.775C73.2457 137.211 70.1319 137.436 66.9719 137.436C63.3225 137.436 59.7424 137.135 56.251 136.558C24.3887 131.291 0.0488281 102.92 0.0488281 68.7161C0.0488281 30.7652 30.0112 0 66.9719 0C103.933 0 133.895 30.7652 133.895 68.7161V68.7201Z" fill="url(#paint0_linear_603_1823)"/>
-            <path d="M87.9328 27.469H46.0163C34.436 27.469 25.0176 37.1397 25.0176 49.0303V88.4058C25.0176 100.296 34.436 109.967 46.0163 109.967H87.9328C99.5132 109.967 108.932 100.296 108.932 88.4058V49.0303C108.932 37.1397 99.5132 27.469 87.9328 27.469ZM32.4244 49.0303C32.4244 41.3341 38.5209 35.0742 46.0163 35.0742H87.9328C95.4282 35.0742 101.525 41.3341 101.525 49.0303V88.4058C101.525 96.102 95.4282 102.362 87.9328 102.362H46.0163C38.5209 102.362 32.4244 96.102 32.4244 88.4058V49.0303Z" fill="white"/>
-            <path d="M66.9718 88.7777C77.7429 88.7777 86.5061 79.7797 86.5061 68.72C86.5061 57.6604 77.7429 48.6624 66.9718 48.6624C56.2008 48.6624 47.4375 57.6604 47.4375 68.72C47.4375 79.7797 56.2008 88.7777 66.9718 88.7777ZM66.9718 56.2715C73.6579 56.2715 79.0955 61.8548 79.0955 68.72C79.0955 75.5853 73.6579 81.1686 66.9718 81.1686C60.2857 81.1686 54.8481 75.5853 54.8481 68.72C54.8481 61.8548 60.2857 56.2715 66.9718 56.2715Z" fill="white"/>
-            <path d="M88.3188 51.8992C91.2206 51.8992 93.583 49.4736 93.583 46.494C93.583 43.5145 91.2206 41.0889 88.3188 41.0889C85.417 41.0889 83.0547 43.5145 83.0547 46.494C83.0547 49.4736 85.417 51.8992 88.3188 51.8992Z" fill="white"/>
-            <defs>
-            <linearGradient id="paint0_linear_603_1823" x1="19.6487" y1="117.311" x2="116.797" y2="22.6978" gradientUnits="userSpaceOnUse">
-            <stop stop-color="#FAAD4F"/>
-            <stop offset="0.35" stop-color="#DD2A7B"/>
-            <stop offset="0.62" stop-color="#9537B0"/>
-            <stop offset="1" stop-color="#515BD4"/>
-            </linearGradient>
-            </defs>
-            </svg>,
-        services : [{name : "TV Likes",id:1},{name : "Live Views",id:2},{name : "Comments",id:3},{name : "Views",id:4}],
-        count_services : 105220
-    },{
-        name : "Telegram",
-        icon : <svg xmlns="http://www.w3.org/2000/svg" width="30" height="35" viewBox="0 0 134 139" fill="none">
-                <path d="M133.946 69.4647C133.946 104.171 108.889 132.863 76.3409 137.52C73.2965 137.955 70.1827 138.181 67.0227 138.181C63.3733 138.181 59.7932 137.88 56.3017 137.302C24.4395 132.036 0.0996094 103.664 0.0996094 69.4607C0.0996094 31.5098 30.062 0.744629 67.0227 0.744629C103.983 0.744629 133.946 31.5098 133.946 69.4607V69.4647Z" fill="#00B0F2"/>
-                <path d="M23.8338 66.3664C24.0226 66.2675 24.2115 66.1765 24.4003 66.0894C27.6181 64.5581 30.8783 63.1257 34.1347 61.6933C34.3119 61.6933 34.6087 61.4875 34.7705 61.4123C35.021 61.3015 35.2715 61.1907 35.5259 61.0799C36.0076 60.8662 36.4932 60.6565 36.9749 60.4429C37.9422 60.0195 38.9055 59.5921 39.8728 59.1687C41.8035 58.322 43.7381 57.4712 45.6688 56.6205C49.534 54.9229 53.3992 53.2254 57.2645 51.5279C61.1297 49.8304 64.995 48.1328 68.8603 46.4353C72.7255 44.7378 76.5907 43.0403 80.456 41.3427C84.3212 39.6452 88.1865 37.9477 92.0517 36.2502C92.9111 35.8743 93.8437 35.3045 94.7609 35.1383C95.5354 34.9998 96.2908 34.7228 97.0654 34.5724C98.5413 34.2836 100.171 34.1649 101.586 34.794C102.075 35.0117 102.522 35.3203 102.904 35.7041C104.696 37.5283 104.445 40.5197 104.068 43.0838C101.424 60.9533 98.7802 78.8188 96.1327 96.6884C95.7705 99.1377 95.2811 101.828 93.3928 103.376C91.7974 104.685 89.5275 104.836 87.5622 104.278C85.5929 103.72 83.8549 102.545 82.1516 101.385C75.084 96.5815 68.0163 91.7739 60.9486 86.9702C59.2684 85.8266 57.3994 84.3388 57.4186 82.2693C57.4302 81.0229 58.1547 79.911 58.8946 78.9218C65.0335 70.6993 73.9009 65.0448 80.4907 57.1982C81.4194 56.0942 82.1516 54.092 80.876 53.4549C80.1168 53.075 79.242 53.5895 78.5522 54.0841C69.8391 60.3004 61.1259 66.5168 52.4127 72.7292C49.5687 74.7551 46.5898 76.8443 43.1639 77.3429C40.1002 77.79 37.0134 76.9156 34.046 76.0173C31.5604 75.2655 29.0787 74.4979 26.6046 73.7025C25.2905 73.2831 23.934 72.832 22.9166 71.8784C21.8992 70.9287 21.3173 69.3301 21.9301 68.0639C22.3116 67.2686 23.0592 66.7661 23.8415 66.3585L23.8338 66.3664Z" fill="#FEFFFC"/>
-                </svg>,
-        services : [{name : "Views",id:1},{name : "Members",id:2},{name : "Reaction",id:3},{name : "Likes",id:4}],
-        count_services : 105220
-    }]
+    const navigate = useNavigate()
     const [ ads, setAds ] = useState([])
-    const { t } = useTranslation()
+    const [ data, setData ] = useState([])
+    const { t, i18n } = useTranslation()
     const [ loading, setLoading ] = useState(false)
+    const [ loadingAds, setLoadingAds ] = useState(false)
     useEffect(()=>{
         const abortController = new AbortController()
         const signal = abortController.signal
         getAds(signal)
+        getData(signal)
         return () => abortController.abort()
     },[])
     const getAds = async (signal) => {
-        setLoading(true)
+        setLoadingAds(true)
         const { response , message, statusCode } = await Helper({
             url : apiRoutes.panel.list,
             signal : signal,
@@ -72,6 +32,23 @@ const Paltforms = ()=>{
             console.log(response);
 
             setAds(response.data.sort(() => 0.5 - Math.random()).slice(0, 2))
+            setLoadingAds(false)
+        }else{
+            console.log(message);
+            
+        }        
+    }
+    const getData = async (signal) => {
+        setLoading(true)
+        const { response , message, statusCode } = await Helper({
+            url : apiRoutes.platforms.list,
+            signal : signal,
+            method : "GET",
+            hasToken : true
+        })
+        if(response){
+            console.log(response);
+            setData(response.data)
             setLoading(false)
         }else{
             console.log(message);
@@ -80,24 +57,31 @@ const Paltforms = ()=>{
     }
     return(<div className="px-2 lg:px-16 flex flex-col gap-5">
         <div>
-            <h2>The best SMM Services</h2>
-            <p>Find the best Social Media Marketing (SMM) Services from all listed SMM Panels</p>
+            <h2>Top Social Media Platforms</h2>
+            <p>Discover the leading Social Media Marketing (SMM) services across a wide range of panels. Browse over 538,980 SMM service options covering more than 56 social platforms from 300+ SMM panels worldwide. Easily compare and select SMM services by platform and category to find the perfect fit for your needs.</p>
         </div>
-        {loading? <Loading/> :<div className="grid grid-cols-4 gap-5 md:gap-10">
+        <div className="grid grid-cols-4 gap-5 md:gap-10">
             <div className=" col-span-4 sm:col-span-3">
-                {platforms.length>0? <div className="grid gap-5 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                {loading? <Loading/> : data.length>0? <div className="grid gap-5 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
                     {
-                        platforms.map((e,idx)=>(<div key={`Paltforms_${e.name}_${idx}`} className="card-platform p-5 flex flex-col gap-3">
+                        data.map((e,idx)=>(<div key={`Paltforms_${e.name}_${idx}`} className="card-platform p-5 flex flex-col gap-3">
+                            <Link to={`/platforms/${e.id}?keywords=${e.name}`}>
                             <div className="flex gap-2 items-center">
-                                <div>{e.icon}</div>{e.name} 
+                                <div>
+                                    <img src={e.photo} /> 
+                                </div>
+                                <h3>{e.name} </h3>
                             </div>
-                            <div className="flex gap-2 ">
-                                {e.services.map((child,i)=>(<div key={`Platform_${e.name}_${child.name}_${i}`} className="child-platforms p-1.5">
-                                    {child.name}
+                            </Link>
+                            <hr/>
+                            <div className="flex gap-2 flex-wrap container-child items-center h-full">
+                                {e?.platform_links.length>0 && e?.platform_links.map((child,i)=>(<div  key={`Platform_${e.name}_${child.name}_${i}`}
+                                    onClick={()=>navigate(`/platforms/${e.id}/${child.id}?keywords=${e.name+" "+child.translations?.[i18n.language].name}`)} className="child-platforms p-1.5">
+                                    {child?.translations?.[i18n.language].name}
                                 </div>))}
                             </div>
-                            <hr/>
-                            <div className="services-section">Services : <span>{e.count_services}</span></div>
+                            
+                            {/* <div className="services-section">Services : <span>{e.count_services}</span></div> */}
                         </div>))
                     }
                 </div>
@@ -106,14 +90,15 @@ const Paltforms = ()=>{
                
             </div>
             <div className="flex sm:flex-col gap-5 col-span-4  sm:col-span-1">
-                {ads && ads.length > 0 && ads.map((e,idx)=>(<Ad key={`Ads_Services_Page_${e.translations?.en?.name ?? ""}_${idx}`} name={e.translations?.en?.name ?? ""} id={e.id}
+                {loadingAds ?[...Array(4)].map((_,i)=>(<div  className="h-20 w-full rounded-xl bg-gray-300 animate-pulse" key={`Skeleton_Ads_${i}`} >
+                </div>)):ads && ads.length > 0 && ads.map((e,idx)=>(<Ad key={`Ads_Services_Page_${e.translations?.en?.name ?? ""}_${idx}`} name={e.translations?.en?.name ?? ""} id={e.id}
                     photo={e.photo ? e.photo :""}
                     rating={e.rating ? e.rating : 0}
                     services_count={e.services_count ? e.services_count: 0}
                 />)) }
                
             </div>
-        </div>}
+        </div>
 
     </div>)
 }
