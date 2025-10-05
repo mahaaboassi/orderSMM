@@ -6,10 +6,14 @@ import { Provider } from 'react-redux';
 import { store } from './store.jsx';
 // import i18n
 import './i18n';
+import AddBalance from './pages/commonElements/transactions/addBalance.jsx';
+import TransferBalance from './pages/commonElements/transactions/transferBalance.jsx';
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <Provider store={store}>
       <App />
+      <AddBalance/>
+      <TransferBalance/>
     </Provider>
   </StrictMode>,
 )

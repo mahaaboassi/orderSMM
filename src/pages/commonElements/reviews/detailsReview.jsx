@@ -10,7 +10,7 @@ import Loading from "../../../components/loading";
 
 
 
-const DetailsServiceRequest = ()=>{
+const DetailsReview = ()=>{
     const { id } = useParams()
     const { t, i18n } = useTranslation()   
     const [ isSubmit, setIsSubmit ] = useState(false)
@@ -29,13 +29,13 @@ const DetailsServiceRequest = ()=>{
         const signal = controller.signal
         getData(signal)
         return () => controller.abort()
-    },[id])
+    },[ ])
 
     const getData = async (signal)=>{
         setData([])
         setLoading(true)
         const { response, message, statusCode} = await Helper({
-            url :  apiRoutes.services.getOneRequest(id),
+            url :  apiRoutes.review.getOne(id),
             method : "GET",
             signal : signal,
             hasToken: true,
@@ -46,38 +46,25 @@ const DetailsServiceRequest = ()=>{
             window.scrollTo({top:0})
             setLoading(false)
             setData(response.data);
-            setMessage(user?.role == "user" ? response.data.description: response.data.notes)
-            setStatus(response.data.status == 2 ? 0 : 1)
+            setStatus(response.data.approved ? 0 : 1)
         }else{
             console.log(message);
             
         }
     }
 
-    const submit = async()=>{
-        if(!messageForm){
-            setErrorStatus({msg: "Message is required!", open : true})
-            return
-        }
-        setIsSubmit(true)
+    const updateStates = async(res)=>{
         const formData = new FormData()
-        if(user?.role == "user"){
-            formData.append("description",messageForm)
-            if( file &&  "name" in file ) formData.append("file",file)
-        }else{
-            formData.append("notes",messageForm) 
-            formData.append("status", status)
-        }
+        formData.append("approved", res==0 ? 1 : 0)
     
         const {response , message,  statusCode} = await Helper({
-            url:apiRoutes.services.updateRequest(id),
+            url:apiRoutes.review.update(id),
             method:'POST',
             body:formData,
             hasToken: true,
         })
         if(response){
             console.log(response);
-            setIsSubmit(false)
             setErrorStatus({msg: response.message, open : true,type:"success"})
             setTimeout(()=>{
                 setErrorStatus({msg: "", open : false,type:""})
@@ -93,25 +80,63 @@ const DetailsServiceRequest = ()=>{
     return(loading ?<Loading/> : <div className='flex dashboard flex-col gap-5'>
         <div className="flex flex-col gap-1">
             <div className="flex gap-2 items-center">
-                <Link className="cursor-pointer text-blue-500" to={user?.role == "user" ?"/dashboard/SMMServices":"/dashboard/admin/history/servicesRequests"}> Services Requests</Link> / <div> {data?.service?.name ?? ""}</div>
+                <Link className="cursor-pointer text-blue-500" to={user?.role == "user" ?"/dashboard/reviews":"/dashboard/admin/reviews"}> Reviews</Link> / <div> Review Details </div>
             </div>
-            <h2>Service Request</h2>
+            <h2>Review Details</h2>
+        </div>
+         <div className="py-2">
+            {errorStatus.open && errorStatus.type == "success" && <h4 className="text-center box-success p-2">{errorStatus.msg}</h4>}
+            {errorStatus.open && errorStatus.type != "success"&& <h4 className="text-center box-error p-2">{errorStatus.msg}</h4>}
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             <div className="card p-4 flex flex-col gap-2">
-                <div className="flex justify-between">
-                    <h3>Service Details</h3>
+                <div className="flex flex-col gap-2 md:flex-row md:justify-between">
+                    <h3>Review Details</h3>
                     <div>
-                        {data.status == 0 ? <div className="error-card p-2">Pending</div>
-                                            :( data.status == 1 ? <div className="success-card p-2">Paid</div>:
-                                            <div className="info-card p-2 text-white">Closed</div>)}
+                        {user?.role == "admin" ? <SwitchComponent status={status} label={"Approved"} nonLabel={"Not approved"}
+                            returnValue={(res)=>{
+                                updateStates(res)
+                                setStatus(res == 0 ? 0 : 1)}}
+                        />:<>
+                        {status == 0 ? <div className="success-card p-2">Approved</div>
+                                            :<div className="error-card p-2">Not approved</div>
+                                }
+                        </>}
+                        
                     </div>
                 </div>
                 <div><strong>#id: </strong>{data?.id ?? ""}</div>
-                <div><strong>Service Name:</strong> {data?.service?.translations?.[i18n.language]?.name}</div>
-                <div><strong>Price:</strong> {data?.price ?? ""}</div>
-                <div><strong>Ended At:</strong> {data.ends_at? format(new Date(data.ends_at) , "MMMM d, yyyy") :""}</div>
+                <div><strong>Panel Name:</strong> {data?.panel?.translations?.en?.name}</div>
+                <div className="flex"><strong>Rating:</strong> 
+                 <svg xmlns="http://www.w3.org/2000/svg" width="17" height="16" viewBox="0 0 19 18" fill="none">
+                        <g clipPath="url(#clip0_379_17)">
+                        <path d="M9.96072 0.307373L12.3898 5.9487L18.5546 6.49593C18.652 6.50386 18.7448 6.54025 18.8214 6.60052C18.8979 6.6608 18.9549 6.74225 18.985 6.83463C19.0151 6.927 19.017 7.02617 18.9905 7.11963C18.964 7.21308 18.9102 7.29665 18.8361 7.35981L14.1695 11.4025L15.5457 17.3974C15.5601 17.4604 15.5618 17.5256 15.5507 17.5892C15.5397 17.6529 15.5161 17.7137 15.4813 17.7683C15.4466 17.8228 15.4013 17.87 15.3481 17.9072C15.295 17.9443 15.2349 17.9706 15.1715 17.9846C15.0403 18.0121 14.9035 17.9866 14.7911 17.9139L9.49531 14.7719L4.18558 17.9292C4.13011 17.9627 4.06853 17.9849 4.00439 17.9946C3.94025 18.0042 3.87482 18.0012 3.81187 17.9856C3.74892 17.97 3.68969 17.9422 3.63759 17.9038C3.5855 17.8654 3.54157 17.8171 3.50833 17.7617C3.47504 17.7075 3.45286 17.6472 3.44304 17.5844C3.43322 17.5217 3.43597 17.4576 3.45112 17.3958L4.82881 11.401L0.168488 7.35981C0.0705304 7.2734 0.0104998 7.1523 0.00125174 7.02244C-0.00799637 6.89258 0.0342733 6.76428 0.119008 6.66502C0.212397 6.56989 0.339433 6.51474 0.473094 6.5113L6.6147 5.96408L9.04381 0.307373C9.083 0.21896 9.1472 0.143786 9.2286 0.091009C9.31 0.0382322 9.40509 0.0101318 9.50227 0.0101318C9.59945 0.0101318 9.69454 0.0382322 9.77594 0.091009C9.85734 0.143786 9.92154 0.21896 9.96072 0.307373Z" fill="#FFD401"/>
+                        </g>
+                        <defs>
+                        <clipPath id="clip0_379_17">
+                        <rect width="19" height="18" fill="white"/>
+                        </clipPath>
+                        </defs>
+                    </svg>
+                {data?.rating ?? ""}</div>
+                <div><strong>Description:</strong> {data?.description ?? ""}</div>
                 <div><strong>Created At:</strong> {data.created_at ? format(new Date(data.created_at) ,  "MMMM d, yyyy"):""}</div>
+                <div className="flex justify-end">
+                    <Link className="flex items-center gap-1" target="_blank" to={`/smm-panel/${data?.panel?.translations?.en?.name}/${data?.panel?.id}`}>
+                        <span>view Panel</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="27" height="26" viewBox="0 0 12 11" fill="none">
+                            <g clipPath="url(#clip0_262_27)">
+                            <path fillRule="evenodd" clipRule="evenodd" d="M12.0001 3.39561L8.58848 6.79121V5.09962C6.43115 4.6592 4.72695 5.14465 3.43262 6.76148C3.65732 3.43621 5.9626 1.83151 8.58838 1.72528L8.58848 0L12.0001 3.39561Z" fill="#19770D"/>
+                            <path d="M0.674609 2.28491H4.15371C3.70576 2.66595 3.30313 3.10887 2.95605 3.61423H1.34912V9.67078H9.22051V8.25891L10.5695 6.9523V10.3354C10.5695 10.7024 10.2675 11 9.89502 11H0.674609C0.302051 11 0 10.7024 0 10.3354V2.94952C0 2.58243 0.302051 2.28491 0.674609 2.28491Z" fill="#19770D"/>
+                            </g>
+                            <defs>
+                            <clipPath id="clip0_262_27">
+                            <rect width="12" height="11" fill="white"/>
+                            </clipPath>
+                            </defs>
+                        </svg>
+                    </Link>
+                </div>
             </div>
             <div className="card p-4 flex flex-col gap-2">
                 <h3>User Details</h3>
@@ -152,51 +177,7 @@ const DetailsServiceRequest = ()=>{
             </div>
 
         </div>
-    
-        <div className="flex flex-col gap-5">
-
-            <div className="flex flex-col gap-5">
-                <div className="card p-4 flex flex-col gap-1">
-                    <div><strong>{user?.role == "user" ? "Note from Admin":"User Message"}</strong></div>
-                    <p> { user?.role == "user" ? data?.notes || "No notes here." : data?.description || "No message here." } </p>
-                    {user?.role == "admin" && <p> 
-                        { data.photo ? <a href={data.photo} 
-                                download 
-                                target="_blank" 
-                                rel="noopener noreferrer" >
-                            Download File
-                        </a> : "No File here." }
-                    </p>}
-                </div>
-                <form className="card p-4 flex flex-col gap-1" >
-                    <label>{user?.role == "user" ? "Message" : "Note"}</label>
-                    <textarea disabled={ data.status == "2"} value={messageForm}  onChange={(e)=>{
-                        setErrorStatus({msg: "", open : false})
-                        setMessage(e.target.value)}} placeholder="Message" />
-                    {user?.role == "admin" && <SwitchComponent status={status} label={"Completed"} nonLabel={"Not completed"}
-                        returnValue={(res)=>{setStatus(res == 0 ? 2 : 1)}}
-                    />}
-                </form>
-                {user?.role == "user" && <div className="card p-4 flex flex-col gap-1">
-                        {data.status == 2 ? <div>
-                            {data.photo ? <img src={data.photo} alt={data.id} />: <p>No Photo have uploaded</p>}
-                        </div>:<>
-                        <label>Upload File</label>
-                        <FileUpload fromApi={data?.photo ?? ""} returnedFile={(res)=>setFile(res)} />
-                        </>}
-                    </div>}
-                </div>
-            <div> 
-                <div className="py-2">
-                    {errorStatus.open && errorStatus.type == "success" && <h4 className="text-center box-success p-2">{errorStatus.msg}</h4>}
-                    {errorStatus.open && errorStatus.type != "success"&& <h4 className="text-center box-error p-2">{errorStatus.msg}</h4>}
-                </div>
-                <button disabled={isSubmit} onClick={submit} className="dark-btn w-full">
-                    {isSubmit? <div className="loader m-auto"></div>:"Submit"}
-                </button> 
-            </div>
-        </div>
             
     </div>)
 }
-export default DetailsServiceRequest
+export default DetailsReview

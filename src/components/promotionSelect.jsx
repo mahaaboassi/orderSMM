@@ -14,7 +14,7 @@ const PromotionSelect =({prices,returnedSelected})=>{
     },[])
    
     return isloading ? <div className="pricing-table-container">
-  <table class="pricing-table">
+  <table className="pricing-table">
     <thead>
       <tr>
         <th>Services</th>

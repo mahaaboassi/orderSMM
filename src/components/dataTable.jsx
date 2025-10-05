@@ -39,7 +39,13 @@ const MyTanstackTable = ({
     pageCount: lastPage,
   });
   
-  
+  const changeParams = (updates) => {
+    const newParams = new URLSearchParams(searchParams);
+    Object.entries(updates).forEach(([key, value]) => {
+      newParams.set(key, String(value));
+    });
+    setSearchParams(newParams);
+  }
   return (
     <div className="py-4 data-table">
       <div className="mb-4 flex justify-between items-center">
@@ -49,10 +55,7 @@ const MyTanstackTable = ({
             value={table.getState().pagination.pageSize}
             onChange={e => {
               table.setPageSize(Number(e.target.value));
-               setSearchParams({
-                  page: "1", // reset to first page when size changes
-                  limit: String(e.target.value),
-                });
+              changeParams({ page: 1, limit: e.target.value })
             }}
             className="border px-2 py-1 rounded"
           >
@@ -111,10 +114,7 @@ const MyTanstackTable = ({
         <button
           onClick={() => {
             if (pageIndex > 0) {
-              setSearchParams({
-                page: String(pageIndex),
-                limit: String(pageSize),
-              });
+              changeParams({ page: pageIndex, limit: pageSize })
             }
           }}
           disabled={pageIndex <= 0}
@@ -126,13 +126,7 @@ const MyTanstackTable = ({
         <button
           onClick={() => {
             if (pageIndex + 1 < lastPage) {
-              setSearchParams(prev=>{
-                const newParams = new URLSearchParams(prev)
-                newParams.set("page", String(pageIndex + 2));
-                newParams.set("limit", String(pageSize));
-
-                return newParams;
-              });
+              changeParams({ page: pageIndex + 2, limit: pageSize })
             }
           }}
           disabled={pageIndex + 1 >= lastPage}

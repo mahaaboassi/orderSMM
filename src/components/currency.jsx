@@ -64,12 +64,14 @@ const Currency = ()=>{
         document.removeEventListener("mousedown", handleClickOutside);
         };
     }, [isOpen]);
-    return(<div ref={menuRef} className={`flex items-center gap-2 cursor-pointer ${ (i18n.language == "ar" || i18n.language == "ur")? "border-left":"border-right"} currency`}>
-            <span onClick={()=>setIsOpen(!isOpen)}>{currentCurrency.code}</span>
-            <div onClick={()=>setIsOpen(!isOpen)} className="arrow-currency">
-                <svg xmlns="http://www.w3.org/2000/svg" width="8" height="12" viewBox="0 0 8 12" fill="none">
-                    <path d="M0.590088 10.59L5.17009 6L0.590088 1.41L2.00009 0L8.00009 6L2.00009 12L0.590088 10.59Z" fill="white"/>
-                </svg>
+    return(<div ref={menuRef} className={` ${ (i18n.language == "ar" || i18n.language == "ur")? "border-left":"border-right"} currency`}>
+            <div onClick={()=>setIsOpen(!isOpen)}  className="flex items-center gap-2 cursor-pointer">
+                <span >{currentCurrency.code}</span>
+                <div className="arrow-currency arrow-nav">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="8" height="12" viewBox="0 0 8 12" fill="none">
+                        <path d="M0.590088 10.59L5.17009 6L0.590088 1.41L2.00009 0L8.00009 6L2.00009 12L0.590088 10.59Z" fill="white"/>
+                    </svg>
+                </div>
             </div>
            { isOpen && <div className={`currency_menu p-1 ${(i18n.language == "ar" || i18n.language == "ur")?"left-0":"right-0"} `}>
                 {loading ? [0,1,2,3,4,5].map((_,idx)=>(<div className="select_currency p-1" key={`Currency_loading_${idx}`}>

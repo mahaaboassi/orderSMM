@@ -9,6 +9,7 @@ import Periods from "../../../../components/periods";
 import { callStatus } from "../../../../features/callNotification";
 import { useDispatch } from "react-redux";
 import GetPanels from "./getPanels";
+import { changePopupBalance } from "../../../../features/popupBalanceSlice";
 
 
 const Promotion = ({slug,isPromotion})=>{
@@ -117,15 +118,14 @@ const Promotion = ({slug,isPromotion})=>{
                         <h4 >Invoice</h4>
                         <div > Total price : <strong>{isPromotion ? valuesSelected.price * period.factor * period.discount: valuesSelected.price}</strong> </div>
                         <div> 
-                            <div className="py-2">
+                            <div className="py-2 error-container">
                                 {errorStatus.open && errorStatus.type == "success" && <h4 className="text-center box-success p-2">{errorStatus.msg}</h4>}
                                 {errorStatus.open && errorStatus.type != "success"&& <div className="flex flex-col gap-1">
                                         <h4 className="text-center box-error p-2">{errorStatus.msg}</h4>
-                                        {errorStatus.msg == "NOT_ENOUGH_BALANCE" && <Link className="flex justify-center" to={JSON.parse(localStorage.getItem("user"))?.role == "admin" ? 
-                                            "/dashboard/admin/funds"
-                                            : "/dashboard/funds"}>
-                                            <button className="dark-btn">Add fundsnce</button>
-                                        </Link>}
+                                        {errorStatus.msg == "NOT_ENOUGH_BALANCE" && <button onClick={()=>dispatch(changePopupBalance({
+                                                type: "add",
+                                                isOpen: true
+                                            }))} className="dark-btn">Add funds</button>}
                                     </div>}
                             </div>
                             <button disabled={isSubmit} onClick={submit} className="dark-btn w-full">

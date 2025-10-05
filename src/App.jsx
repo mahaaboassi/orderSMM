@@ -43,6 +43,9 @@ import DetailsServiceRequest from './pages/commonElements/services/detailsServic
 import Transactions from './pages/commonElements/transactions/transactions'
 import ProviderPage from './pages/website/provider/page'
 import ResultPaltforms from './pages/website/platforms/resultPlatforms'
+import Reviews from './pages/commonElements/reviews/reviews'
+import DetailsReview from './pages/commonElements/reviews/detailsReview'
+import AddWithServicesNextStep from './pages/website/ourServices/slugs/withServicesNextStep'
 
 
 function App() {
@@ -70,6 +73,7 @@ function App() {
         {/* Services in website */}
         <Route path='our-services' element={<OurServices/>} />
         <Route path='our-services/:slug/:id' element={<ServicesWrapper/>} />
+        <Route path='our-services/:slug/:id/:panel_id' element={<AddWithServicesNextStep/>} />
 
       </Route>
       <Route path='/dashboard/*' element={<LayoutDashboard/>}>
@@ -95,6 +99,9 @@ function App() {
         <Route path='panels/add' element={<AddPanel/>}/>
         <Route path='panels/edit/:id' element={<AddPanel/>}/>
         <Route path='panels/history/:id/:name' element={<HistoryPanel/>}/>
+        {/* Reviews */}
+        <Route path="reviews" element={<Reviews/>} />
+        <Route path='reviews/:id' element={<DetailsReview/>}/>
         {/* Services Requests */}
         <Route path="history/servicesRequests" element={<HistoryRequestServices/>} />
         <Route path='history/servicesRequests/:id' element={<DetailsServiceRequest/>}/>

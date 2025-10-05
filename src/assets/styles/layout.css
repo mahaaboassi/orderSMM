@@ -301,6 +301,21 @@ button:disabled{
     padding: 5px;
     border-radius: 10px;
 }
+.menu-balance{
+    position: absolute;
+    top: 37px;
+    background-color: var(--light);
+    color: var(--green_1);
+    font-size: var(--font-size-xs);
+    width: 210px;
+    border-radius: 10px; 
+}
+.balance-container span{
+    font-size: var(--font-size-xxs);
+}
+.menu-balance button{
+    font-size: var(--font-size-xs);
+}
 .menu-flag{
     position: absolute;
     top: 37px;
@@ -524,6 +539,36 @@ button:disabled{
 .active-div .image-icon path{
     fill: var(--green_2);
 }
+.cover-add{
+    overflow: hidden;
+    border-radius: 10px;
+    cursor: pointer;
+}
+.cover-add{
+    position: relative;
+    font-size: var(--font-size-xxl);
+    font-weight: 800;
+    background: url("../images/cover.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    color: var(--green_1);
+    height: 100%;
+    width: 100%;
+
+}
+.cover-add:hover .content{
+    transform: scale(1.1)
+}
+.cover-add .content{
+    position: absolute;
+    inset: 0;
+    background-color: rgba(242, 243, 242, 0.458);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0.3s;
+
+}
 @keyframes changeColorDiv {
     from{
         background-color: var(--light);
@@ -531,6 +576,9 @@ button:disabled{
         border: 1px solid var(--green_2);
         color: var(--green_2);
     }
+}
+.error-container h4{
+    font-size: var(--font-size-xs) !important;
 }
 @media (max-width:1200px){
     nav ul{
@@ -615,7 +663,18 @@ button:disabled{
     }
 }
 @media (max-width:600px) {
-    
+    .avatar svg{
+        width:30px
+    }
+    nav button,nav span{
+        font-size: var(--font-size-xs);
+    }
+    .balance-container span, .arrow-nav{
+        display: none;
+    }
+    .balance-container .wallet svg{
+        width: 19px;
+    }
 }
 @media (max-width:450px) {
     .second-footer{
@@ -642,7 +701,25 @@ button:disabled{
         top: 20px;
         right: 20px
     }
-    .avatar svg{
-        width:30px
+
+    nav svg.logo{
+        width: 90px;
     }
+    nav{
+        height: 90px;
+    }
+    .nav-content{
+        padding: 5px 15px;
+    }
+
+
+}
+@media (max-width:400px) {
+    .menu-balance{
+        width: 130px;
+    }
+    .menu-balance svg{
+        display: none;
+    }
+    
 }

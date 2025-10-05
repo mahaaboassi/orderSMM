@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   isOpen: false,
-  component : <></>,
+  // component : <></>,
   type : ""
 };
 
@@ -12,7 +12,7 @@ export const popupSlice = createSlice({
   reducers: {
     changePopup: (state, action) => {
       state.isOpen = action.payload.isOpen;
-      state.component = action.payload.component || <></>;
+      // state.component = action.payload.component || <></>;
       state.type = action.payload.type
     },
   },

@@ -28,7 +28,7 @@ const ServicesWrapper = () => {
         }
         getOne(signal)
         return () => controller.abort()
-    },[])
+    },[id])
     const getOne = async(signal)=>{
         setLoading(true)
         const { response , message, statusCode } = await Helper({

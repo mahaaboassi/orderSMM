@@ -30,8 +30,8 @@ const Dropdown = ({data,defaultOption,selected,returnedOption=()=>{}},count)=>{
         setIsOpen(false)
         returnedOption(e)
     }
-    return(  <div ref={menuRef} className="dropdown ">
-            <div onClick={()=>setIsOpen(!isOpen)} className="cursor-pointer h-full items-center flex justify-between px-2 py-1">
+    return(  <div ref={menuRef} className={`dropdown `}>
+            <div onClick={()=>setIsOpen(!isOpen)} className={`cursor-pointer h-full items-center flex justify-between px-2 py-1`}>
                {count?<div>{option?.label} </div>:<div>{option?.label.substring(0,20)+".."} </div>}
                <div>
                     <svg style={{transform:"rotate(90deg)"}} xmlns="http://www.w3.org/2000/svg" width="8" height="12" viewBox="0 0 8 12" fill="none">

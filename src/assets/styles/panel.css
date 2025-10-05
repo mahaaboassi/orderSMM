@@ -7,6 +7,34 @@
 .details-panel h2{
     line-height: 2.3rem;
 }
+.card-review{
+    border: 1px solid var(--green_2);
+    border-radius: 10px;
+}
+.card-review h3{
+    font-size: var(--font-size-s);
+    font-weight: 500;
+}
+.card-review p{
+    color: var(--grey_2);
+}
+.card-review .date{
+    font-size: var(--font-size-xxs);
+    color: var(--green_2);
+}
+.form-review h3{
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+    color: var(--green_2);
+}
+
+.form-review textarea{
+    width: 100%;
+    background-color: var(--light);
+    border: 1px solid var(--green_2);
+    border-radius: 10px;
+    padding: 5px;
+}
 .card{
     background-color: var(--light);
     box-shadow: var(--shadow-box);

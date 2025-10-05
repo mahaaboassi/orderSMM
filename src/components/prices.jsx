@@ -23,7 +23,7 @@ const Prices =({prices,basicPrice,isBump})=>{
             return<tr key={`Table_For_Prices_${idx}`}>
         <td>{e.max}</td>
         <td>{e.price}
-            &nbsp;- <span className="offer">({Math.floor(((basicPrice-e.price)/basicPrice)*100)}%)</span></td>
+            &nbsp;- <span className="offer">({Math.ceil(((basicPrice-e.price)/basicPrice)*100)}%)</span></td>
         <td>{e.price*e.max}</td>
       </tr>
         }else{

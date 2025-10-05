@@ -3,7 +3,7 @@ import { Helper } from "../functionality/helper"
 import { apiRoutes } from "../functionality/apiRoutes"
 import { useTranslation } from "react-i18next"
 import { format  } from 'date-fns';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { callStatus } from "../features/callNotification";
 
@@ -42,7 +42,7 @@ const pending = <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" v
 const Notifications = ()=>{
     const { t, i18n } = useTranslation()
     const language = i18n.language.split('-')[0];
-    
+    const navigate = useNavigate()
     const dispatch = useDispatch()
     const [ data, setData ] = useState([])
     const [ loading, setLoading ] = useState(false)
@@ -51,7 +51,7 @@ const Notifications = ()=>{
     const [ isOpen, setIsOpen ] = useState(false) 
     const isCallRedux = useSelector(state => state.isCall )
     const user = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : {}
-    const types = ["New Service Request","Service Request Confirmed","New Panel Added","Panel Approved"]
+    const types = ["serviceRequest","panel","New Panel Added","Panel Approved"]
     useEffect(()=>{
         const controller = new AbortController()
         const signal = controller.signal
@@ -135,7 +135,17 @@ const Notifications = ()=>{
                 </div>)): <>
                 { data.length > 0 ? <>
                 {
-                    data.map((e,idx)=>(<div className={`notification-item ${finalObj.id == e.id ? "text-bold": "" }`} key={`Notification_${e.name}_${idx}`}>
+                    data.map((e,idx)=>(<div className={`notification-item cursor-pointer ${finalObj.id == e.id ? "text-bold": "" }`} key={`Notification_${e.name}_${idx}`}
+                        onClick={()=>{
+                            if(e.type == "serviceRequest"){
+                                navigate(user.role == "user"? `/dashboard/SMMServices/${e.type_id}` : `/dashboard/admin/history/servicesRequests/${e.type_id}`)
+                            }
+                            if(e.type == "panel"){
+                                navigate(user.role == "user"? `/smm-panel/smm/${e.type_id}` : `/dashboard/admin/panels/edit/${e.type_id}`)
+                            }
+                            setIsOpen(false)
+                        }}      
+                    >
                     <div className="flex gap-1 items-center">
                         <div>
                             { e.name == "New Service Request" && pending }
@@ -152,7 +162,7 @@ const Notifications = ()=>{
                 }
                 
                     <Link to={`/dashboard/${user?.role == "admin"? "admin/notifications" : "notifications" }`}>  
-                        <div className="flex gap-2 items-center">
+                        <div onClick={()=>setIsOpen(false)} className="flex gap-2 items-center">
                             See All
                             <svg xmlns="http://www.w3.org/2000/svg" width="12" height="13" viewBox="0 0 52 53" fill="none">
                                 <g clipPath="url(#clip0_363_51)">

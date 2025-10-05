@@ -3,7 +3,7 @@ import { apiRoutes } from "../../../functionality/apiRoutes"
 import { Helper } from "../../../functionality/helper"
 import { format  } from 'date-fns';
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Pagination from "../../../components/pagination";
 
 const reject = <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 15 15" fill="none">
@@ -42,6 +42,7 @@ const NotificationList = ()=>{
     const { i18n } = useTranslation()
     const language = i18n.language.split('-')[0];
     const [ data, setData ] = useState([])
+    const navigate = useNavigate()
     const [ loading, setLoading ] = useState(true)
     // For Pagination
     const [ currentPage, setCurrentPage ] = useState(1)
@@ -83,22 +84,31 @@ const NotificationList = ()=>{
                 {loading? [...Array(7)].map((_,i)=>(<div  className="h-20 w-full rounded-xl bg-gray-300 animate-pulse" key={`Skeleton_notifications_${i}`} >
                     </div>)): <>
                     { data.length > 0 ? <>
-                                {
-                                    data.map((e,idx)=>(<div className={`notification-item-list cursor-pointer card p-4`} key={`Notification_${e.name}_${idx}`}>
-                                    <div className="flex gap-1 items-center">
-                                        <div>
-                                            { e.name == "New Service Request" && pending }
-                                            { e.name == "Service Request Confirmed" && accept }
-                                            { e.name == "New Panel Added" && accept }
-                                            { e.name == "Panel Approved" && accept }
-                                        </div>
-                                        <div>{e.translations?.[language]?.description}</div>
+                            {
+                                data.map((e,idx)=>(<div className={`notification-item-list cursor-pointer card p-4`} key={`Notification_${e.name}_${idx}`}
+                                    onClick={()=>{
+                                        if(e.type == "serviceRequest"){
+                                            navigate(user.role == "user"? `/dashboard/SMMServices/${e.type_id}` : `/dashboard/admin/history/servicesRequests/${e.type_id}`)
+                                        }
+                                        if(e.type == "panel"){
+                                            navigate(user.role == "user"? `/smm-panel/smm/${e.type_id}` : `/dashboard/admin/panels/edit/${e.type_id}`)
+                                        }
+                                    }}
+                                >
+                                <div className="flex gap-1 items-center">
+                                    <div>
+                                        { e.name == "New Service Request" && pending }
+                                        { e.name == "Service Request Confirmed" && accept }
+                                        { e.name == "New Panel Added" && accept }
+                                        { e.name == "Panel Approved" && accept }
                                     </div>
-                                    <div className="flex justify-end">
-                                        <span>{format(new Date(e.created_at), "MMM d, yyyy, h:mm a")}</span>
-                                    </div>
-                                </div>)) 
-                                }
+                                    <div>{e.translations?.[language]?.description}</div>
+                                </div>
+                                <div className="flex justify-end">
+                                    <span>{format(new Date(e.created_at), "MMM d, yyyy, h:mm a")}</span>
+                                </div>
+                            </div>)) 
+                            }
                                 
                                 
                         </>: <div className="flex flex-col card p-10 gap-4 items-center">

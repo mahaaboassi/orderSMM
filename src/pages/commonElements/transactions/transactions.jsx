@@ -9,9 +9,8 @@ import {
   createColumnHelper,
 } from '@tanstack/react-table';
 import Dropdown from "../../../components/DropDownComponent"
-import AddBalance from "../../dashboard/transactions/addBalance"
-import { useSelector } from "react-redux"
-import TransferBalance from "../../dashboard/transactions/transferBalance"
+import { useDispatch, useSelector } from "react-redux"
+import { changePopupBalance } from "../../../features/popupBalanceSlice"
 
 
 
@@ -21,10 +20,8 @@ const Transactions = ()=>{
     const { type } = useParams()
     const [ data, setData ] = useState([])
     const [ loading, setLoading ] = useState(false)
-    const [ openCharge, setOpenCharge ] = useState(false)
-    const [ openTransfer, setOpenTransfer] = useState(false)
     const user = JSON.parse(localStorage.getItem("user"))
-    const navigation = useNavigate()
+    const dispatch = useDispatch()
     const userRedux = useSelector(state=> state.user)
     const [searchParams, setSearchParams] = useSearchParams();
     const [ lastPage , setLastPage ] = useState(1)
@@ -96,8 +93,10 @@ const Transactions = ()=>{
         const page = parseInt(searchParams.get('page') || '1')
         const perPage = parseInt(searchParams.get('limit') || '10')
         const type = searchParams.get('type') || ''
+        const status = searchParams.get('status') || ''
         let params = { page, perPage}
         if(type) params.type = type
+        if(status) params.status = status
         const { response, message, statusCode} = await Helper({
             url : user?.role == "admin" ? apiRoutes.transactions.list : apiRoutes.transactions.byUser,
             method : "GET",
@@ -135,9 +134,16 @@ const Transactions = ()=>{
     }
     const dataType = [{label: "credit",value: "credit"},
                         {label: "debit",value: "debit"}]
-    const close = ()=>{
-        setOpenTransfer(false)
-        setOpenCharge(false)
+    const dataStatus = [{label: "paid",value: "paid"},
+                    {label: "pending",value: "pending"}]
+
+
+    const changeParams = (updates) => {
+        const newParams = new URLSearchParams(searchParams);
+        Object.entries(updates).forEach(([key, value]) => {
+        newParams.set(key, String(value));
+        });
+        setSearchParams(newParams);
     }
     return(<div className="flex dashboard flex-col gap-5">
         <div className="flex flex-col gap-1">
@@ -152,9 +158,15 @@ const Transactions = ()=>{
         </div>}
         { user?.role == "user" ?<div className="card p-4 flex justify-between items-center">
             <div><strong>Your balance is :  </strong>{userRedux.balance}</div>
-            <button className="dark-btn" onClick={()=>setOpenCharge(true)}>Add funds</button>
+            <button className="dark-btn" onClick={()=>dispatch(changePopupBalance({
+                isOpen: true,
+                type: "add"
+            }))}>Add funds</button>
         </div>: <div>
-            <button className="dark-btn" onClick={()=>setOpenTransfer(true)}>Transfer funds</button>
+            <button className="dark-btn" onClick={()=>dispatch(changePopupBalance({
+                isOpen: true,
+                type: "transfer"
+            }))}>Transfer funds</button>
         </div>}
         {/* Filter Section */}
         <div className="grid grid-cols-1 xs:grid-cols-3 gap-3">
@@ -162,24 +174,22 @@ const Transactions = ()=>{
                 data={dataType}
                 defaultOption={{label: "Filter by Type",value : "1"}}
                 selected={searchParams.get('type')? dataType.find(e=>e.value == searchParams.get('type') ) :null}
-                returnedOption={(res)=>{
-                    setSearchParams({
-                        page: String(1),
-                        limit: String(10),
-                        type : res.value
-                    });
-                }}
+                returnedOption={(res)=>{changeParams({page:String(1), limit: String(10), type: res.value})}}
+            />
+            <Dropdown
+                data={dataStatus}
+                defaultOption={{label: "Filter by status",value : "1"}}
+                selected={searchParams.get('status')? dataStatus.find(e=>e.value == searchParams.get('status') ) :null}
+                returnedOption={(res)=>{changeParams({page:String(1), limit: String(10), status: res.value})}}
             />
             <div onClick={()=>{
                 setSearchParams({page: String(1),
                         limit: String(10),})
             }}>
-                <button>Reset</button>
+                <button className="dark-btn">Reset</button>
             </div>
         </div>
         {loading ? <Loading/> :<MyTanstackTable last_Page={lastPage} columns={columns} data={data} />}
-        { openCharge &&  <AddBalance close={close} />}
-        { openTransfer &&  <TransferBalance close={close} />}
     </div>)
 }
 

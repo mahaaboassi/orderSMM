@@ -230,6 +230,7 @@ h2{
   animation-play-state: paused;
 }
 
+
 .marquee__item {
     flex: 0 0 auto;
     padding: 0 20px;
@@ -247,6 +248,11 @@ h2{
 .marquee__item img{
     object-fit: contain;
     height: 50px;
+}
+.marquee__item h3{
+    font-size: var(--font-size-l);
+    font-weight: 600;
+    overflow: hidden;
 }
 
 @keyframes marquee-left {
@@ -439,18 +445,7 @@ h2{
 
 }
 @media (max-width:450px) {
-        nav svg.logo{
-            width: 90px;
-        }
-        nav{
-            height: 90px;
-        }
-        .nav-content{
-            padding: 5px 15px;
-        }
-        nav button,nav .currency{
-            font-size: var(--font-size-xs);
-        }
+
         .card-panals svg{
             width: 5px;
         }

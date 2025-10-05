@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next"
 import { useEffect, useState } from "react"
 import Avatar from "./avatar"
 import Notifications from "./notifications"
+import InfoBalance from "./infoBalance"
 
 const logo = <svg className="logo" xmlns="http://www.w3.org/2000/svg" width="145" height="55" viewBox="0 0 205 74" fill="none">
 <g clipPath="url(#clip0_257_4)">
@@ -87,9 +88,10 @@ const Navbar = ()=>{
                     {data.map((e,idx)=>(<li onClick={()=>setIsOpenMenu(false)} key={`Navbar_${e.name}_${idx}`}><Link to={e.link}>{e.name}</Link></li>))}
                 </ul>
             </div>
-            <div className="flex items-center  gap-2  sm:gap-3">
+            <div className="flex items-center gap-0.5 xs:gap-2  sm:gap-3">
 
                 { Object.keys(currentUser).length == 0 && <div><Link aria-label="Sign In" to="/auth/signIn"><button>{t("sign-in")}</button></Link></div>}
+                {localStorage.getItem("user") && <InfoBalance/>}
                 <Flag/>
                 <Currency/>
                 {localStorage.getItem("user") && <Notifications/>}

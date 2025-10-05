@@ -9,14 +9,21 @@ import { useTranslation } from 'react-i18next';
 import { Helper } from '../functionality/helper';
 import { apiRoutes } from '../functionality/apiRoutes';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { updateService } from '../features/servicesInfo';
 
 
 const Footer = ()=>{
     const { t } = useTranslation()
+    const dispatch = useDispatch()
     const navigate = useNavigate()
     const [ data, setData ] = useState([])
     const [ platforms, setPlatforms ] = useState([])
+    const [ links, setLinks ] = useState({
+        bumps: "",
+        ads: ""
+    })
     const [isloading, setIsLoading ] = useState(false)
     useEffect(()=>{
         const abortController = new AbortController()
@@ -24,6 +31,7 @@ const Footer = ()=>{
         getData(signal)
         setIsLoading(true)
         getPlatforms(signal)
+        getServices(signal)
         return () => abortController.abort() 
     },[])
     const getData = async (signal)=>{
@@ -56,6 +64,34 @@ const Footer = ()=>{
             console.log(message);
         }        
     }
+    const getServices = async (signal)=>{
+        const { response , message, statusCode } = await Helper({
+            url : apiRoutes.services.list,
+            signal : signal,
+            method : "GET",
+            params : {results : 20},
+            hasToken : true
+        })
+        if(response){
+            response.data.forEach((e)=>{
+                if(e.slug == "bumps") setLinks(prev=>({...prev, bumps:`/our-services/${e.slug}/${e.id}`}))
+
+                if(e.slug == "ads")  setLinks(prev=>({...prev, ads:`/our-services/${e.slug}/${e.id}`}))
+               
+               
+                dispatch(updateService({
+                    key: e.slug,
+                    value: { slug: e.slug, id: e.id }
+                }));
+                
+            })
+            console.log("data",response.data);
+            
+            
+        }else{
+            console.log(message);
+        }
+    }
     return(<footer className='mt-10 md:mt-20'>
         <div className="first-footer grid grid-cols-1 gap-5  sm:grid-cols-2 lg:grid-cols-4 px-2 lg:px-16 py-10">
             <div className='flex flex-col gap-5 pr-4'>
@@ -68,7 +104,7 @@ const Footer = ()=>{
                 <div className='flex flex-wrap gap-5 services-icons'>
                     {platforms.map((e,idx)=>(<div onClick={()=>navigate(`/platforms/${e.id}?keywords=${e.name}`)} 
                         className='flex gap-1 items-center cursor-pointer hover:text-(--grey_3) hover:underline' key={`Services_SMM_${idx}_${e.name}`}>
-                            <div><img src={e.photo} alt={e.name} /> </div> 
+                            <div><img className='w-[25px] object-contain' src={e.photo} alt={e.name} /> </div> 
                             <div >{e.name}</div>
                         </div>))}
                 </div>
@@ -102,7 +138,8 @@ const Footer = ()=>{
                 </div>
             </div>
             <div className='flex flex-col gap-3 justify-between'>
-                <button className='outline-btn flex items-center justify-center gap-2' >
+                <Link to="/smm-panel/new">
+                <button className='outline-btn w-full flex items-center justify-center gap-2' >
                     <div className='flex items-center'>
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 14 14" fill="none">
                             <g clipPath="url(#clip0_235_21)">
@@ -116,7 +153,9 @@ const Footer = ()=>{
                         </svg>
                     </div>
                     {t("footer.btn-1")}</button>
-                <button className='outline-btn flex items-center justify-center gap-2 ' >
+                </Link>
+                <Link to={links.ads}>
+                    <button className='outline-btn w-full flex items-center justify-center gap-2 ' >
                     <div>
                         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="23" viewBox="0 0 22 20" fill="none">
                             <g clipPath="url(#clip0_235_25)">
@@ -130,21 +169,26 @@ const Footer = ()=>{
                         </svg>
                     </div>
                     {t("footer.btn-2")}</button>
-                <button className='outline-btn flex items-center justify-center gap-2' >
-                    <div>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 23 22" fill="none">
-                            <g clipPath="url(#clip0_258_5)">
-                            <path d="M2.87509 15.6697C3.08847 15.508 3.39731 15.5462 3.5639 15.7533C3.73048 15.9604 3.69117 16.2602 3.47779 16.4219L1.00148 18.2898L0.982759 20.8063L4.02434 20.641L5.67522 18.0936C5.81935 17.8719 6.12257 17.8047 6.35092 17.9446C6.57928 18.0845 6.64853 18.3788 6.50441 18.6005L4.72625 21.3423C4.64576 21.475 4.49977 21.5676 4.32944 21.5767L0.516695 21.7857C0.507336 21.7857 0.497977 21.7857 0.488619 21.7857C0.219087 21.7838 9.329e-05 21.5713 0.00196503 21.3078L0.0262977 18.0899C0.0150672 17.9355 0.0805783 17.7792 0.215344 17.6775L2.87509 15.6697ZM7.50392 9.79904C8.73927 6.21414 10.4051 3.67218 12.7485 2.07142C15.1799 0.408887 18.3058 -0.219788 22.4011 0.0672947C22.6838 0.0872815 22.9009 0.312587 22.9046 0.5815C23.3014 4.88593 22.4404 7.93845 20.6061 10.2515C18.8411 12.4755 16.1926 13.9799 12.9058 15.2427V19.4454C12.9058 19.6507 12.7841 19.8306 12.6063 19.916L9.25961 21.9238C9.00506 22.0764 8.67189 22.0001 8.51466 21.753C8.47348 21.6875 8.44728 21.6167 8.43792 21.5458C7.69671 16.0476 6.9087 15.7842 2.27801 14.2288C1.72397 14.0435 1.12688 13.8418 0.722587 13.7037C0.439953 13.6074 0.292085 13.3058 0.391288 13.0333C0.411877 12.9751 0.443697 12.9224 0.481132 12.8752L2.68792 9.82266C2.79835 9.67004 2.97804 9.59009 3.15585 9.59917L7.50392 9.79904ZM16.9787 5.74899C16.6792 5.45828 16.2674 5.28021 15.8107 5.28021C15.3559 5.28021 14.9422 5.46009 14.6428 5.74899C14.3433 6.03971 14.1598 6.43945 14.1598 6.88279C14.1598 7.32431 14.3451 7.72587 14.6428 8.01658C14.9422 8.3073 15.354 8.48537 15.8107 8.48537C16.2656 8.48537 16.6792 8.30548 16.9787 8.01658C17.2782 7.72587 17.4616 7.32613 17.4616 6.88279C17.4616 6.43945 17.2763 6.03971 16.9787 5.74899Z" fill="white"/>
-                            </g>
-                            <defs>
-                            <clipPath id="clip0_258_5">
-                            <rect width="23" height="22" fill="white"/>
-                            </clipPath>
-                            </defs>
-                        </svg>
-                    </div>
+                </Link>
+                
+                <Link to={links.bumps}>
+                    <button className='outline-btn w-full flex items-center justify-center gap-2' >
+                        <div>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 23 22" fill="none">
+                                <g clipPath="url(#clip0_258_5)">
+                                <path d="M2.87509 15.6697C3.08847 15.508 3.39731 15.5462 3.5639 15.7533C3.73048 15.9604 3.69117 16.2602 3.47779 16.4219L1.00148 18.2898L0.982759 20.8063L4.02434 20.641L5.67522 18.0936C5.81935 17.8719 6.12257 17.8047 6.35092 17.9446C6.57928 18.0845 6.64853 18.3788 6.50441 18.6005L4.72625 21.3423C4.64576 21.475 4.49977 21.5676 4.32944 21.5767L0.516695 21.7857C0.507336 21.7857 0.497977 21.7857 0.488619 21.7857C0.219087 21.7838 9.329e-05 21.5713 0.00196503 21.3078L0.0262977 18.0899C0.0150672 17.9355 0.0805783 17.7792 0.215344 17.6775L2.87509 15.6697ZM7.50392 9.79904C8.73927 6.21414 10.4051 3.67218 12.7485 2.07142C15.1799 0.408887 18.3058 -0.219788 22.4011 0.0672947C22.6838 0.0872815 22.9009 0.312587 22.9046 0.5815C23.3014 4.88593 22.4404 7.93845 20.6061 10.2515C18.8411 12.4755 16.1926 13.9799 12.9058 15.2427V19.4454C12.9058 19.6507 12.7841 19.8306 12.6063 19.916L9.25961 21.9238C9.00506 22.0764 8.67189 22.0001 8.51466 21.753C8.47348 21.6875 8.44728 21.6167 8.43792 21.5458C7.69671 16.0476 6.9087 15.7842 2.27801 14.2288C1.72397 14.0435 1.12688 13.8418 0.722587 13.7037C0.439953 13.6074 0.292085 13.3058 0.391288 13.0333C0.411877 12.9751 0.443697 12.9224 0.481132 12.8752L2.68792 9.82266C2.79835 9.67004 2.97804 9.59009 3.15585 9.59917L7.50392 9.79904ZM16.9787 5.74899C16.6792 5.45828 16.2674 5.28021 15.8107 5.28021C15.3559 5.28021 14.9422 5.46009 14.6428 5.74899C14.3433 6.03971 14.1598 6.43945 14.1598 6.88279C14.1598 7.32431 14.3451 7.72587 14.6428 8.01658C14.9422 8.3073 15.354 8.48537 15.8107 8.48537C16.2656 8.48537 16.6792 8.30548 16.9787 8.01658C17.2782 7.72587 17.4616 7.32613 17.4616 6.88279C17.4616 6.43945 17.2763 6.03971 16.9787 5.74899Z" fill="white"/>
+                                </g>
+                                <defs>
+                                <clipPath id="clip0_258_5">
+                                <rect width="23" height="22" fill="white"/>
+                                </clipPath>
+                                </defs>
+                            </svg>
+                        </div>
                     {t("footer.btn-3")}</button>
-                      <button className='outline-btn flex items-center justify-center gap-2' >
+                </Link>
+                
+                <button className='outline-btn w-full flex items-center justify-center gap-2' >
                     <div>
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 19 19" fill="none">
                             <g clipPath="url(#clip0_236_31)">
@@ -158,6 +202,9 @@ const Footer = ()=>{
                         </svg>
                     </div>
                     {t("footer.btn-4")}</button>
+                
+                     
+                      
                 {/* <div>Payment Method</div> */}
             </div>
         </div>

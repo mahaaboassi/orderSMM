@@ -31,7 +31,7 @@ const Paltforms = ()=>{
         if(response){
             console.log(response);
 
-            setAds(response.data.sort(() => 0.5 - Math.random()).slice(0, 2))
+            setAds(response.data.sort(() => 0.5 - Math.random()).slice(0, 4))
             setLoadingAds(false)
         }else{
             console.log(message);
@@ -44,6 +44,7 @@ const Paltforms = ()=>{
             url : apiRoutes.platforms.list,
             signal : signal,
             method : "GET",
+            params: {results: 50},
             hasToken : true
         })
         if(response){
@@ -68,7 +69,7 @@ const Paltforms = ()=>{
                             <Link to={`/platforms/${e.id}?keywords=${e.name}`}>
                             <div className="flex gap-2 items-center">
                                 <div>
-                                    <img src={e.photo} /> 
+                                    <img className="w-[30px]" src={e.photo} /> 
                                 </div>
                                 <h3>{e.name} </h3>
                             </div>

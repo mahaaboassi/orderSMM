@@ -81,7 +81,7 @@ const Navigation = ()=>{
         {data.map((e,idx)=>(<NavLink  key={`Navigation_${e.name}_${idx}`} to={e.link} end={e.link === "/dashboard"}
           className={({isActive} )=> isActive ?"flex gap-2 item p-3 xl:p-5 justify-center items-center active":"flex justify-center p-3 xl:p-5  gap-2 item items-center "}>
              <div>{e.icon}</div>
-            <div>{e.name}</div>
+            <div className="nav-name">{e.name}</div>
            
         </NavLink>))}
         

@@ -20,6 +20,7 @@ const PlatformsSection = ()=>{
             url : apiRoutes.platforms.list,
             signal : signal,
             method : "GET",
+            params: {results: 50},
             hasToken : false
         })
         if(response){
@@ -42,7 +43,7 @@ const PlatformsSection = ()=>{
                     <Link to={`/platforms/${e.id}?keywords=${e.name}`}>
                     <div className="flex gap-2 items-center">
                         <div>
-                            <img src={e.photo} /> 
+                            <img className="w-[30px]" src={e.photo} /> 
                         </div>
                         <h3>{e.name} </h3>
                     </div>

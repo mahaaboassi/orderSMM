@@ -4,11 +4,15 @@ import { Helper } from "../../../../functionality/helper"
 import { apiRoutes } from "../../../../functionality/apiRoutes"
 import Loading from "../../../../components/loading"
 import Ad from "../../../../components/cards/ad"
+import { Link } from "react-router-dom"
+import AddServiceCard from "../../../../components/addServicesCard"
+import { useSelector } from "react-redux"
 
 const Ads = ({isHome})=>{
     const { t } = useTranslation()
     const [ data, setData ] = useState([])
     const [isloading, setIsLoading ] = useState(false)
+    const servicesRedux = useSelector(state=> state.services)
     useEffect(()=>{
         const abortController = new AbortController()
         const signal  = abortController.signal
@@ -48,6 +52,8 @@ const Ads = ({isHome})=>{
                     services_count={e.services_count ? e.services_count: 0}
                 />))
             }
+            <AddServiceCard link={`/our-services/${servicesRedux.ads.slug}/${servicesRedux.ads.id}`} />
+            
 
         </div>}
         

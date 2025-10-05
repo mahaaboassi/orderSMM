@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { Helper } from "../../../functionality/helper"
 import { apiRoutes } from "../../../functionality/apiRoutes"
 import Loading from "../../../components/loading"
@@ -28,6 +28,7 @@ const Users = ()=>{
     })
     const [searchParams, setSearchParams] = useSearchParams();
     const [ lastPage , setLastPage ] = useState(1)
+    const controllerRef = useRef(null)
     const columns = [
             columnHelper.accessor('id', {
                 header: 'ID',
@@ -106,28 +107,33 @@ const Users = ()=>{
             }),
             ]
     
-    useEffect(()=>{
-        const controller = new AbortController()
-        const signal = controller.signal
-        getData(signal)
-        
-        return () => controller.abort()
-        
-    },[ searchParams ])
+    useEffect(()=>{getData()},[ searchParams ])
 
-    const getData = async (signal)=>{
+    const getData = async ()=>{
         setData([])
         setLoading(true)
+        if (controllerRef.current) {
+            controllerRef.current.abort();
+        }
+
+        const abortController = new AbortController();
+        controllerRef.current = abortController;
+
+        const signal = abortController.signal;
+
         const page = parseInt(searchParams.get('page') || '1')
         const perPage = parseInt(searchParams.get('limit') || '10')
-        const { response, message, statusCode} = await Helper({
-            url : apiRoutes.users.list,
-            method : "GET",
-            // signal : signal,
-            params : {
+        const keywords = searchParams.get('keywords') || ''
+        let params = {
                 page : page,
                 results : perPage
             }
+        if(keywords) params.keywords = keywords
+        const { response, message, statusCode} = await Helper({
+            url : apiRoutes.users.list,
+            method : "GET",
+            signal : signal,
+            params : params
         })
         if(response){
             console.log(response);
@@ -156,7 +162,6 @@ const Users = ()=>{
     }
     const deleteData = async()=>{
         setLoadingDelete(true)
-        return
         const { response, message, statusCode} = await Helper({
             url : apiRoutes.panel.delete(currentData.id),
             method : "DELETE",
@@ -177,6 +182,11 @@ const Users = ()=>{
             setTimeout(()=>setErrorStatus({msg: "", open : false,type: ""}),1000)
             setLoadingDelete(false)
         }
+    }
+    const changeParams = (key, value) => {
+        const newParams = new URLSearchParams(searchParams)
+        newParams.set(key, value);
+        setSearchParams(newParams)
     }
     return(<div className="flex dashboard flex-col gap-5">
         <div className="flex flex-col gap-1">
@@ -202,7 +212,24 @@ const Users = ()=>{
         </div>
         {errorStatus.open && errorStatus.type == "success" && <h4 className="text-center box-success p-2">{errorStatus.msg}</h4>}
         {errorStatus.open && errorStatus.type != "success"&& <h4 className="text-center box-error p-2">{errorStatus.msg}</h4>}
-        
+        {/* Filter Section */}
+        <div className="grid grid-cols-1 xs:grid-cols-3 gap-3">
+            <div >
+                <input className="w-full h-full rounded-xl px-2 border-[2px] border-[--green_2]" onChange={(e)=>{changeParams("keywords",e.target.value)}} placeholder="Search" /> 
+            </div>
+            {/* <Dropdown
+                data={dataFilter}
+                defaultOption={{label: "Filter by status",value : "3"}}
+                selected={parseInt(searchParams.get('status')) ? dataFilter.find(e=>e.value == parseInt(searchParams.get('status')) ): null}
+                returnedOption={(res)=>{ changeParams("status", String(res.value)) }}
+            /> */}
+            <div onClick={()=>{
+                setSearchParams({page: String(1),
+                        limit: String(10),})
+            }}>
+                <button className="dark-btn">Reset</button>
+            </div>
+        </div>
         {loading ? <Loading/> :<MyTanstackTable last_Page={lastPage} columns={columns} data={data} />}
 
 

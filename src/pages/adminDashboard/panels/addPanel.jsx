@@ -16,6 +16,7 @@ import FileUpload from '../../../components/fileUpload';
 
 const validationSchema = Yup.object({
     title : Yup.string().required("Panel Title Field is required."),
+    description : Yup.string(),
     username: Yup.string().required("Username Field is required."),
     email: Yup.string().email("Invalid email"),
     telegram: Yup.string(),
@@ -84,6 +85,7 @@ const AddPanel = ()=>{
 
             const data = {
                 title: response.data.translations?.en?.name || "",
+                description: response.data.translations?.en?.description || "",
                 username: response.data.username || "",
                 password: response.data.password || "",
                 telegram: response.data.telegram.split("/").pop() || "",
@@ -157,6 +159,9 @@ const AddPanel = ()=>{
             trans.forEach((ele)=>{
                 if(ele[0]) values.append(`languages[${ele[0]?.id}][name]`,data.title)
             })
+            trans.forEach((ele)=>{
+                if(ele[1]) values.append(`languages[${ele[0]?.id}][description]`,data.description)
+            })
 
         }else{
             values.append("languages[1][name]",data.title)
@@ -165,6 +170,12 @@ const AddPanel = ()=>{
             values.append("languages[4][name]",data.title)
             values.append("languages[5][name]",data.title)
             values.append("languages[6][name]",data.title)
+            values.append("languages[1][description]",data.description)
+            values.append("languages[2][description]",data.description)
+            values.append("languages[3][description]",data.description)
+            values.append("languages[4][description]",data.description)
+            values.append("languages[5][description]",data.description)
+            values.append("languages[6][description]",data.description)
         }
         
         
@@ -240,6 +251,11 @@ const AddPanel = ()=>{
                             <input {...register("url_panel")} type="text" placeholder={"https://example.com"}  />
                             {errors.url_panel && <p className="pt-0.5 text-error">{errors.url_panel.message}</p>}
                         </div>
+                    </div>
+                    <div>
+                        <label>Description :</label>
+                        <textarea {...register("description")} type="text" placeholder={"Description"}  />
+                        {errors.description && <p className="pt-0.5 text-error">{errors.description.message}</p>}
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="flex flex-col gap-1">
@@ -379,7 +395,7 @@ const AddPanel = ()=>{
                 </div>
                 <div className="card p-2 sm:p-4 flex flex-col gap-4">
                     <h4><strong>Domain Informations</strong></h4>
-                    <div className='charge p-2 text-center'>You can check this information by useing this link <Link to="https://www.whois.com/" target='_blank'>Check</Link></div>
+                    <div className='charge p-2 text-center'>You can check this information by using this link <Link to="https://www.whois.com/" target='_blank'>Check</Link></div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="flex flex-col gap-1">
                             <label>Register On :</label>

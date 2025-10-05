@@ -106,5 +106,12 @@ export const apiRoutes = {
     platforms: {
         list: `${host}platforms`,
         getOne : (id)=>(`${host}platforms/${id}`), 
-    }
+    },
+    review: { 
+        list: `${host}panel-reviews`,
+        listByApproved : `${host}panel-reviews/approved`,
+        addByPanel : `${host}panel-reviews/by-panel`,
+        getOne : (id)=>(`${host}panel-reviews/${id}`),
+        update : (id)=>(`${host}panel-reviews/${id}`),
+    },
 }

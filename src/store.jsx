@@ -6,6 +6,8 @@ import currencyReducer from "./features/currencySlice"
 import settingsReducer from "./features/settingsSlice"
 import callNotificationReducer from "./features/callNotification"
 import socialReducer from "./features/social"
+import servicesReducer from "./features/servicesInfo"
+import popupBalanceSlice from "./features/popupBalanceSlice"
 
 export const store = configureStore({
   reducer: {
@@ -14,6 +16,8 @@ export const store = configureStore({
     currency: currencyReducer,
     settings: settingsReducer,
     isCall: callNotificationReducer,
-    social: socialReducer
+    social: socialReducer,
+    services: servicesReducer,
+    openBalance: popupBalanceSlice 
   },
 });

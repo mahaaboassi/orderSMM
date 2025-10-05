@@ -3,28 +3,25 @@ import { Helper } from "../../../../functionality/helper"
 import { apiRoutes } from "../../../../functionality/apiRoutes"
 import Loading from "../../../../components/loading"
 import { useTranslation } from "react-i18next"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import Periods from "../../../../components/periods"
-import Service from "../../../../components/cards/service"
 import Pagination from "../../../../components/pagination"
 import Prices from "../../../../components/prices"
-import SearchInput from "../../../../components/search"
 import { useDispatch } from "react-redux"
-import { callStatus } from "../../../../features/callNotification"
 
 const AddWithServices = ({id, slug})=>{
     const dispatch = useDispatch()
     const [ data, setData ] = useState([])
     const [isloading, setIsLoading ] = useState(false)
-    const [ isSubmit, setIsSubmit ] = useState(false)
     const { t,i18n } = useTranslation()
+    const navigate = useNavigate()
     const [ period, setPeriod] = useState({})
-    const [ errorStatus , setErrorStatus] = useState({
-        msg: "",
-        open : false
-    })
+
     const [basicPrice, setBasicPrice] = useState(0)
     const abortControllerRef = useRef(null)
+    // For Pagination
+    const [ currentPage, setCurrentPage ] = useState(1)
+    const [ lastPage , setLastPage ] = useState(1)
     useEffect(()=>{
         if(slug?.prices){
             const max = Math.max(...slug.prices.map(item => item.price));
@@ -59,105 +56,16 @@ const AddWithServices = ({id, slug})=>{
             
         }
     }
-    const submit = async()=>{
-        setIsSubmit(true)
-        const formData = new FormData()
-        formData.append("_method","PUT")
-        // if(isSelectedAllServices){
-        //     formData.append("panel_id",selectedPanel.id)
-        // }else
-        // {
-            if(servicesSelected.length>0){
-                servicesSelected.forEach((e,i)=>{
-                    formData.append(`ads_ids[${i}]`,e)
-                })
-            }
-        // }
-        formData.append("service_id",id)
-        formData.append("payment_period_id",period.id)
-        const {response , message,  statusCode} = await Helper({
-            url:apiRoutes.services.request,
-            method:'POST',
-            body:formData,
-            hasToken: true,
-        })
-        if(response){
-            console.log(response);
-            setIsSubmit(false)
-            setErrorStatus({msg: response.message, open : true,type:"success"})
-            setTimeout(()=>{
-                setErrorStatus({msg: "", open : false,type:""})
-            },3000)
-            dispatch(callStatus({isCall : true}))
-        }else{
-            console.log(message);
-             setIsSubmit(false)
-            setErrorStatus({msg: message, open : true})  
-        }
-    } 
+ 
 
-    // 0 the panels appear, 1 the interface (all services , or specific services with search  )
-    const [ isSelectedPanel, setIsSelectedPanel ] = useState(0) 
-    const [ selectedPanel , setSelectedPanel ] = useState({})
-    const [ servicesSelected, setServicesSelected ] = useState([])
-    const [ services, setServices ] = useState([])
-    const [subLoading, setSubLoading ] = useState(false)
-    const [ isSelectedAllServices, setIsSelectedAllServices ] = useState(false)
-    // For Pagination
-    const [ currentPage, setCurrentPage ] = useState(1)
-    const [ lastPage , setLastPage ] = useState(1)
-    const [ search , setSearch ] = useState("")
 
-    const getServices = async (page=1,id,search) => {
-        if (abortControllerRef.current) {
-          abortControllerRef.current.abort()
-        }
-        const controller = new AbortController()
-        abortControllerRef.current = controller
-        setSubLoading(true)
-        setServices([])
-        const dataToSend = { page}
-        if(id){
-            dataToSend.panel_id = id
-        }else{
-            dataToSend.panel_id = selectedPanel.id
-        }
-        if(search) dataToSend.id = search
-        const { response , message, statusCode } = await Helper({
-            url : apiRoutes.panel_services.list,
-            method : "GET",
-            params : dataToSend,
-            signal: controller.signal,
-            hasToken : true
-        })
-        if(response){
-            setServices(response)
-            setSubLoading(false)
-            setLastPage(response.meta.last_page)
-        }else{
-            console.log(message);  
-        }
-    }
-    const reset = ()=>{
-        setIsSelectedPanel(0)
-        setSelectedPanel({})
-        setServicesSelected([])
-    }
-    const handleChange = (e)=>{
-        if(e.target.checked){
-            setIsSelectedAllServices(true)
-        }else{
-            setIsSelectedAllServices(false)
-        }
-    }
-    return(<div className="ads-services with-services">
+    return(<div className="ads-services with-services ">
         <div className="">
             { 
                 <div className="grid grid-cols-1 lg:grid-cols-4 gap-5 lg:gap-10">
                     <div className="col-span-4 lg:col-span-3">
                         <div className="">
-                            {
-                                isSelectedPanel == 0 ? <div>
+                            <div>
                                 <div className=" bg-zinc-200 flex flex-col gap-3 mb-4 p-2" >
                                     <div className="link"> &lt; Choose Panel What you Want &gt;</div>
                                     <div>
@@ -168,11 +76,7 @@ const AddWithServices = ({id, slug})=>{
                                     {
                                         data.map((e,idx)=>(<div
                                                 className="card-panel-user card cursor-pointer relative"  key={`Panels_User_${idx}`}
-                                                onClick={()=>{
-                                                    setSelectedPanel(e)
-                                                    setIsSelectedPanel(1)
-                                                    getServices(1,e.id)
-                                                }}
+                                                onClick={()=>navigate(`/our-services/${slug.slug}/${id}/${e.id}`)}
                                             >
                                             <div className="absolute tooltip-panel">Choose the panel</div>
                                             <div className=""><img src={e.photo ? e.photo :""} alt={`Image_${idx}`} />
@@ -209,75 +113,7 @@ const AddWithServices = ({id, slug})=>{
                                         }}/>
 
 
-                                </div>:
-                            (
-                                <div className="flex flex-col gap-2">
-                                    <div className=" bg-zinc-200 flex mb-4 p-2" >
-                                        <div onClick={reset} className="cursor-pointer link"> &lt; Previous Step &gt;</div>
-                                    </div>
-                                    <div  className="p-4 card" >
-                                        <div className="flex items-center gap-4 ">
-                                            <div> <img style={{objectFit:"cover",borderRadius:"10px"}} className="w-30 h-20" src={selectedPanel?.photo} alt="panel" /> </div>
-                                            <div>
-                                                <h3><strong>{selectedPanel?.translations?.en?.name}</strong></h3>
-                                                <span>Services : {selectedPanel?.services_count ?? 0}</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="flex flex-col gap-2">
-                                        
-                                        <div className="flex gap-2">
-                                        <SearchInput type="number" placeholder={`Id service`} onChange={(res)=>{
-                                            getServices(1,selectedPanel.id,res)
-                                            setSearch(res)
-                                        }}  onEnter={()=>{getServices(1)}}/>   
-                                        {/* <button onClick={()=>getServices(1,selectedPanel.id)} className="dark-btn" >Search</button> */}
-                                        </div>                                     
-                                        
-                                        {/* <div className="card flex justify-between p-4">
-                                            <div>
-                                                All Services nn
-                                            </div>
-                                            <div>
-                                                <input checked={isSelectedAllServices} onChange={handleChange} type="checkbox" />
-                                            </div>
-                                        </div> */}
-                                        
-                                        {
-                                            subLoading?<Loading/>:services.data.map((e,idx)=>(<Service key={`Services_Our_Services_${e.translations?.en?.name ?? ""}_${idx}`} 
-                                            name={e.translations?.en?.name ?? ""} 
-                                            isForSelected = {true}
-                                            selectedObject = {servicesSelected}
-                                            isSelectedAll = { isSelectedAllServices}
-                                            returnedId = {(res,type)=>{
-                                                if(type == "select"){
-                                                    setServicesSelected(prev=>[...prev,res])
-                                                }else{
-                                                    setServicesSelected(prev=> prev.filter(e=>e!=res))
-                                                    
-                                                }
-                                            }}
-                                            id={e.id}
-                                            category={e.category_translations?.en?.name ?? ""}
-                                            panel={e.panel_translations?.en?.name ?? ""}
-                                            max={e.max}
-                                            min={e.min}
-                                            price={e.price}
-                                            per_count={e.per_count}
-                                            isPinned = {false}
-                                            />))
-                                        }
-                                        <Pagination currentPage={currentPage} lastPage={lastPage} returnedPageNumber={(res)=>{
-                                            setCurrentPage(res)
-                                            getServices(res,selectedPanel.id)
-                                        }}/>
-                                    </div>
-                                    
-
                                 </div>
-                            )
-                            }
-                            
                         </div>
                     </div>
                     <div className="col-span-4 lg:col-span-1  relative">
@@ -292,29 +128,14 @@ const AddWithServices = ({id, slug})=>{
                             </div>
                             <div className="info-checkout w-full card p-4 flex flex-col gap-4">
                                 <h4 >Invoice</h4>
-                                <div> Total Services : <strong> {
-                                isSelectedAllServices ?parseInt(selectedPanel.services_count) :  parseInt(servicesSelected.length)
-                                }</strong> </div>
+                                <div> Total Services : <strong> {0}</strong> </div>
                                 <div> Price per services : <strong>{basicPrice}</strong> </div>
                                 
-                                <div> Total price : <strong>{
-                                    isSelectedAllServices ? basicPrice * parseInt(selectedPanel.services_count) * period.factor * period.discount : (basicPrice * parseInt(servicesSelected.length) * period.factor * period.discount).toFixed(2)
-                                    }</strong> </div>
+                                <div> Total price : <strong>{0}</strong> </div>
                                 <div> 
-                                    <div className="py-2">
-                                        {errorStatus.open && errorStatus.type == "success" && <h4 className="text-center box-success p-2">{errorStatus.msg}</h4>}
-                                        {errorStatus.open && errorStatus.type != "success"&& <div className="flex flex-col gap-1">
-                                            <h4 className="text-center box-error p-2">{errorStatus.msg}</h4>
-                                            {errorStatus.msg == "NOT_ENOUGH_BALANCE" && <Link className="flex justify-center" to={JSON.parse(localStorage.getItem("user"))?.role == "admin" ? 
-                                                "/dashboard/admin/funds"
-                                                : "/dashboard/funds"}>
-                                                <button className="dark-btn">Add fundsnce</button>
-                                            </Link>}
-                                        </div>}
-                                    </div>
-                                    <button disabled={isSubmit || (!isSelectedAllServices && servicesSelected.length === 0)
-                                    } onClick={submit} className="dark-btn w-full">
-                                        {isSubmit? <div className="loader m-auto"></div>:"Checkout"}
+                                    
+                                    <button disabled={true} className="dark-btn w-full">
+                                        {"Checkout"}
                                     </button> 
                                 </div>
                             </div>
@@ -322,7 +143,6 @@ const AddWithServices = ({id, slug})=>{
                     </div>
                 </div> 
             }
-
         </div>
 
     </div>)

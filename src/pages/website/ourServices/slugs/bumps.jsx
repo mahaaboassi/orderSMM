@@ -10,6 +10,7 @@ import Dropdown from "../../../../components/DropDownComponent"
 import Pagination from "../../../../components/pagination"
 import { useDispatch } from "react-redux"
 import { callStatus } from "../../../../features/callNotification"
+import { changePopupBalance } from "../../../../features/popupBalanceSlice"
 
 const Bumps = ({id, slug})=>{
     const [ data, setData ] = useState([])
@@ -53,13 +54,13 @@ const Bumps = ({id, slug})=>{
             const maxPriceObj = slug.prices.reduce((max, item) =>
             item.price > max.price ? item : max
             , slug.prices[0]);
-            const max = maxPriceObj.max;
+            const max = maxPriceObj.price;
             setBasicPrice(parseFloat(max));
             setSelectedOptions({
                 interval: intervalInfo[0],
                 count : {
                 ...maxPriceObj,
-                label : JSON.stringify(max),
+                label : JSON.stringify(maxPriceObj.max),
                 value :max
             }
             })
@@ -200,9 +201,7 @@ const Bumps = ({id, slug})=>{
                         </div>
                         <div className="info-checkout w-full  card p-4 flex flex-col gap-4">
                             <div>
-                                <h4 onClick={()=>{
-                                    console.log(selectedOptions)
-                                }} >Choose Count of Bumps</h4>
+                                <h4>Choose Count of Bumps</h4>
                                 <Dropdown 
                                     defaultOption={selectedOptions.count} 
                                     count={true} 
@@ -236,15 +235,14 @@ const Bumps = ({id, slug})=>{
                             
                             <div> Total price : <strong>{selectedOptions.count.price*selectedOptions.count.max * parseInt(panels.length)}</strong> </div>
                             <div> 
-                                <div className="py-2">
+                                <div className="py-2 error-container">
                                     {errorStatus.open && errorStatus.type == "success" && <h4 className="text-center box-success p-2">{errorStatus.msg}</h4>}
                                     {errorStatus.open && errorStatus.type != "success"&& <div className="flex flex-col gap-1">
                                         <h4 className="text-center box-error p-2">{errorStatus.msg}</h4>
-                                        {errorStatus.msg == "NOT_ENOUGH_BALANCE" && <Link className="flex justify-center" to={JSON.parse(localStorage.getItem("user"))?.role == "admin" ? 
-                                            "/dashboard/admin/funds"
-                                            : "/dashboard/funds"}>
-                                            <button className="dark-btn">Add funds</button>
-                                        </Link>}
+                                        {errorStatus.msg == "NOT_ENOUGH_BALANCE" && <button onClick={()=>dispatch(changePopupBalance({
+                                            type: "add",
+                                            isOpen: true
+                                        }))} className="dark-btn">Add funds</button>}
                                     </div>}
                                 
                                 </div>

@@ -14,10 +14,13 @@ function MobileInput({register,value,returnedCountry,country_id,isOpenMenu=true,
     useEffect(()=>{setNumber(value)},[value])
 
     const handleSearch = (e) => {
-        if(e.target.value.length >2 ){
+        if(e.target.value.length >0 ){
             const searchQuery = e.target.value.toLowerCase();
-            const filtered = countriesWithCodeNumber.filter((country) =>
-                country.name.toLowerCase().includes(searchQuery)
+            const filtered = countriesWithCodeNumber.filter((country) =>{
+                    const name = country.name.toLowerCase();
+                    const code = country.dial_code.toLowerCase();
+                    return name.includes(searchQuery) || code.includes(searchQuery)
+            }
             );
             setCountries(filtered);
         }else{

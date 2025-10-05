@@ -8,13 +8,35 @@ import Loading from "../../../components/loading"
 import Service from "../../../components/cards/service"
 import { useTranslation } from "react-i18next"
 import { storeClick } from "../../../functionality/functions"
+import { format } from "date-fns"
+// for validation
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as Yup from 'yup';
+import ReviewStars from "../../../components/reviewStars"
 
+const validationSchema = Yup.object({
+    review: Yup.string().required("Please type your review."),
+})
 const DetailsPanel = () => {
+    const { register, handleSubmit, formState: { errors },watch } = useForm({
+        resolver: yupResolver(validationSchema),
+            mode: 'onChange'
+    });
     const { name , id } = useParams()
     const { t } = useTranslation()
     const [ data, setData ] = useState({})
     const [ services, setServices] = useState([])
     const [ loading ,setLoading ] = useState(false)
+    // For Review
+    const [ reviews, setReviews ] = useState([])
+    const [ stars, setStars ] = useState(1)
+    const [ loadingReviews, setLoadingReviews ] = useState(false)
+    const [ loadingSubmit, setLoadingSubmit ] = useState(false)
+    const [ errorStatus , setErrorStatus] = useState({
+        msg: "",
+        open : false
+    })
     // For Pagination
     const [ currentPage, setCurrentPage ] = useState(1)
     const [ lastPage , setLastPage ] = useState(1)
@@ -24,6 +46,7 @@ const DetailsPanel = () => {
         window.scrollTo({top :0})
         getData(signal)
         getServices(signal)
+        getReviews(signal)
         return () => abortController.abort()
     },[id, name])
     const getData = async (signal)=>{
@@ -61,6 +84,52 @@ const DetailsPanel = () => {
             
         }
     }
+    const getReviews = async (signal,page=1) => {
+        setLoadingReviews(true)
+        setServices([])
+        const { response , message, statusCode } = await Helper({
+            url : apiRoutes.review.listByApproved,
+            signal : signal,
+            method : "GET",
+            params : {panel_id : id,page},
+            hasToken : true
+        })
+        if(response){
+            setReviews(response.data)
+            setLoadingReviews(false)
+        }else{
+            console.log(message); 
+        }
+    }
+    const onSubmit = async (data) => {
+        
+        setErrorStatus({msg: "", open : false})
+        setLoadingSubmit(true)
+
+        const values = new FormData()
+        values.append("panel_id",id)
+        values.append("rating",stars)
+        values.append("description",data.review)
+        values.append("_method","PUT")
+
+        const {response , message,  statusCode} = await Helper({
+            url:apiRoutes.review.addByPanel,
+            method:'POST',
+            body:values,
+            hasToken: true,
+        })
+        if(response){
+            setLoadingSubmit(false)
+            setErrorStatus({msg: response.message, open : true,type : "success"})
+            setTimeout(()=>setErrorStatus({msg: "", open : false,type: ""}),3000)
+        }else{
+            console.log(message);
+            setErrorStatus({msg: message, open : true})
+            setTimeout(()=>setErrorStatus({msg: "", open : false,type: ""}),3000)
+            setLoadingSubmit(false)
+            
+        }
+    };
     return(<div className="px-2 lg:px-16 details-panel">
         <div className="flex flex-col-reverse sm:grid grid-cols-3 gap-5">
             <div className="col-span-3 sm:col-span-2 flex flex-col gap-5">
@@ -149,6 +218,95 @@ const DetailsPanel = () => {
                     setCurrentPage(res)
                     getServices(null,res)
                 }} />
+                {/* Reviews */}
+                <div className="flex flex-col gap-2">
+                    <h2>Reviews</h2>
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
+                        {loadingReviews ? [...Array(4)].map((_,i)=>(<div className="h-20 w-full rounded-xl bg-gray-300 animate-pulse" key={`Skeleton_Review_${i}`}></div>))
+                        : reviews.length > 0 && reviews.map((e,idx)=>{
+                                const outlineStar = 5 - parseInt(e.rating)
+                            return<div key={`Card_Review_${idx}`} className="card-review flex flex-col gap-1 p-4">
+                                <div className="flex justify-between items-center">
+                                    <div  className="flex items-center gap-2">
+                                        <div>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 17 17" fill="none">
+                                                <g clipPath="url(#clip0_380_17)">
+                                                <mask id="mask0_380_17"  maskUnits="userSpaceOnUse" x="0" y="0" width="17" height="15">
+                                                <path d="M17 0H0V14.11H17V0Z" fill="white"/>
+                                                </mask>
+                                                <g mask="url(#mask0_380_17)">
+                                                <path d="M8.50023 16.4333C12.8817 16.4333 16.4336 12.8814 16.4336 8.49998C16.4336 4.11852 12.8817 0.56665 8.50023 0.56665C4.11877 0.56665 0.566895 4.11852 0.566895 8.49998C0.566895 12.8814 4.11877 16.4333 8.50023 16.4333Z" fill="#7A7A7A"/>
+                                                </g>
+                                                <path d="M8.50003 9.77497C10.2996 9.77497 11.7584 8.31616 11.7584 6.51663C11.7584 4.71711 10.2996 3.2583 8.50003 3.2583C6.7005 3.2583 5.2417 4.71711 5.2417 6.51663C5.2417 8.31616 6.7005 9.77497 8.50003 9.77497Z" fill="white"/>
+                                                <mask id="mask1_380_17"  maskUnits="userSpaceOnUse" x="0" y="0" width="17" height="17">
+                                                <path d="M8.50023 16.4333C12.8817 16.4333 16.4336 12.8814 16.4336 8.49998C16.4336 4.11852 12.8817 0.56665 8.50023 0.56665C4.11877 0.56665 0.566895 4.11852 0.566895 8.49998C0.566895 12.8814 4.11877 16.4333 8.50023 16.4333Z" fill="white"/>
+                                                </mask>
+                                                <g mask="url(#mask1_380_17)">
+                                                <path d="M8.50023 21.3917C11.7081 21.3917 14.3086 18.7912 14.3086 15.5834C14.3086 12.3755 11.7081 9.77502 8.50023 9.77502C5.29237 9.77502 2.69189 12.3755 2.69189 15.5834C2.69189 18.7912 5.29237 21.3917 8.50023 21.3917Z" fill="white"/>
+                                                </g>
+                                                </g>
+                                                <defs>
+                                                <clipPath id="clip0_380_17">
+                                                <rect width="17" height="17" fill="white"/>
+                                                </clipPath>
+                                                </defs>
+                                                </svg>
+                                        </div>
+                                        <div >
+                                            <h3>{e?.user?.name}</h3>
+                                            <div className="flex gap-1">
+                                                {[...Array(e.rating)].map((_,idx)=><div key={`Fill_star_${idx}`}>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="17" height="16" viewBox="0 0 19 18" fill="none">
+                                                    <g clipPath="url(#clip0_379_17)">
+                                                    <path d="M9.96072 0.307373L12.3898 5.9487L18.5546 6.49593C18.652 6.50386 18.7448 6.54025 18.8214 6.60052C18.8979 6.6608 18.9549 6.74225 18.985 6.83463C19.0151 6.927 19.017 7.02617 18.9905 7.11963C18.964 7.21308 18.9102 7.29665 18.8361 7.35981L14.1695 11.4025L15.5457 17.3974C15.5601 17.4604 15.5618 17.5256 15.5507 17.5892C15.5397 17.6529 15.5161 17.7137 15.4813 17.7683C15.4466 17.8228 15.4013 17.87 15.3481 17.9072C15.295 17.9443 15.2349 17.9706 15.1715 17.9846C15.0403 18.0121 14.9035 17.9866 14.7911 17.9139L9.49531 14.7719L4.18558 17.9292C4.13011 17.9627 4.06853 17.9849 4.00439 17.9946C3.94025 18.0042 3.87482 18.0012 3.81187 17.9856C3.74892 17.97 3.68969 17.9422 3.63759 17.9038C3.5855 17.8654 3.54157 17.8171 3.50833 17.7617C3.47504 17.7075 3.45286 17.6472 3.44304 17.5844C3.43322 17.5217 3.43597 17.4576 3.45112 17.3958L4.82881 11.401L0.168488 7.35981C0.0705304 7.2734 0.0104998 7.1523 0.00125174 7.02244C-0.00799637 6.89258 0.0342733 6.76428 0.119008 6.66502C0.212397 6.56989 0.339433 6.51474 0.473094 6.5113L6.6147 5.96408L9.04381 0.307373C9.083 0.21896 9.1472 0.143786 9.2286 0.091009C9.31 0.0382322 9.40509 0.0101318 9.50227 0.0101318C9.59945 0.0101318 9.69454 0.0382322 9.77594 0.091009C9.85734 0.143786 9.92154 0.21896 9.96072 0.307373Z" fill="#FFD401"/>
+                                                    </g>
+                                                    <defs>
+                                                    <clipPath id="clip0_379_17">
+                                                    <rect width="19" height="18" fill="white"/>
+                                                    </clipPath>
+                                                    </defs>
+                                                    </svg>
+                                                </div>)}
+                                                {[...Array(outlineStar)].map((_,idx)=><div key={`Outline_star_${idx}`}>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="17" height="16" viewBox="0 0 19 18" fill="none">
+                                                        <g clipPath="url(#clip0_378_35)">
+                                                        <path d="M9.95719 0.302706L12.3868 5.95363L18.549 6.50274C18.821 6.52609 19.0222 6.76402 18.9985 7.03404C18.9872 7.16568 18.9244 7.28042 18.8317 7.36106L18.832 7.36121L14.1701 11.405L15.5488 17.3986C15.6099 17.6633 15.4432 17.9268 15.1768 17.9875C15.0403 18.0187 14.9042 17.9903 14.7955 17.9198L9.50044 14.7751L4.18849 17.9299C3.95409 18.0691 3.6504 17.9932 3.51016 17.7603C3.44197 17.6473 3.42512 17.5177 3.45249 17.3986H3.45202L4.83096 11.405L0.169053 7.36136C-0.0364421 7.18273 -0.0571617 6.87246 0.122511 6.66832C0.213894 6.56449 0.339757 6.50827 0.468095 6.50136L6.61408 5.95363L9.04491 0.299634C9.15191 0.049728 9.44261 -0.0665467 9.69418 0.039744C9.81788 0.0919678 9.90911 0.188428 9.95719 0.302706ZM11.5919 6.60857L9.50044 1.74377L7.40884 6.60857L7.40822 6.60842C7.33895 6.76985 7.18448 6.88889 6.99615 6.90517L1.69163 7.37795L5.68386 10.8408C5.8306 10.9545 5.90621 11.1462 5.86199 11.3385L4.6754 16.4961L9.23773 13.7864C9.39019 13.6917 9.58934 13.6832 9.75448 13.7814L14.3256 16.4961L13.1392 11.3385L13.1397 11.3382C13.1007 11.1679 13.1545 10.9822 13.2961 10.8591L17.3094 7.37795L12.0322 6.90763C11.8455 6.90179 11.67 6.79059 11.5919 6.60857Z" fill="#FFD401"/>
+                                                        </g>
+                                                        <defs>
+                                                        <clipPath id="clip0_378_35">
+                                                        <rect width="19" height="18" fill="white"/>
+                                                        </clipPath>
+                                                        </defs>
+                                                    </svg>
+                                                </div>)}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="flex justify-end date">{format(new Date(e.created_at), "MMMM d, yyyy") }</div>
+                                </div>
+                                
+                                
+                                <p>{e.description}</p>
+                                
+                            </div>})}
+                    </div>
+                    <form onSubmit={handleSubmit(onSubmit)} className="form-review flex flex-col gap-2">
+                        <h3>Submit your review</h3>
+                        <div>
+                            <textarea {...register("review")} placeholder="Type here.."/>
+                            {errors.review && <p className="pt-0.5 text-error">{errors.review.message}</p>}
+                        </div>
+                        <div className="card p-4 flex justify-center">
+                            <ReviewStars returnedValue={(res)=>setStars(res)}/>
+                        </div>
+                        {errorStatus.open && errorStatus.type == "success" && <h4 className="text-center box-success p-2">{errorStatus.msg}</h4>}
+                        {errorStatus.open && errorStatus.type != "success"&& <h4 className="text-center box-error p-2">{errorStatus.msg}</h4>}
+                        <div>
+                            <button type="submit" disabled={loadingSubmit} className="dark-btn w-full">{loadingSubmit?<div className='loader m-auto'></div>:"Submit"}</button>
+                        </div>
+                    </form>
+
+                    </div>
             </div>
             <div className="col-span-1 relative">
                 <div className="sticky-img ">
@@ -161,7 +319,6 @@ const DetailsPanel = () => {
                             }else{
                                 storeClick("",id)
                             }
-                            
                         }}  className="view-btn flex gap-2 ">
                             <div className="flex items-center">
                             <svg xmlns="http://www.w3.org/2000/svg" width="27" height="26" viewBox="0 0 12 11" fill="none">
@@ -184,6 +341,7 @@ const DetailsPanel = () => {
                 </div>
             </div>
         </div>
+        
     </div>)
 }
 export default DetailsPanel

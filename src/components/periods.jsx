@@ -4,8 +4,6 @@ import { Helper } from "../functionality/helper"
 import { useTranslation } from "react-i18next"
 
 const Periods =({price,returnedSelected})=>{
-  console.log(price);
-  
     const [ data, setData ] = useState([])
     const [isloading, setIsLoading ] = useState(false)
     const { t,i18n } = useTranslation()
@@ -27,16 +25,15 @@ const Periods =({price,returnedSelected})=>{
         if(response){
             setData(response.data)
             setIsLoading(false)
-            const week = response.data.find(e=> e.id == 1)
+            const week = response.data.find(e=> e.id == 3)
             returnedSelected(week)
             setSelectedId(week.id)
         }else{
-            console.log(message);
-            
+            console.log(message);  
         }
     }
     return isloading ? <div className="pricing-table-container ">
-  <table class="pricing-table">
+  <table className="pricing-table">
     <thead>
       <tr>
         <th>Period</th>

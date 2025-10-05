@@ -33,7 +33,7 @@ const SocialLine = ()=>{
         name : "Twitch",
     }]
     const navigate = useNavigate()
-    return(<div style={{overflow:"hidden"}} className="flex gap-5">
+    return(<div style={{overflow:"hidden"}} className="flex gap-2 md:gap-5">
                     {icons.map((e,idx)=>(<div  className="flex gap-1 items-center icons-hero" key={`Icons_Before_Search_${e.title}_${idx}`}>
                         <div onClick={()=>navigate(`/services?keywords=${e.name}`)} className="cursor-pointer" style={{whiteSpace: "nowrap",fontWeight:"600"}}>{e.name}</div>
                     </div>))}

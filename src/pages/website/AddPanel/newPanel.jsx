@@ -15,6 +15,7 @@ import FileUpload from "../../../components/fileUpload";
 
 const validationSchema = Yup.object({
     title : Yup.string().required("Panel Title Field is required."),
+    description : Yup.string(),
     url_panel : Yup.string().required("URL Panel Field is required."),
     api_url : Yup.string(),
     api_key : Yup.string(),
@@ -84,6 +85,12 @@ const NewPanel = ()=>{
         values.append("languages[4][name]",data.title)
         values.append("languages[5][name]",data.title)
         values.append("languages[6][name]",data.title)
+        values.append("languages[1][description]",data.description)
+        values.append("languages[2][description]",data.title)
+        values.append("languages[3][description]",data.description)
+        values.append("languages[4][description]",data.description)
+        values.append("languages[5][description]",data.description)
+        values.append("languages[6][description]",data.description)
         values.append("country_id",country)
         values.append("user_id",JSON.parse(localStorage.getItem("user")).id)
 
@@ -142,6 +149,11 @@ const NewPanel = ()=>{
                             <input {...register("api_key")} type="text" placeholder={"123456789123456789"}  />
                             {errors.api_key && <p className="pt-0.5 text-error">{errors.api_key.message}</p>}
                         </div>
+                    </div>
+                    <div>
+                        <label>Description:</label>
+                        <textarea  {...register("description")} type="text" placeholder={"Description"}  />
+                        {errors.description && <p className="pt-0.5 text-error">{errors.description.message}</p>}
                     </div>
                 </div>
                 {/* Contact Information  */}

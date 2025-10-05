@@ -1,20 +1,17 @@
 import arc from "../../../../assets/images/vector.png"
-// Swiper
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay } from 'swiper/modules';
-import 'swiper/css';
 import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import { Helper } from "../../../../functionality/helper"
 import { apiRoutes } from "../../../../functionality/apiRoutes"
 import { Link } from "react-router-dom";
 import Loading from "../../../../components/loading";
-
+import { useSelector } from "react-redux";
 
 const Arc = ()=>{
     const { t } = useTranslation()
     const [ data, setData ] = useState([])
     const [isloading, setIsLoading ] = useState(false)
+    const service = useSelector(state=> state.services)
     useEffect(()=>{
         const abortController = new AbortController()
         const signal  = abortController.signal
@@ -49,35 +46,83 @@ const Arc = ()=>{
             <div style={{direction:"ltr"}}>
                 <div className="marquee marquee-left py-2">
                     <div className="marquee__track gap-2">
-                    {[...data, ...data].map((ele, idx) => (
-                        <a
-                        key={ele.id + "_" + idx}
-                        href={`/smm-panel/${ele.translations?.en?.name ?? ""}/${ele.id}`}
-                        target="_blank"
-                        rel="noreferrer"
-                        >
-                        <div className="flex items-center !py-2  marquee__item">
-                            <img className="object-contain w-full h-full" src={ele.logo} alt={ele.name} />
+                        {[...data,{ isAddCard: true },...data].map((ele, idx) => (<div key={`Marquee_left_${idx}`}>
+                            {ele.isAddCard ? <Link className="container-add" to={`/our-services/${service.best_providers.slug}/${service.best_providers.id}`}>
+                            <div className="flex gap-2 items-center !py-2  marquee__item">
+                                <div>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 14 14" fill="none">
+                                        <g clipPath="url(#clip0_235_21)">
+                                        <path fillRule="evenodd" clipRule="evenodd" d="M11.9501 2.05044C14.6837 4.78416 14.6837 9.21639 11.9501 11.9501C9.21639 14.6837 4.78416 14.6837 2.05044 11.9501C-0.683156 9.21639 -0.683156 4.78416 2.05044 2.05044C4.78416 -0.683156 9.21639 -0.683156 11.9501 2.05044ZM10.6652 6.60253C10.8848 6.60253 11.0628 6.78061 11.0628 7.00016C11.0628 7.21982 10.8847 7.39779 10.6652 7.39779H7.3979V10.6652C7.3979 10.8848 7.21982 11.0628 7.00027 11.0628C6.78072 11.0628 6.60276 10.8847 6.60276 10.6652V7.3979H3.33527C3.11561 7.3979 2.93753 7.21982 2.93753 7.00027C2.93753 6.78072 3.11561 6.60265 3.33527 6.60265H6.60265V3.33515C6.60265 3.11561 6.78072 2.93753 7.00016 2.93753C7.21982 2.93753 7.39779 3.11561 7.39779 3.33515V6.60253H10.6652Z" fill="#08392B"/>
+                                        </g>
+                                        <defs>
+                                        <clipPath id="clip0_235_21">
+                                        <rect width="14" height="14" fill="white"/>
+                                        </clipPath>
+                                        </defs>
+                                    </svg>
+                                </div>
+                                <h3>Add </h3>
+                            </div>
+                        </Link> :<Link
+                            to={`/smm-panel/${ele.translations?.en?.name ?? ""}/${ele.id}`}
+                            target="_blank"
+                            rel="noreferrer"
+                            >
+                            <div onClick={()=>{
+                                    localStorage.setItem("click",JSON.stringify({
+                                            service_id: 11,
+                                            panel_id: ele.id
+                                        }))
+                                }} className="flex  items-center !py-2  marquee__item">
+                                <img className="object-contain w-full h-full" src={ele.logo} alt={ele.name} />
+                            </div>
+                            </Link>}
                         </div>
-                        </a>
-                    ))}
+                            
+                        ))}
+                    
                     </div>
+                    
+                    
                 </div>
 
                 <div style={{marginTop: "10px"}} className="marquee marquee-right py-2">
                     <div className="marquee__track gap-2">
-                    {[...data, ...data].map((ele, idx) => (
-                        <a
-                        key={ele.id + "_" + idx + "_rev"}
-                        href={`/smm-panel/${ele.translations?.en?.name ?? ""}/${ele.id}`}
-                        target="_blank"
-                        rel="noreferrer"
-                        >
-                        <div className="flex  items-center !py-2 marquee__item">
-                            <img className="object-contain" src={ele.logo} alt={ele.name} />
+                        {[...data,{ isAddCard: true },...data].map((ele, idx) => (<div key={`Marquee_right_${idx}`}>
+                            {ele.isAddCard? <Link className="container-add" to={`/our-services/${service.best_providers.slug}/${service.best_providers.id}`}>
+                            <div className="flex gap-2 items-center !py-2  marquee__item">
+                                <div>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 14 14" fill="none">
+                                        <g clipPath="url(#clip0_235_21)">
+                                        <path fillRule="evenodd" clipRule="evenodd" d="M11.9501 2.05044C14.6837 4.78416 14.6837 9.21639 11.9501 11.9501C9.21639 14.6837 4.78416 14.6837 2.05044 11.9501C-0.683156 9.21639 -0.683156 4.78416 2.05044 2.05044C4.78416 -0.683156 9.21639 -0.683156 11.9501 2.05044ZM10.6652 6.60253C10.8848 6.60253 11.0628 6.78061 11.0628 7.00016C11.0628 7.21982 10.8847 7.39779 10.6652 7.39779H7.3979V10.6652C7.3979 10.8848 7.21982 11.0628 7.00027 11.0628C6.78072 11.0628 6.60276 10.8847 6.60276 10.6652V7.3979H3.33527C3.11561 7.3979 2.93753 7.21982 2.93753 7.00027C2.93753 6.78072 3.11561 6.60265 3.33527 6.60265H6.60265V3.33515C6.60265 3.11561 6.78072 2.93753 7.00016 2.93753C7.21982 2.93753 7.39779 3.11561 7.39779 3.33515V6.60253H10.6652Z" fill="#08392B"/>
+                                        </g>
+                                        <defs>
+                                        <clipPath id="clip0_235_21">
+                                        <rect width="14" height="14" fill="white"/>
+                                        </clipPath>
+                                        </defs>
+                                    </svg>
+                                </div>
+                                <h3>Add </h3>
+                            </div>
+                        </Link>  :<Link
+                            to={`/smm-panel/${ele.translations?.en?.name ?? ""}/${ele.id}`}
+                            target="_blank"
+                            rel="noreferrer"
+                            >
+                            <div onClick={()=>{
+                                        localStorage.setItem("click",JSON.stringify({
+                                            service_id: 11,
+                                            panel_id: ele.id
+                                        }))
+                                }} className="flex  items-center  !py-2 marquee__item">
+                                <img className="object-contain" src={ele.logo} alt={ele.name} />
+                            </div>
+                            </Link>}
                         </div>
-                        </a>
-                    ))}
+                            
+                        ))}
+                        
                     </div>
                 </div>
                 </div>

@@ -22,7 +22,8 @@
 form label{
     font-size: var(--font-size-xs);
 }
-form input{
+
+form input, .email-container{
     border: 2px solid var(--green_1);
     width: 100%;
     border-radius: 10px;

@@ -4,12 +4,15 @@ import { useEffect, useState } from "react"
 import { Helper } from "../../../functionality/helper"
 import { apiRoutes } from "../../../functionality/apiRoutes"
 import Loading from "../../../components/loading"
+import AddServiceCard from "../../../components/addServicesCard"
+import { useSelector } from "react-redux"
 
 const ProviderPage = ({isHome})=>{
     const { t } = useTranslation()
     const navigate = useNavigate()
     const [ data, setData ] = useState([])
     const [isloading, setIsLoading ] = useState(false)
+    const service = useSelector(state=> state.services)
     useEffect(()=>{
         const abortController = new AbortController()
         const signal  = abortController.signal
@@ -73,7 +76,7 @@ const ProviderPage = ({isHome})=>{
                 </div>
             </div>))
             }
-
+            <AddServiceCard link={`/our-services/${service.best_providers.slug}/${service.best_providers.id}`} />
         </div>}
         
     </div>)
