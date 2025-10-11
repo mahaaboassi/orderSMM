@@ -46,6 +46,7 @@ import ResultPaltforms from './pages/website/platforms/resultPlatforms'
 import Reviews from './pages/commonElements/reviews/reviews'
 import DetailsReview from './pages/commonElements/reviews/detailsReview'
 import AddWithServicesNextStep from './pages/website/ourServices/slugs/withServicesNextStep'
+import PanelRequests from './pages/adminDashboard/panels/panelsRequests'
 
 
 function App() {
@@ -98,7 +99,9 @@ function App() {
         <Route path='panels' element={<Panels/>}/>
         <Route path='panels/add' element={<AddPanel/>}/>
         <Route path='panels/edit/:id' element={<AddPanel/>}/>
+        <Route path='panel/requests/edit/:id/:type' element={<AddPanel/>}/>
         <Route path='panels/history/:id/:name' element={<HistoryPanel/>}/>
+        <Route path='panel/requests' element={<PanelRequests/>}/>
         {/* Reviews */}
         <Route path="reviews" element={<Reviews/>} />
         <Route path='reviews/:id' element={<DetailsReview/>}/>

@@ -6,6 +6,7 @@ import { useEffect, useState } from "react"
 import Avatar from "./avatar"
 import Notifications from "./notifications"
 import InfoBalance from "./infoBalance"
+import { useSelector } from "react-redux"
 
 const logo = <svg className="logo" xmlns="http://www.w3.org/2000/svg" width="145" height="55" viewBox="0 0 205 74" fill="none">
 <g clipPath="url(#clip0_257_4)">
@@ -59,11 +60,12 @@ const Navbar = ()=>{
     }]
     const [ isOpenMenu, setIsOpenMenu ] = useState(false)
     const [ currentUser, setCurrentUser ] = useState({})
+    const user = useSelector(state=> state.user)
     useEffect(()=>{
         if(localStorage.getItem("user")){
             setCurrentUser(JSON.parse(localStorage.getItem("user")))
         }
-    },[])
+    },[user])
     const closeIcon = <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
     <g clipPath="url(#clip0_17_1174)">
     <path d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z" fill="white"/>

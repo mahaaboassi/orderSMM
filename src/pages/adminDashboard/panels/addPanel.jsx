@@ -44,7 +44,7 @@ const validationSchema = Yup.object({
 
 });
 const AddPanel = ()=>{
-    const { id } = useParams()
+    const { id, type } = useParams()
     const { register, handleSubmit, watch, setValue, formState: { errors },reset  } = useForm({
         resolver: yupResolver(validationSchema),
             mode: 'onChange',
@@ -94,12 +94,11 @@ const AddPanel = ()=>{
                 url_panel: response.data.website || "",
                 api_url: response.data.api_url || "",
                 api_key: response.data.token || "",
-                whatsapp_channel : response.data.whatsapp_channel || "",
                 whatsapp_group : response.data.whatsapp_group || "",
                 telegram_group : response.data.telegram_group || "",
                 referral_url : response.data.referral_url || "",
                 tiktok : response.data.tiktok || "",
-                facebook : response.data.facebook || "",
+                skype : response.data.skype || "",
                 instagram : response.data.instagram || "",
                 approved : response.data.approved || 0,
                 domain_start_date : response.data.domain_start_date || "",
@@ -125,10 +124,10 @@ const AddPanel = ()=>{
     const onSubmit = async (data) => {
         
         setErrorStatus({msg: "", open : false})
-        if(!countryObj.id){
-            setCountryObj({msg: "Country Feild is required!", id : ""})
-            return
-        }
+        // if(!countryObj.id){
+        //     setCountryObj({msg: "Country Feild is required!", id : ""})
+        //     return
+        // }
         setLoading(true)
         
         const values = new FormData()
@@ -139,18 +138,17 @@ const AddPanel = ()=>{
         values.append("website",data.url_panel)
         values.append("api_url",data.api_url)
         values.append("token",data.api_key)
-        values.append("whatsapp_channel",data.whatsapp_channel)
         values.append("whatsapp_group",data.whatsapp_group)
         values.append("telegram_group",data.telegram_group)
         values.append("referral_url",data.referral_url)
         values.append("country_id",countryObj.id)
         values.append("tiktok",data.tiktok)
-        values.append("facebook",data.facebook)
+        values.append("skype",data.skype)
         values.append("instagram",data.instagram)
         values.append("approved",data.approved)
         values.append("domain_start_date",data.domain_start_date)
         values.append("domain_end_date",data.domain_end_date)
-        values.append("user_id",user?.id ?? JSON.parse(localStorage.getItem("user")).id)
+        values.append("user_id",user?.id ?? "")
         values.append("telegram","https://t.me/" + data.telegram)
         values.append("whatsapp",data.whatsapp)
         if(id){
@@ -211,7 +209,7 @@ const AddPanel = ()=>{
     return(<div className="flex flex-col gap-5">
         <div className='flex flex-col gap-1'>
              <div className="flex gap-2 items-center">
-                <Link className="cursor-pointer text-blue-500" to={"/dashboard/admin/panels"}> Panels</Link> / <div>{id ? "Edit panel" : "Add Panel"}</div>
+                <Link className="cursor-pointer text-blue-500" to={type == "request" ? "/dashboard/admin/panel/requests" : "/dashboard/admin/panels"}> {type == "request" ? "Panel requests" : "Panels" }</Link> / <div>{id ? "Edit panel" : "Add Panel"}</div>
             </div>
             <h2 >{id ? "Edit panel" : "Add Panel"}</h2>
             <p>
@@ -242,12 +240,12 @@ const AddPanel = ()=>{
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         
                         <div className="flex flex-col gap-1">
-                            <label>SMM Panel Title (Max 22 characters) :</label>
+                            <label>SMM Panel Title (Max 22 characters) :<span className='required'>*</span></label>
                             <input  {...register("title")} type="text" placeholder={"Panel Title"}  />
                             {errors.title && <p className="pt-0.5 text-error">{errors.title.message}</p>}
                         </div>
                         <div className="flex flex-col gap-1">
-                            <label>SMM Panel URL :</label>
+                            <label>SMM Panel URL :<span className='required'>*</span></label>
                             <input {...register("url_panel")} type="text" placeholder={"https://example.com"}  />
                             {errors.url_panel && <p className="pt-0.5 text-error">{errors.url_panel.message}</p>}
                         </div>
@@ -259,24 +257,24 @@ const AddPanel = ()=>{
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="flex flex-col gap-1">
-                            <label>username :</label>
+                            <label>username :<span className='required'>*</span></label>
                             <input {...register("username")} type="text" placeholder={"Username"}  />
                             {errors.username && <p className="pt-0.5 text-error">{errors.username.message}</p>}
                         </div>
                         <div className="flex flex-col gap-1">
-                            <label>Password :</label>
+                            <label>Password :<span className='required'>*</span></label>
                             <input  {...register("password")} type="text" placeholder={"Password"}  />
                             {errors.password && <p className="pt-0.5 text-error">{errors.password.message}</p>}
                         </div>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="flex flex-col gap-1">
-                            <label>API URL :</label>
+                            <label>API URL :<span className='required'>*</span></label>
                             <input {...register("api_url")} type="text" placeholder={"https://panel.com/api/v2"}  />
                             {errors.api_url && <p className="pt-0.5 text-error">{errors.api_url.message}</p>}
                         </div>
                         <div className="flex flex-col gap-1">
-                            <label>Token:</label>
+                            <label>Token:<span className='required'>*</span></label>
                             <input {...register("api_key")} type="text" placeholder={"123456789123456789"}  />
                             {errors.api_key && <p className="pt-0.5 text-error">{errors.api_key.message}</p>}
                         </div>
@@ -289,7 +287,7 @@ const AddPanel = ()=>{
                         </div>
                         <div className="flex flex-col gap-1">
                             <label>User:</label>
-                            <UsersSelect currentValue={user} returnedUser={(res)=>{setUser(res)}} />
+                            <UsersSelect currentValue={""} returnedUser={(res)=>{setUser(res)}} />
                             {errors.referral_url && <p className="pt-0.5 text-error">{errors.referral_url.message}</p>}
                         </div>
                     </div>
@@ -297,42 +295,6 @@ const AddPanel = ()=>{
 
 
                 </div>
-                {/* <div className="card p-2 sm:p-4 flex flex-col gap-4">
-                    <h4><strong>Name in Languages</strong></h4>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div className="flex flex-col gap-1">
-                            <label>Name <strong>(en)</strong> :</label>
-                            <input  {...register("name_en")} type="text" placeholder={"Name (en)"}  />
-                            {errors.name_en && <p className="pt-0.5 text-error">{errors.name_en.message}</p>}
-                        </div>
-                        <div className="flex flex-col gap-1">
-                            <label>Name <strong>(ar)</strong> :</label>
-                            <input {...register("name_ar")}  type="text" placeholder={"Name (ar)"}  />
-                            {errors.name_ar && <p className="pt-0.5 text-error">{errors.name_ar.message}</p>}
-                        </div>
-                        <div className="flex flex-col gap-1">
-                            <label>Name <strong>(tr)</strong> :</label>
-                            <input {...register("name_tr")} type="text" placeholder={"Name (tr)"}  />
-                            {errors.name_tr && <p className="pt-0.5 text-error">{errors.name_tr.message}</p>}
-                        </div>
-                        <div className="flex flex-col gap-1">
-                            <label>Name <strong>(ru)</strong> :</label>
-                            <input {...register("name_ru")} type="text" placeholder={"Name (ru)"}  />
-                            {errors.name_ru && <p className="pt-0.5 text-error">{errors.name_ru.message}</p>}
-                        </div>
-                        <div className="flex flex-col gap-1">
-                            <label>Name <strong>(hi)</strong> :</label>
-                            <input {...register("name_hi")}  type="text" placeholder={"Name (hi)"}  />
-                            {errors.name_hi && <p className="pt-0.5 text-error">{errors.name_hi.message}</p>}
-                        </div>
-                        <div className="flex flex-col gap-1">
-                            <label>Name <strong>(ur)</strong> :</label>
-                            <input {...register("name_ur")} type="text" placeholder={"Name (ur)"}  />
-                            {errors.name_ur && <p className="pt-0.5 text-error">{errors.name_ur.message}</p>}
-                        </div>
-
-                    </div>
-                </div> */}
                 <div className="card p-2 sm:p-4 flex flex-col gap-4">
                     <h4><strong>Contact Info</strong></h4>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -357,13 +319,8 @@ const AddPanel = ()=>{
                         </div>
                         <div className="flex flex-col gap-1">
                             <label>Whatsapp Group :</label>
-                            <input  {...register("whatsapp_group")} type="text" placeholder={"https://t.me/mygroup"}  />
+                            <input  {...register("whatsapp_group")} type="text" placeholder={"https://chat.whatsapp.com/yourgroupid"}  />
                             {errors.telegram_group && <p className="pt-0.5 text-error">{errors.telegram_group.message}</p>}
-                        </div>
-                        <div className="flex flex-col gap-1">
-                            <label>Whatsapp Channel :</label>
-                            <input  {...register("whatsapp_channel")} type="text" placeholder={"https://chat.whatsapp.com/invitecode"}  />
-                            {errors.whatsapp_channel && <p className="pt-0.5 text-error">{errors.whatsapp_channel.message}</p>}
                         </div>
                         <div className="flex flex-col gap-1">
                             <label>Telegram Group :</label>
@@ -376,9 +333,9 @@ const AddPanel = ()=>{
                             {errors.tiktok && <p className="pt-0.5 text-error">{errors.tiktok.message}</p>}
                         </div>
                         <div className="flex flex-col gap-1">
-                            <label>Facebook :</label>
-                            <input  {...register("facebook")} type="text" placeholder={"https://facebook.com/username"}  />
-                            {errors.facebook && <p className="pt-0.5 text-error">{errors.facebook.message}</p>}
+                            <label>Skype :</label>
+                            <input  {...register("skype")} type="text" placeholder={"https://join.skype.com/invite/yourcode"}  />
+                            {errors.skype && <p className="pt-0.5 text-error">{errors.skype.message}</p>}
                         </div>
                          <div className="flex flex-col gap-1">
                             <label>Instagram :</label>
@@ -411,12 +368,12 @@ const AddPanel = ()=>{
                 </div>
                 <div className='card p-2 sm:p-4 flex flex-col gap-4'>
                     {/* Upload File */}
-                    <h4><strong>Photo Panel</strong></h4>
+                    <h4><strong>Photo Panel</strong>:<span className='required'>*</span></h4>
                     <FileUpload fromApi={photoFromApi} returnedFile={(res)=>setFile(res)} />
                 </div>
                 <div className='card p-2 sm:p-4 flex flex-col gap-4'>
                     {/* Upload File */}
-                    <h4><strong>Logo Panel</strong></h4>
+                    <h4><strong>Logo Panel</strong>:<span className='required'>*</span></h4>
                     <FileUpload fromApi={typeof(logoFromApi) == "string" ? logoFromApi: "" } returnedFile={(res)=>setLogo(res)} />
                 </div>
                 <div>

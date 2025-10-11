@@ -16,7 +16,7 @@ const UsersSelect = ({currentValue,returnedUser})=>{
     useEffect(()=>{
         const controller = new AbortController()
         const signal = controller.signal
-        getOne(signal)
+        // getOne(signal)
         return ()=> controller.abort()
     },[currentValue])
     useEffect(()=>{

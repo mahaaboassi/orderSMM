@@ -1,11 +1,11 @@
 import { useState } from "react"
 import { useTranslation } from "react-i18next"
 
-const InputPassword = ({placeholder,register}) => {
+const InputPassword = ({placeholder,register,autoComplete}) => {
     const [ isView, setIsView ] = useState(false)
     const { i18n } = useTranslation()
     return(<div className="relative">
-            <input {...register} type={isView ? "text": "password"} placeholder={placeholder}  />
+            <input autoComplete={autoComplete} {...register} type={isView ? "text": "password"} placeholder={placeholder}  />
             <div onClick={()=>setIsView(!isView)} style={{top:"50%",transform:'translateY(-50%)'}} className={`absolute ${(i18n.language == "ar" || i18n.language == "ur")?"left-3":"right-3"} top-50 cursor-pointer`}>
                 { isView ? <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                     <path d="M9.02992 14C8.63992 13.43 8.41992 12.74 8.41992 12C8.41992 10.02 10.0199 8.42004 11.9999 8.42004C13.9799 8.42004 15.5799 10.02 15.5799 12C15.5799 13.98 13.9799 15.58 11.9999 15.58" stroke="#19770D" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>

@@ -62,7 +62,8 @@ const SignIn = ()=>{
              if(response.data.role == "admin"){
                 setErrorStatus({msg: t("error.permission_login"), open : true})
              }else{
-                window.location.reload()
+                 
+                navigate("/")
                 dispatch(userInfo({
                     email: response.data.email ?? "",
                     phone : response.data.phone ?? "",
@@ -94,6 +95,8 @@ const SignIn = ()=>{
                 }))
                 localStorage.setItem("token",response.data.access_token) 
                 localStorage.removeItem("email") 
+                
+
              }
 
         }else{
@@ -141,12 +144,12 @@ const SignIn = ()=>{
             {errorStatus.open && errorStatus.type != "success"&& <h4 className="text-center box-error p-2">{errorStatus.msg}</h4>}
             <div className="flex flex-col gap-1">
                 <label>{t("auth.email")} :</label>
-                <input {...register("email")} type="text" placeholder={t("auth.email")}  />
+                <input {...register("email")} autoComplete="username"  type="email" placeholder={t("auth.email")}  />
                 {errors.email && <p className="p-0.5 text-error">{errors.email.message}</p>}
             </div>
             <div className="flex flex-col gap-1">
                 <label>{t("auth.password")} :</label>
-                <InputPassword register={register("password")} placeholder={t("auth.password")} />
+                <InputPassword  autoComplete="current-password" register={register("password")} placeholder={t("auth.password")} />
                 {errors.password && <p className="p-0.5 text-error">{errors.password.message}</p>}
             </div>
             <div className="flex justify-between gap-2">

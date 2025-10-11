@@ -8,6 +8,7 @@ h2{
     font-weight: 600;
     text-transform: capitalize;
 }
+
 .animated-word {
   display: inline-block;
   animation: fadeIn 0.5s ease-in-out;   
@@ -132,6 +133,7 @@ h2{
     border-radius: 10px;
     box-shadow: var(--shadow-box);
 }
+
 .card-panals h3{
     font-size: var(--font-size-s);
     font-weight: 600;

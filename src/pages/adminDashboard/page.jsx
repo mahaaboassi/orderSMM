@@ -40,7 +40,7 @@ const AdminDashboard = ()=>{
                 <div>
                     <ul className="flex flex-col gap-2">
                         <li className="flex gap-2 items-center"><div className="circle"></div><Link to={"/dashboard/admin/users"}>Users</Link></li>
-                        <li className="flex gap-2 items-center"><div className="circle"></div><Link to={"/dashboard/assignPanelToOwner"}>Assign Panel to Owner</Link></li>
+                        <li className="flex gap-2 items-center"><div className="circle"></div><Link to={"/dashboard/admin/users/add"}>Add New User</Link></li>
                     </ul>
                 </div>
             </div>
@@ -60,8 +60,9 @@ const AdminDashboard = ()=>{
                 </div>
                 <div>
                     <ul className="flex flex-col gap-2">
-                        <li className="flex gap-2 items-center"><div className="circle"></div><Link to={"/dashboard/admin/SMMPanels/addPanel"}>Add New SMM Panel</Link></li>
-                        <li className="flex gap-2 items-center"><div className="circle"></div><Link to={"/dashboard/admin/assignPanelToOwner"}>Assign Panel to Owner</Link></li>
+                        <li className="flex gap-2 items-center"><div className="circle"></div><Link to={"/dashboard/admin/panels"}>SMM Panels</Link></li>
+                        <li className="flex gap-2 items-center"><div className="circle"></div><Link to={"/dashboard/admin/panels/add"}>Add New Panel</Link></li>
+                        <li className="flex gap-2 items-center"><div className="circle"></div><Link to={"/dashboard/admin/panel/requests"}>Panel Requests</Link></li>
                     </ul>
                 </div>
             </div>
@@ -82,7 +83,7 @@ const AdminDashboard = ()=>{
                 <div>
                     <ul className="flex flex-col gap-2">
                         <li className="flex gap-2 items-center"><div className="circle"></div><Link to={"/dashboard/admin/services"}>Services OrdrSMM</Link></li>
-                        <li className="flex gap-2 items-center"><div className="circle"></div><Link to={"/dashboard/admin/services/add"}>New new services</Link></li>
+                        <li className="flex gap-2 items-center"><div className="circle"></div><Link to={"/dashboard/admin/services/add"}>New New Services</Link></li>
                     </ul>
                 </div>
             </div>

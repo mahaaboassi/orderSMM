@@ -153,17 +153,17 @@ const Settings = ()=>{
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div className="flex flex-col gap-1">
                                     <label>Panels:</label>
-                                    <input  {...register("panels")} type="text" placeholder={"Panels"}  />
+                                    <input type="number"  {...register("panels")} placeholder={"Panels"}  />
                                     {errors.panels && <p className="pt-0.5 text-error">{errors.panels.message}</p>}
                                 </div>
                                 <div className="flex flex-col gap-1">
                                     <label>Platforms:</label>
-                                    <input {...register("platforms")} type="text" placeholder={"Platforms"}  />
+                                    <input type="number"  {...register("platforms")}  placeholder={"Platforms"}  />
                                     {errors.platforms && <p className="pt-0.5 text-error">{errors.platforms.message}</p>}
                                 </div>
                                 <div className="flex flex-col gap-1">
                                     <label>Services:</label>
-                                    <input {...register("services")} type="text" placeholder={"Services"}  />
+                                    <input type="number" {...register("services")}  placeholder={"Services"}  />
                                     {errors.services && <p className="pt-0.5 text-error">{errors.services.message}</p>}
                                 </div>
                                 <div className="flex flex-col gap-1">

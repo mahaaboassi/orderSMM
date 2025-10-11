@@ -60,10 +60,10 @@ const NewPanel = ()=>{
     const onSubmit = async (data) => {
   
         setErrorStatus({msg: "", open : false})
-        if(!country){
-            setMessageCountry(t("country-is-required"))
-            return
-        }
+        // if(!country){
+        //     setMessageCountry(t("country-is-required"))
+        //     return
+        // }
         setLoading(true) 
         const values = new FormData()
         values.append("name",data.title)
@@ -71,11 +71,10 @@ const NewPanel = ()=>{
         values.append("api_url",data.api_url)
         values.append("token",data.api_key)
         values.append("email",data.email)
-        values.append("whatsapp_channel",data.whatsapp_channel)
         values.append("whatsapp_group",data.whatsapp_group)
         values.append("telegram_group",data.telegram_group)
         values.append("tiktok",data.tiktok)
-        values.append("facebook",data.facebook)
+        values.append("skype",data.skype)
         values.append("instagram",data.instagram)
         values.append("telegram",data.telegram)
         values.append("whatsapp",codes.whatsapp.dial_code + data.whatsapp)
@@ -86,7 +85,7 @@ const NewPanel = ()=>{
         values.append("languages[5][name]",data.title)
         values.append("languages[6][name]",data.title)
         values.append("languages[1][description]",data.description)
-        values.append("languages[2][description]",data.title)
+        values.append("languages[2][description]",data.description)
         values.append("languages[3][description]",data.description)
         values.append("languages[4][description]",data.description)
         values.append("languages[5][description]",data.description)
@@ -130,13 +129,13 @@ const NewPanel = ()=>{
                     <h3><strong>Panel Information</strong></h3>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div className="flex flex-col gap-1">
-                            <label>SMM Panel Title (Max 22 characters) :</label>
+                            <label>SMM Panel Title (Max 22 characters) :<span className="required">*</span></label>
                             <input  {...register("title")} type="text" placeholder={"Panel Title"}  />
                             {errors.title && <p className="pt-0.5 text-error">{errors.title.message}</p>}
                         </div>
                         <div className="flex flex-col gap-1">
-                            <label>SMM Panel URL :</label>
-                            <input {...register("url_panel")} type="text" placeholder={"https://example.com"}  />
+                            <label>SMM Panel URL :<span className="required">*</span></label>
+                            <input {...register("url_panel")} type="text" placeholder={"https://example.com"}/>
                             {errors.url_panel && <p className="pt-0.5 text-error">{errors.url_panel.message}</p>}
                         </div>
                         <div className="flex flex-col gap-1">
@@ -161,29 +160,24 @@ const NewPanel = ()=>{
                     <h3><strong>Contact Information</strong></h3>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div className="flex flex-col gap-1">
-                            <label>Email:</label>
+                            <label>Email:<span className="required">*</span></label>
                             <input {...register("email")} type="text" placeholder={"Email"}  />
                             {errors.email && <p className="pt-0.5 text-error">{errors.email.message}</p>}
                         </div>
                         <div className="flex flex-col gap-1">
-                            <label>Whatsapp:</label>
+                            <label>Whatsapp:<span className="required">*</span></label>
                             <MobileInput returnedCountry={(res)=>{setCodes(prev=>({...prev,whatsapp:res}))}} register={register("whatsapp")}   />
                             {errors.whatsapp && <p className="pt-0.5 text-error">{errors.whatsapp.message}</p>}
                         </div>
                         <div className="flex flex-col gap-1">
-                            <label>Telegram:</label>
+                            <label>Telegram:<span className="required">*</span></label>
                             <input {...register("telegram")} placeholder="https://t.me/example"   />
                             {errors.telegram && <p className="pt-0.5 text-error">{errors.telegram.message}</p>}
                         </div>
                          <div className="flex flex-col gap-1">
                             <label>Whatsapp Group :</label>
-                            <input  {...register("whatsapp_group")} type="text" placeholder={"https://t.me/mygroup"}  />
+                            <input  {...register("whatsapp_group")} type="text" placeholder={"https://chat.whatsapp.com/yourgroupid"}  />
                             {errors.telegram_group && <p className="pt-0.5 text-error">{errors.telegram_group.message}</p>}
-                        </div>
-                        <div className="flex flex-col gap-1">
-                            <label>Whatsapp Channel :</label>
-                            <input  {...register("whatsapp_channel")} type="text" placeholder={"https://chat.whatsapp.com/invitecode"}  />
-                            {errors.whatsapp_channel && <p className="pt-0.5 text-error">{errors.whatsapp_channel.message}</p>}
                         </div>
                         <div className="flex flex-col gap-1">
                             <label>Telegram Group :</label>
@@ -196,9 +190,9 @@ const NewPanel = ()=>{
                             {errors.tiktok && <p className="pt-0.5 text-error">{errors.tiktok.message}</p>}
                         </div>
                         <div className="flex flex-col gap-1">
-                            <label>Facebook :</label>
-                            <input  {...register("facebook")} type="text" placeholder={"https://facebook.com/username"}  />
-                            {errors.facebook && <p className="pt-0.5 text-error">{errors.facebook.message}</p>}
+                            <label>Skype :</label>
+                            <input  {...register("skype")} type="text" placeholder={"https://join.skype.com/invite/yourcode"}  />
+                            {errors.skype && <p className="pt-0.5 text-error">{errors.skype.message}</p>}
                         </div>
                          <div className="flex flex-col gap-1">
                             <label>Instagram :</label>

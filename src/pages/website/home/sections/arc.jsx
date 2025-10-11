@@ -23,7 +23,10 @@ const Arc = ()=>{
         const { response , message, statusCode } = await Helper({
             url : apiRoutes.panel.list,
             signal : signal,
-            params : {is_provider: 1},
+            params : {is_provider: 1,
+                is_ad: 1,
+                results: 20
+            },
             method : "GET",
             hasToken : false
         })
@@ -63,7 +66,7 @@ const Arc = ()=>{
                                 </div>
                                 <h3>Add </h3>
                             </div>
-                        </Link> :<Link
+                        </Link> : <Link
                             to={`/smm-panel/${ele.translations?.en?.name ?? ""}/${ele.id}`}
                             target="_blank"
                             rel="noreferrer"

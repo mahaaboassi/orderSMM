@@ -580,6 +580,11 @@ button:disabled{
 .error-container h4{
     font-size: var(--font-size-xs) !important;
 }
+/* Required */
+.required{
+    color: red;
+    font-weight: 600;
+}
 @media (max-width:1200px){
     nav ul{
         font-size: var(--font-size-xs);
