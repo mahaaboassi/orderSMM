@@ -79,9 +79,9 @@ const Navigation = ()=>{
     }]
     return(<div className="flex flex-col gap-5 navigation ">
         {data.map((e,idx)=>(<NavLink  key={`Navigation_${e.name}_${idx}`} to={e.link} end={e.link === "/dashboard"}
-          className={({isActive} )=> isActive ?"flex gap-2 item p-3 xl:p-5 justify-center items-center active":"flex justify-center p-3 xl:p-5  gap-2 item items-center "}>
+          className={({isActive} )=> isActive ?"flex gap-2 md:gap-4 item p-3 xl:p-5 items-center active justify-center sm:justify-start":"flex p-3 xl:p-5 gap-2 md:gap-4 item items-center justify-center sm:justify-start"}>
              <div>{e.icon}</div>
-            <div className="nav-name">{e.name}</div>
+            <div className="nav-name hidden md:flex">{e.name}</div>
            
         </NavLink>))}
         

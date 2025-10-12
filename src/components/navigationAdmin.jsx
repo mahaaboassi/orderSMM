@@ -122,9 +122,9 @@ const NavigationAdmin = ()=>{
     }]
     return(<div className="flex flex-col gap-1 navigation ">
         {data.map((e,idx)=>(<NavLink  key={`Navigation_admin_${e.name}_${idx}`} to={e.link} end={e.link === "/dashboard/admin"}
-          className={({isActive} )=> isActive ?"flex gap-4 item p-2 xl:p-2 items-center active":"flex p-2 xl:p-3 hover:!bg-zinc-100  gap-4 item items-center "}>
+          className={({isActive} )=> isActive ?"flex gap-2 md:gap-4 item p-2 xl:p-2 items-center active justify-center sm:justify-start":"flex p-2 xl:p-3 hover:!bg-zinc-100  gap-2 md:gap-4 item items-center justify-center sm:justify-start"}>
              <div>{e.icon}</div>
-            <div className="nav-name">{e.name}</div>
+            <div className="nav-name hidden sm:flex">{e.name}</div>
         </NavLink>))}
     </div>)
 }
