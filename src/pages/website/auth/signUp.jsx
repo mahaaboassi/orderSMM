@@ -26,8 +26,8 @@ const SignUp= ()=>{
         confirmPassword: Yup.string()
         .oneOf([Yup.ref('password'), null], t("auth.confirm-password-not-matching")),
         // telegram: Yup.string().required(t("auth.telegram-is-required")),
-        telegram: Yup.string(),
-        whatsapp: Yup.string(), 
+        telegram: Yup.string().required(t("auth.telegram-is-required")),
+        whatsapp: Yup.string().required("Whatsapp is required"), 
         name: Yup.string().required(t("auth.name-validation")), 
         website: Yup.string()
             .notRequired()
@@ -110,22 +110,22 @@ const SignUp= ()=>{
                 {errorStatus.open && errorStatus.type == "success" && <h4 className="text-center box-success p-2">{errorStatus.msg}</h4>}
                 {errorStatus.open && errorStatus.type != "success"&& <h4 className="text-center box-error p-2">{errorStatus.msg}</h4>}
                 <div className="flex flex-col gap-1">
-                    <label>{t("auth.email")} :</label>
+                    <label>{t("auth.email")} :<span className="required">*</span></label>
                     <input {...register("email")} type="text" placeholder={t("auth.email")}  />
                     {errors.email && <p className="pt-0.5 text-error">{errors.email.message}</p>}
                 </div>
                 <div className="flex flex-col gap-1">
-                    <label>{t("auth.name")} :</label>
+                    <label>{t("auth.name")} :<span className="required">*</span></label>
                     <input {...register("name")} type="text" placeholder={t("auth.name")}  />
                     {errors.name && <p className="pt-0.5 text-error">{errors.name.message}</p>}
                 </div>
                  <div className="flex flex-col gap-1">
-                    <label>{t("auth.whatsapp")} :</label>
+                    <label>{t("auth.whatsapp")} :<span className="required">*</span></label>
                     <MobileInput register={register("whatsapp")} placeholder={t("auth.whatsapp")} returnedCountry={(res)=>{setCodeWhatsapp(res)}} />
                     {errors.whatsapp && <p className="pt-0.5 text-error">{errors.whatsapp.message}</p>}
                 </div>
                 <div className="flex flex-col gap-1">
-                    <label>{t("auth.telegram")} :</label>
+                    <label>{t("auth.telegram")} :<span className="required">*</span></label>
                     <input {...register("telegram")} placeholder="https://t.me/example" />
                     {errors.telegram && <p className="pt-0.5 text-error">{errors.telegram.message}</p>}
                 </div>
@@ -135,12 +135,12 @@ const SignUp= ()=>{
                     {errors.website && <p className="pt-0.5 text-error">{errors.website.message}</p>}
                 </div>
                 <div className="flex flex-col gap-1">
-                    <label>{t("auth.password")} :</label>
+                    <label>{t("auth.password")} :<span className="required">*</span></label>
                     <InputPassword register={register("password")} placeholder={t("auth.password")} />
                     {errors.password && <p className="pt-0.5 text-error">{errors.password.message}</p>}
                 </div>
                 <div className="flex flex-col gap-1">
-                    <label>{t("auth.confirmation-password")} :</label>
+                    <label>{t("auth.confirmation-password")} :<span className="required">*</span></label>
                     <InputPassword register={register("confirmPassword")} placeholder={t("auth.reType-password")} />
                     {errors.confirmPassword && <p className="pt-0.5 text-error">{errors.confirmPassword.message}</p>}
                 </div>

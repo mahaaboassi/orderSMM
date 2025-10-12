@@ -25,9 +25,9 @@ const Periods =({price,returnedSelected})=>{
         if(response){
             setData(response.data)
             setIsLoading(false)
-            const week = response.data.find(e=> e.id == 3)
-            returnedSelected(week)
-            setSelectedId(week.id)
+            const temp = response.data.find(e=> e.factor == Math.max(...response.data.map(e=>e.factor)))
+            returnedSelected(temp)
+            setSelectedId(temp.id)
         }else{
             console.log(message);  
         }

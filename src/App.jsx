@@ -47,6 +47,9 @@ import Reviews from './pages/commonElements/reviews/reviews'
 import DetailsReview from './pages/commonElements/reviews/detailsReview'
 import AddWithServicesNextStep from './pages/website/ourServices/slugs/withServicesNextStep'
 import PanelRequests from './pages/adminDashboard/panels/panelsRequests'
+import Basic from './pages/adminDashboard/settings/basicSettings'
+import PeriodsWithControl from './pages/adminDashboard/settings/periodsWithControl'
+import Currency from './pages/adminDashboard/settings/currency'
 
 
 function App() {
@@ -91,7 +94,6 @@ function App() {
 
       <Route path='/dashboard/admin/*' element={<LayoutAdminDashboard/>}>
         <Route path='' element={<AdminDashboard/>}/>
-        <Route path='settings' element={<Settings/>}/>
         <Route path='users' element={<Users/>}/>
         <Route path='users/add' element={<AddUser/>}/>
         <Route path='users/edit/:id' element={<AddUser/>}/>
@@ -117,7 +119,12 @@ function App() {
         {/* Transctions */}
         <Route path='funds' element={<Transactions/>}/>
         <Route path='funds/:type' element={<Transactions/>}/>
-        
+        {/* Settings */}
+        <Route path='settings/*' element={<Settings/>}>
+          <Route index element={<Basic/>}/>
+          <Route path="periods" element={<PeriodsWithControl/>}/>
+          <Route path="currency" element={<Currency/>}/>
+        </Route>
         <Route path='categories' element={<Categories/>}/>
         <Route path='category/add' element={<AddCategory/>}/>
         <Route path='tags' element={<Tags/>}/>

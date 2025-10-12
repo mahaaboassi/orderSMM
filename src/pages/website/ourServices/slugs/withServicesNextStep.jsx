@@ -268,7 +268,7 @@ const AddWithServicesNextStep = ()=>{
                         <div> Price per services : <strong>{basicPrice}</strong> </div>
                         
                         <div> Total price : <strong>{
-                            isSelectedAllServices ? basicPrice * parseInt(selectedPanel.services_count) * period.factor * period.discount : (basicPrice * parseInt(servicesSelected.length) * period.factor * period.discount).toFixed(2)
+                            isSelectedAllServices ? basicPrice * parseInt(selectedPanel.services_count) * (period?.factor ?? 0) * (period?.discount ?? 0) : (basicPrice * parseInt(servicesSelected.length) * (period?.factor ?? 0) * (period?.discount ?? 0)).toFixed(2)
                             }</strong> </div>
                         <div> 
                             <div className="py-2 error-container">

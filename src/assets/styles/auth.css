@@ -16,7 +16,7 @@
 }
 .auth-container span{
     font-weight: 700;
-    color: var(--green_2) !important;
+    color: var(--green_2);
     cursor: pointer;
 }
 form label{

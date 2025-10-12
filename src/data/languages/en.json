@@ -62,9 +62,9 @@
         "website": "Website",
         "confirm-password-not-matching": "Passwords do not match",
         "telegram-number-validation" : "Telegram number must be numeric",
-        "telegram-is-required" : "Telegram number is required",
         "invalid-website-url" : "Please enter a valid website URL",
-        
+        "telegram-is-required" : "Telegram is required",
+        "whatsapp-is-required" : "WhatsApp number is required",
         "name-validation" : "Name is required",
         "confirmation-password" : "Confirm Password",
         "enter-6-digit-code" : "Please enter a valid 6-digit code.",

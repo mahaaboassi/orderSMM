@@ -50,8 +50,9 @@
     "website": "الموقع الإلكتروني",
     "confirm-password-not-matching": "كلمتا المرور غير متطابقتين",
     "telegram-number-validation": "رقم تيليجرام يجب أن يكون رقمًا",
-    "telegram-is-required": "رقم تيليجرام مطلوب",
     "invalid-website-url": "يرجى إدخال رابط موقع إلكتروني صالح",
+    "telegram-is-required": "التليجرام مطلوب",
+    "whatsapp-is-required": "رقم الواتساب مطلوب",
 
     "verfication-msg": "لقد أرسلنا رمز تحقق إلى بريدك الإلكتروني. يرجى التحقق من صندوق الوارد ولا تنسَ التحقق من مجلد الرسائل غير المرغوب فيها (البريد العشوائي).",
     "Didn’t-receive-a-code": "لم تستلم الرمز؟",

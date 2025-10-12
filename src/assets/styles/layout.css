@@ -582,8 +582,9 @@ button:disabled{
 }
 /* Required */
 .required{
-    color: red;
-    font-weight: 600;
+    color: red !important;
+    font-weight: 600 !important;
+    cursor: unset !important;
 }
 @media (max-width:1200px){
     nav ul{

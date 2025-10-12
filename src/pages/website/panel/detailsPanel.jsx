@@ -142,7 +142,7 @@ const DetailsPanel = () => {
                                 <div className="flex items-center">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 14 13" fill="none">
                                         <g clipPath="url(#clip0_271_2)">
-                                        <path fillRule="evenodd" clipRule="evenodd" d="M7 0L8.92671 4.59712L14 4.96555L10.1175 8.17517L11.3262 13L7 10.3866L2.67376 13L3.88258 8.17517L0 4.96555L5.07329 4.59712L7 0Z" fill="#19770D"/>
+                                        <path fillRule="evenodd" clipRule="evenodd" d="M7 0L8.92671 4.59712L14 4.96555L10.1175 8.17517L11.3262 13L7 10.3866L2.67376 13L3.88258 8.17517L0 4.96555L5.07329 4.59712L7 0Z" fill="#FFD401"/>
                                         </g>
                                         <defs>
                                         <clipPath id="clip0_271_2">
@@ -157,6 +157,7 @@ const DetailsPanel = () => {
                             </div>
                             </div>
                     </div>
+                    
                     <div className="flex items-center items-center gap-2 ">
                         {/* Telegram */}
                         
@@ -196,6 +197,7 @@ const DetailsPanel = () => {
 
                     </div>
                 </div>
+                <p>{data?.translations?.en?.description}</p>
                 {/* Services */}
                 {loading ? <Loading/> : <div className="flex flex-col gap-2">
                     {(services?.data && services.data.length > 0) ? 

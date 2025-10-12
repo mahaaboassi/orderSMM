@@ -43,6 +43,13 @@
     box-shadow: var(--shadow-box);
     border-radius: 10px;
 }
+.settings-active-link{
+    color: var(--green_1) !important;
+    position: relative;
+    font-weight: 700;
+    border-bottom: 2px solid var(--green_1);
+}
+
 @media (max-width:1200px) {
 
     .navigation a,.navigation a:hover{

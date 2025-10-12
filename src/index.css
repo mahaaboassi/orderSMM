@@ -130,6 +130,15 @@ button:focus-visible {
 .outline-btn:focus-visible {
   outline: none;
 }
+.error-btn{
+  background-color: var(--error-color);
+  color: var(--light);
+}
+.error-btn:hover{
+  background-color: var(--light);
+  color: var(--error-color);
+  border-color: var(--error-color);
+}
 /* Checkbox input */
 input[type="checkbox"] {
   appearance: none;
