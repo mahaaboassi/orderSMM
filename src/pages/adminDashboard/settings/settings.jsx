@@ -13,7 +13,7 @@ const Settings = ()=>{
         </div>
         <div className="flex gap-5">
             <NavLink end className={({isActive})=>isActive?"settings-active-link":""} to="/dashboard/admin/settings"><div>Basic</div></NavLink>
-            {/* <NavLink end className={({isActive})=>isActive?"settings-active-link":""} to="/dashboard/admin/settings/periods"><div>Periods</div></NavLink> */}
+            <NavLink end className={({isActive})=>isActive?"settings-active-link":""} to="/dashboard/admin/settings/periods"><div>Periods</div></NavLink>
             {/* <NavLink end className={({isActive})=>isActive?"settings-active-link":""} to="/dashboard/admin/settings/currency"><div>Currency</div></NavLink> */}
         </div>
         <Outlet/>

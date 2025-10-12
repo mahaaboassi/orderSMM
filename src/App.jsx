@@ -51,6 +51,7 @@ import Basic from './pages/adminDashboard/settings/basicSettings'
 import PeriodsWithControl from './pages/adminDashboard/settings/periodsWithControl'
 import Currency from './pages/adminDashboard/settings/currency'
 import About from './pages/website/about/about'
+import AddPeriod from './pages/adminDashboard/settings/addPeriod'
 
 
 function App() {
@@ -125,6 +126,8 @@ function App() {
         <Route path='settings/*' element={<Settings/>}>
           <Route index element={<Basic/>}/>
           <Route path="periods" element={<PeriodsWithControl/>}/>
+          <Route path="periods/add" element={<AddPeriod/>}/>
+          <Route path="periods/add/:id" element={<AddPeriod/>}/>
           <Route path="currency" element={<Currency/>}/>
         </Route>
         <Route path='categories' element={<Categories/>}/>

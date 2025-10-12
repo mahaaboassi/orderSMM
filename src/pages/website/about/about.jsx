@@ -1,7 +1,9 @@
 import { useTranslation } from "react-i18next"
 import img from "../../../assets/images/smm.png"
+import { useEffect } from "react"
 const About = ()=>{
     const { t, i18n } = useTranslation()
+    useEffect(()=>window.scrollTo({top:0}),[])
     return(<div className="px-2 lg:px-16 about flex flex-col gap-5">
         <h1>{t("about.basic-title")}</h1>
         <div className=" flex flex-col-reverse gap-5 md:grid md:grid-cols-2">

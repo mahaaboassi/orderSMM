@@ -41,7 +41,7 @@ const PanelRequests = ()=>{
                 cell: info => (<div className="min-w-40">{info.getValue()}</div>),
             }),
             columnHelper.accessor('email', {
-                header: 'Email',
+                header: 'User',
                 cell: info => info.getValue(),
             }),
             columnHelper.accessor('whatsapp', {
@@ -56,13 +56,10 @@ const PanelRequests = ()=>{
                 header: 'Website',
                 cell: info => info.getValue(),
             }),
-            // columnHelper.accessor('status', {
-            //     header: 'Status',
-            //     cell: info => (<div>
-            //         {info.getValue() == 0 ? <div className="error-card p-2 text-center">Not Approved</div>
-            //                                 :<div className="success-card p-2">Approved</div>}
-            //     </div>),
-            // }),
+            columnHelper.accessor('status', {
+                header: 'Status',
+                cell: info => (<div className="success-card p-2">New</div>),
+            }),
             columnHelper.accessor('created_at', {
                 header: 'Created At',
                 cell: info => info.getValue(),

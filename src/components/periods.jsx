@@ -81,10 +81,11 @@ const Periods =({price,returnedSelected})=>{
             }}
             className={selectedId==e.id ? "selected-row" : "cursor-pointer"}
             key={`Table_For_Period_${idx}`}>
-        <td>{e.name}</td>
+        <td>{e?.translations?.[i18n.language]?.name}</td>
         <td>{price*e.factor}</td>
-        <td><span className="offer">({Math.floor((1-e.discount)*100)}%)</span></td>
-        <td>{(price*e.factor*e.discount).toFixed(2)}</td>
+        <td><span className="offer">({e.discount}%)</span></td>
+        {/* <td><span className="offer">({Math.floor((1-e.discount)*100)}%)</span></td> */}
+        <td>{(price*e.factor*(1-e.discount/100)).toFixed(2)}</td>
       </tr>))}
     </tbody>
   </table>

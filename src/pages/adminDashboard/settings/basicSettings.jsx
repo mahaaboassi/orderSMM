@@ -115,21 +115,20 @@ const Basic = ()=>{
     
     return (<div className="settings flex flex-col gap-1">        
         {loading ? <Loading/> : <div className="flex flex-col gap-4">
-                <form onSubmit={handleSubmit(onSubmit)} className="panel-card shadow p-4 sm:p-10 flex flex-col gap-3 rounded">
-                    <div>
-                        <h2>Basic Settings</h2>
+                <div>
                         <p>
                             <strong className="text-xl">Note:</strong>
                             &nbsp; The values you enter below will be added to the existing values.
                             <br/>Current values:
                         </p>
                         <div className="flex gap-5">
-                            <p className="border-[1px] rounded-md p-1 border-[var(--green_2)]">Panals:<strong>{data.panels}</strong></p>
-                            <p className="border-[1px] rounded-md p-1 border-[var(--green_2)]">Services: <strong>{data.services}</strong></p>
-                            <p className="border-[1px] rounded-md p-1 border-[var(--green_2)]">Platforms:<strong>{data.platforms}</strong></p>
+                            <p className="border-[1px] rounded-md p-1 border-[var(--green_2)]">Panals:<strong>{data.real_platforms}</strong></p>
+                            <p className="border-[1px] rounded-md p-1 border-[var(--green_2)]">Services: <strong>{data.real_services}</strong></p>
+                            <p className="border-[1px] rounded-md p-1 border-[var(--green_2)]">Platforms:<strong>{data.real_platforms}</strong></p>
                         </div>
                     </div>
-                    
+                <form onSubmit={handleSubmit(onSubmit)} className="panel-card shadow p-4 sm:p-10 flex flex-col gap-3 rounded">
+                                        
                     {errorStatus.open && errorStatus.type == "success" && <h4 className="text-center box-success p-2">{errorStatus.msg}</h4>}
                     {errorStatus.open && errorStatus.type != "success"&& <h4 className="text-center box-error p-2">{errorStatus.msg}</h4>}
                     <div className=" flex flex-col gap-5">
