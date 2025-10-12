@@ -9,12 +9,16 @@ const PromotionSelect =({prices,returnedSelected})=>{
     const { t,i18n } = useTranslation()
     const [selectedId, setSelectedId] = useState();
     useEffect(()=>{
-        returnedSelected(prices[0])
-        setSelectedId(prices[0].id)
+        
+        console.log(prices);
+        const values = prices.map(e=>e.max)
+        const maxValue = prices.find(e=>e.max == Math.max(...values))
+        setSelectedId(maxValue.id)
+        returnedSelected(maxValue)
     },[])
    
-    return isloading ? <div className="pricing-table-container">
-  <table className="pricing-table">
+    return isloading ? <div className="pricing-table-container ">
+  <table className="pricing-table ">
     <thead>
       <tr>
         <th>Services</th>
@@ -36,7 +40,7 @@ const PromotionSelect =({prices,returnedSelected})=>{
       </tr>
     </tbody>
   </table>
-</div>:<div className="pricing-table-container ">
+</div>:<div className="pricing-table-container period ">
   <table className="pricing-table">
     <thead>
       <tr>

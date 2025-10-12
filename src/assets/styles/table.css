@@ -39,14 +39,17 @@
   text-align: left;
   font-size : var(--font-size-xxs)
 }
+.period table tr:hover{
+  background-color: #ebf3eb !important;
 
+}
 .pricing-table th {
   background-color: var(--green_2);
   color: #fff;
 }
 .selected-row {
-  background-color: var(--green-2, #cbe2cb);
+  background: #cbe2cb;
   font-weight: bold;
-  border: 2px solid var(--green_2);
+  border-left: 4px solid var(--green_2);
 }
 

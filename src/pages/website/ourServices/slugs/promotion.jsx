@@ -3,16 +3,17 @@ import { Helper } from "../../../../functionality/helper";
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import PromotionSelect from '../../../../components/promotionSelect';
 import FileUpload from "../../../../components/fileUpload";
 import Periods from "../../../../components/periods";
 import { callStatus } from "../../../../features/callNotification";
 import { useDispatch } from "react-redux";
 import GetPanels from "./getPanels";
 import { changePopupBalance } from "../../../../features/popupBalanceSlice";
+import PromotionSelect from '../../../../components/promotionSelect';
 
 
 const Promotion = ({slug,isPromotion})=>{
+
     const {t} = useTranslation()
     const navigate = useNavigate()
     const dispatch = useDispatch()
@@ -107,7 +108,7 @@ const Promotion = ({slug,isPromotion})=>{
                 <GetPanels returnedPanelId={(res)=>{
                     setErrorStatus({msg: "", open : false})
                     setSelectedPanel(res)}}/>
-            </div>
+            </div> 
             <div className=" relative">
                  <div className="sticky top-20 flex flex-col gap-3">
                     {isPromotion && <div className="info-checkout w-full  card p-4 flex flex-col gap-4">

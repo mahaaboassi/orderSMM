@@ -33,7 +33,7 @@ const Periods =({price,returnedSelected})=>{
         }
     }
     return isloading ? <div className="pricing-table-container ">
-  <table className="pricing-table">
+  <table className="pricing-table period">
     <thead>
       <tr>
         <th>Period</th>
@@ -79,7 +79,7 @@ const Periods =({price,returnedSelected})=>{
                 setSelectedId(e.id)
                 returnedSelected(e)
             }}
-            className={selectedId==e.id ? "selected-row " : "cursor-pointer"}
+            className={selectedId==e.id ? "selected-row" : "cursor-pointer"}
             key={`Table_For_Period_${idx}`}>
         <td>{e.name}</td>
         <td>{price*e.factor}</td>

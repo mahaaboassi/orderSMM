@@ -63,7 +63,7 @@ const OurServices = ()=>{
         <h2>Our services</h2>
         <div className="grid grid-cols-4 gap-2 md:gap-5 lg:gap-10">
             <div className="flex flex-col gap-2 col-span-4 sm:col-span-3">
-                {isloading? <Loading/>: <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                {isloading? <Loading/>: <div className="grid grid-cols-1 gap-5">
                     { 
                         data.length>0 ?data.map((e,idx)=>(
                         <div onClick={()=> navigate(`/our-services/${e.slug}/${e.id}`)} key={`Our_Services_${idx}_${e.translations?.en?.name}`} 
@@ -80,8 +80,8 @@ const OurServices = ()=>{
 
                 </div>}
             </div>
-            <div className=" col-span-4 sm:col-span-1">
-                    <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-1 flex-col gap-5 flex">
+            <div className=" col-span-4 sm:col-span-1 relative">
+                    <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-1 flex-col gap-5 flex sticky top-20">
                         { loadingAds ? [...Array(3)].map((_,i)=>(<div  className="h-20 w-full rounded-xl bg-gray-300 animate-pulse" key={`Skeleton_Ads_${i}`} >
                         </div>)): ads && ads.length > 0 && ads.map((e,idx)=>(<Ad key={`Ads_Our_Services_Page_${e.translations?.en?.name ?? ""}_${idx}`}
                             name={e.translations?.en?.name ?? ""} 

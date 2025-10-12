@@ -49,7 +49,7 @@ const GetPanels = ({returnedPanelId})=>{
         <div className=" bg-zinc-200 flex flex-col gap-3 mb-4 p-2" >
             <div className="link"> &lt; Choose Panel What you Want &gt;</div>
             <div>
-                <input onChange={(e)=>getData(1,e.target.value)} className="px-2 py-1" placeholder="Search Panel" />
+                {/* <input onChange={(e)=>getData(1,e.target.value)} className="px-2 py-1" placeholder="Search Panel" /> */}
             </div>
         </div>
         <div className="col-span-4 lg:col-span-3">

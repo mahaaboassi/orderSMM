@@ -202,7 +202,7 @@ const AddWithServicesNextStep = ()=>{
                             <div className="flex flex-col gap-2">
                                 
                                 <div className="flex gap-2">
-                                <SearchInput type="number" placeholder={`Id service`} onChange={(res)=>{
+                                <SearchInput  onWheel={(e) => e.target.blur()} type="number" placeholder={`Id service`} onChange={(res)=>{
                                     getServices(1,res)
                                 }} />   
                                 {/* <button onClick={()=>getServices(1,selectedPanel.id)} className="dark-btn" >Search</button> */}
