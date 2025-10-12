@@ -112,6 +112,33 @@
     color: var(--green_2);
     border: 1px solid var(--green_2);
 }
+/* About */
+.about h3{
+    font-size: var(--font-size-s);
+    font-weight: 600;
+}
+.about ul{
+    font-size: var(--font-size-xs);
+}
+.about ul li.right-menu, .about ul li.left-menu{
+    position: relative;
+}
+.about ul li.right-menu::before, .about ul li.left-menu::before{
+    content: '';
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 12px;
+    width: 12px;
+    border-radius: 50%;
+    background: linear-gradient(var(--green_1),var(--green_2));
+}
+.about ul li.right-menu::before{
+    right: 0;
+}
+.about ul li.left-menu::before{
+    left: 0;
+}
 @media (max-width:500px) {
     .card-info .number{
         font-size: var(--font-size-s);

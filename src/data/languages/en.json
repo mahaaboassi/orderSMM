@@ -89,6 +89,18 @@
     "success" : {
         "verified":"You've successfully signed up. We've sent a verification link to your email. Please check your inbox to activate your account."
     },
+    "about": {
+        "basic-title": "About Us",
+        "sub-title": "Who We Are",
+        "paraghraph-1": "At OrderSMM, our mission is to make choosing the right SMM panel simple, transparent, and reliable.",
+        "paraghraph-2": "We don’t sell marketing services directly — instead, we help you discover and compare the best SMM panels based on real data: prices, speed, quality, and user experience.",
+        "paraghraph-3": "Our goal is to provide a trusted and unbiased platform where users can explore verified panels and make informed decisions with confidence.",
+        "paraghraph-4": "Transparency is at the heart of what we do. We present information as it is — no fake promotions or paid rankings — and give panel owners a fair opportunity to showcase their services to a wider audience.",
+        "paraghraph-5": "OrderSMM was created for:",
+        "paraghraph-6": "Users who want reliable SMM services for their projects.",
+        "paraghraph-7": "Panel owners who want to reach more customers and build credibility.",
+        "paraghraph-8": "In a world full of endless options, we’re here to help you save time, avoid confusion, and choose smarter — because we believe that smart choices start with the right information."
+    },
     "go-to-home-page" : "Go to Home Page",
     "no-data" : "No data found.",
     "bestOffers": "Best Offers",

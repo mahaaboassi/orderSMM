@@ -187,8 +187,8 @@ const Footer = ()=>{
                         </div>
                     {t("footer.btn-3")}</button>
                 </Link>
-                
-                <button className='outline-btn w-full flex items-center justify-center gap-2' >
+                <Link to={"/about"}>
+                 <button className='outline-btn w-full flex items-center justify-center gap-2' >
                     <div>
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 19 19" fill="none">
                             <g clipPath="url(#clip0_236_31)">
@@ -202,6 +202,8 @@ const Footer = ()=>{
                         </svg>
                     </div>
                     {t("footer.btn-4")}</button>
+                </Link>
+               
                 
                      
                       

@@ -86,6 +86,18 @@
   "success" : {
       "verified":"Başarıyla kaydoldunuz. E-posta adresinize bir doğrulama bağlantısı gönderdik. Lütfen hesabınızı etkinleştirmek için e-postanızı kontrol edin."
   },
+  "about": {
+    "basic-title": "Hakkımızda",
+    "sub-title": "Biz Kimiz",
+    "paraghraph-1": "OrderSMM'de misyonumuz, doğru SMM panelini seçmeyi basit, şeffaf ve güvenilir hale getirmektir.",
+    "paraghraph-2": "Biz doğrudan pazarlama hizmetleri satmıyoruz — bunun yerine, fiyat, hız, kalite ve kullanıcı deneyimi gibi gerçek verilere dayanarak en iyi SMM panellerini keşfetmenize ve karşılaştırmanıza yardımcı oluyoruz.",
+    "paraghraph-3": "Amacımız, kullanıcıların doğrulanmış panelleri keşfedebilecekleri ve güvenle bilinçli kararlar alabilecekleri güvenilir ve tarafsız bir platform sunmaktır.",
+    "paraghraph-4": "Şeffaflık yaptığımız işin merkezindedir. Bilgileri olduğu gibi sunuyoruz — sahte promosyonlar veya ücretli sıralamalar olmadan — ve panel sahiplerine hizmetlerini daha geniş bir kitleye tanıtma fırsatı veriyoruz.",
+    "paraghraph-5": "OrderSMM şu kişiler için oluşturulmuştur:",
+    "paraghraph-6": "Projeleri için güvenilir SMM hizmetleri arayan kullanıcılar.",
+    "paraghraph-7": "Daha fazla müşteriye ulaşmak ve güven kazanmak isteyen panel sahipleri.",
+    "paraghraph-8": "Sonsuz seçeneklerle dolu bir dünyada, zaman kazanmanız, kafa karışıklığından kaçınmanız ve daha akıllıca seçimler yapmanız için buradayız — çünkü akıllı seçimlerin doğru bilgiyle başladığına inanıyoruz."
+  },
   "go-to-home-page" : "Ana Sayfaya Git",
 
   "bestOffers": "En İyi Teklifler",

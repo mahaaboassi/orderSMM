@@ -50,6 +50,7 @@ import PanelRequests from './pages/adminDashboard/panels/panelsRequests'
 import Basic from './pages/adminDashboard/settings/basicSettings'
 import PeriodsWithControl from './pages/adminDashboard/settings/periodsWithControl'
 import Currency from './pages/adminDashboard/settings/currency'
+import About from './pages/website/about/about'
 
 
 function App() {
@@ -57,6 +58,7 @@ function App() {
     <Routes>
       <Route path='/*' element={<Layout/>}>
         <Route path='' element={<Home/>}/>
+        <Route path='about' element={<About/>}/>
         {/* Authentication Routes */}
         <Route path='auth/signIn' element={<SignIn/>}/>
         <Route path='auth/admin' element={<SignInAdmin/>}/>
