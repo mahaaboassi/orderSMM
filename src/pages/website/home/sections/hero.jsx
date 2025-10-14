@@ -84,7 +84,7 @@ const Hero = ()=>{
             method : "GET",
             url : apiRoutes.panel.list,
             signal : signal,
-            params :  { orderBy : key == "active" ? "updated_at" : "created_at"} 
+            params :  { orderBy : key == "active" ? "created_at" : "updated_at"} 
         })
         if(response){
 
