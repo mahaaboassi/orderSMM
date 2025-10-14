@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { FileUploader } from "react-drag-drop-files";
 
-const fileTypes = ["JPEG", "PNG", "GIF"];
+const fileTypes = [ "JPG", "JPEG", "PNG", "GIF", "WEBP", "SVG", "BMP", "TIFF", "HEIC", "ICO", "AVIF"];
 
 export default function FileUpload({returnedFile, fromApi}) {
   
@@ -22,6 +22,7 @@ export default function FileUpload({returnedFile, fromApi}) {
         handleChange={handleChange}
         name="file"
         types={fileTypes}
+        // types={["image/*"]}
       />
       { 
         !file && apiFile == "" ? 
@@ -48,7 +49,6 @@ export default function FileUpload({returnedFile, fromApi}) {
               </div>
             </div>
       }
-      
     </div>
   );
 }
