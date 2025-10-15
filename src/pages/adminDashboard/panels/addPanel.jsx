@@ -124,10 +124,19 @@ const AddPanel = ()=>{
     const onSubmit = async (data) => {
         
         setErrorStatus({msg: "", open : false})
-        // if(!countryObj.id){
-        //     setCountryObj({msg: "Country Feild is required!", id : ""})
-        //     return
-        // }
+        if(! file && id){
+            window.scrollTo({top:0})
+            setErrorStatus({msg: "Photo Feild is required!", open : true,type: ""})
+            setTimeout(()=>setErrorStatus({msg: "", open : false,type: ""}),3000)
+            return
+        }
+        if(!logo && id){
+            window.scrollTo({top:0})
+            setErrorStatus({msg: "Logo Feild is required!", open : true,type: ""})
+            setTimeout(()=>setErrorStatus({msg: "", open : false,type: ""}),3000)
+            return
+        }
+
         setLoading(true)
         
         const values = new FormData()

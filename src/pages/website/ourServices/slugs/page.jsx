@@ -45,8 +45,8 @@ const ServicesWrapper = () => {
         }
     }
     if(!authorized) return null
-    return(loading? <Loading/>:<div className="px-2 lg:px-16 flex flex-col gap-5 ">
-        <div>
+    return(loading? <Loading/>:<div className="px-2 lg:px-16 flex flex-col gap-5 md:gap-10 ">
+        <div className="flex flex-col gap-2">
             <div className="flex gap-2 items-center">
                 <Link className="cursor-pointer text-blue-500" to={"/our-services"}> Services</Link> / <div>{data?.translations?.[i18n.language]?.name ?? ""}</div>
             </div>

@@ -42,7 +42,7 @@ const Check = ()=>{
         })
         if(response){
             setLoading(false)
-                window.location.reload()
+                // window.location.reload()
                 dispatch(userInfo({
                     email: response.data.email ?? "",
                     phone : response.data.phone ?? "",

@@ -5,6 +5,7 @@ import { Helper } from "../../../functionality/helper"
 import { apiRoutes } from "../../../functionality/apiRoutes"
 import Loading from "../../../components/loading"
 import Ad from "../../../components/cards/ad"
+import PlatformsSection from "../home/sections/paltforms"
 
 
 const OurServices = ()=>{
@@ -59,11 +60,11 @@ const OurServices = ()=>{
             
         }        
     }
-    return(<div className="px-2 lg:px-16 flex flex-col gap-5">
+    return(<div className="px-2 lg:px-16 flex flex-col gap-5 md:gap-10">
         <h2>Our services</h2>
         <div className="grid grid-cols-4 gap-2 md:gap-5 lg:gap-10">
             <div className="flex flex-col gap-2 col-span-4 sm:col-span-3">
-                {isloading? <Loading/>: <div className="grid grid-cols-1 gap-5">
+                {isloading? <Loading/>: <div className="grid grid-cols-1 xs:grid-cols-2 gap-5">
                     { 
                         data.length>0 ?data.map((e,idx)=>(
                         <div onClick={()=> navigate(`/our-services/${e.slug}/${e.id}`)} key={`Our_Services_${idx}_${e.translations?.en?.name}`} 
@@ -72,7 +73,7 @@ const OurServices = ()=>{
                                 <div><img style={{height : "40px",width:"40px",objectFit:"contain"}} src={e.photo} alt={e.name} /></div>
                                 <h3>{e.translations?.[i18n.language]?.name}</h3>
                             </div>
-                            <p>{e.translations?.[i18n.language]?.description}</p>
+                            <p>{e.translations?.[i18n.language]?.description.substring(0,120)+"..."}</p>
                         </div>
                         
                     )):<div className="card p-4">No Data</div>
@@ -94,7 +95,7 @@ const OurServices = ()=>{
             </div>
 
         </div>
-        
+        <PlatformsSection/>
     </div>)
 }
 

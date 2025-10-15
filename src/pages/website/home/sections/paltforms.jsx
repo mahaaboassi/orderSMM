@@ -32,7 +32,7 @@ const PlatformsSection = ()=>{
             
         }
     }
-    return(<div className={`px-2 lg:px-16 `}>
+    return(<div className={``}>
         <div>
             <h2 className="text-center pb-10">Top Social Media Platforms</h2>
         </div>

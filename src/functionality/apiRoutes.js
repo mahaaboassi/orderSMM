@@ -113,5 +113,6 @@ export const apiRoutes = {
         addByPanel : `${host}panel-reviews/by-panel`,
         getOne : (id)=>(`${host}panel-reviews/${id}`),
         update : (id)=>(`${host}panel-reviews/${id}`),
+        delete : (id)=>(`${host}panel-reviews/${id}`),
     },
 }

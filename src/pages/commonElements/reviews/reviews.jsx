@@ -9,6 +9,7 @@ import {
   createColumnHelper,
 } from '@tanstack/react-table';
 import Dropdown from "../../../components/DropDownComponent"
+import PopupCalled from "../../../components/popupCalled"
 
 
 
@@ -22,8 +23,16 @@ const Reviews = ()=>{
     const navigation = useNavigate()
     const [searchParams, setSearchParams] = useSearchParams();
     const [ services , setServices ] = useState([])
+    const [ currentData , setCurrentData ] = useState({})
+    const [openPopup, setOpenPopup] = useState(false)
+    const [ loadingDelete, setLoadingDelete ] = useState(false)
     const [ lastPage , setLastPage ] = useState(1)
     const controllerRef = useRef()
+    const [ errorStatus , setErrorStatus] = useState({
+        msg: "",
+        open : false,
+        type : ""
+    })
     const columns = [
             columnHelper.accessor('id', {
                 header: 'ID',
@@ -84,6 +93,22 @@ const Reviews = ()=>{
                                 <path d="M9.02992 14C8.63992 13.43 8.41992 12.74 8.41992 12C8.41992 10.02 10.0199 8.42004 11.9999 8.42004C13.9799 8.42004 15.5799 10.02 15.5799 12C15.5799 13.98 13.9799 15.58 11.9999 15.58" stroke="#19770D" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                                 <path d="M17.5601 5.57998C15.8701 4.37998 13.9701 3.72998 12.0001 3.72998C8.47009 3.72998 5.18009 5.80998 2.89009 9.40998C1.99009 10.82 1.99009 13.19 2.89009 14.6C5.18009 18.2 8.47009 20.28 12.0001 20.28C15.5301 20.28 18.8201 18.2 21.1101 14.6C22.0101 13.19 22.0101 10.82 21.1101 9.40998" stroke="#19770D" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                             </svg> 
+                        </div>
+                        {/* Delete Icon */}
+                        <div onClick={()=>{
+                            setOpenPopup(true)
+                            setCurrentData(row)
+                        }} className="cursor-pointer">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="19" height="20" viewBox="0 0 19 21" fill="none">
+                                <g clipPath="url(#clip0_283_20)">
+                                <path fillRule="evenodd" clipRule="evenodd" d="M0.407301 1.64626H7.05341V0.642578C7.05341 0.28916 7.34653 0 7.70593 0H11.3753C11.7345 0 12.0278 0.288989 12.0278 0.642578V1.64644H18.5929C18.8173 1.64644 19.0002 1.82708 19.0002 2.04788V4.0156H0V2.04771C0 1.8269 0.183086 1.64626 0.407301 1.64626ZM1.50807 5.05945H17.6337C17.9699 5.05945 18.2751 5.33272 18.2447 5.66169L16.88 20.3981C16.8498 20.7272 16.6041 20.9998 16.2686 20.9998H2.85389C2.51826 20.9998 2.27218 20.7278 2.24233 20.3981L0.896515 5.66169C0.866665 5.33152 1.17158 5.05945 1.50807 5.05945ZM11.9877 7.34829H13.6999V18.5104H11.9877V7.34829ZM5.21874 7.34829H6.93107V18.5104H5.21874V7.34829ZM8.60279 7.34829H10.3155V18.5104H8.60279V7.34829Z" fill="#E30E0E"/>
+                                </g>
+                                <defs>
+                                <clipPath id="clip0_283_20">
+                                <rect width="19" height="21" fill="white"/>
+                                </clipPath>
+                                </defs>
+                            </svg>
                         </div>
                     </div>
                 },
@@ -159,6 +184,28 @@ const Reviews = ()=>{
         });
         setSearchParams(newParams);
     }
+    const deleteData = async()=>{
+        setLoadingDelete(true)
+        const { response, message, statusCode} = await Helper({
+            url : apiRoutes.review.delete(currentData.id),
+            method : "DELETE",
+            hasToken : true
+        })
+        if(response){
+            console.log(response);
+            setOpenPopup(false)
+            setLoadingDelete(false)
+            setErrorStatus({msg: response.message, open : true,type: "success"})
+            getData()
+            setTimeout(()=>setErrorStatus({msg: "", open : false,type: ""}),1000)
+        }else{
+            console.log(message)
+            setOpenPopup(false)
+            setErrorStatus({msg: message, open : true,type: ""})
+            setTimeout(()=>setErrorStatus({msg: "", open : false,type: ""}),1000)
+            setLoadingDelete(false)
+        }
+    }
     const dataFilter = [{
         label: "Approved",
         value: "1"
@@ -173,6 +220,8 @@ const Reviews = ()=>{
             </div>
             <h2>Reviews</h2>
         </div>
+        {errorStatus.open && errorStatus.type == "success" && <h4 className="text-center box-success p-2">{errorStatus.msg}</h4>}
+        {errorStatus.open && errorStatus.type != "success"&& <h4 className="text-center box-error p-2">{errorStatus.msg}</h4>}
         {/* Filter Section */}
         <div className="grid grid-cols-1 xs:grid-cols-3 gap-3">
             <div >
@@ -194,7 +243,17 @@ const Reviews = ()=>{
         </div>
         {loading ? <Loading/> :<MyTanstackTable last_Page={lastPage} columns={columns} data={data} />}
 
+        {/* Confirm Delete  */}
+        {openPopup && <PopupCalled  open={openPopup} close={()=>{setOpenPopup(false)}} children={<div className="flex flex-col gap-5">
+            <h3 className="text-center">Are you sure you want to delete this review: ({currentData?.description}) 
+                <br/>for ({currentData?.panel ?? ""}) panel </h3>
+            <div className="flex justify-center">
+                <button disabled={loadingDelete} onClick={deleteData} className="dark-btn">
+                    {loadingDelete ? <div className="loader m-auto" ></div>: "Continue"}
+                </button>
+            </div>
 
+        </div>} />}
     </div>)
 }
 

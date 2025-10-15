@@ -17,7 +17,8 @@ const Countries = ({currentValue,returnedCountry,isAddPanel})=>{
     useEffect(()=>{
         const controller = new AbortController()
         const signal = controller.signal
-        if(currentValue) getOne(signal)
+        if(currentValue) { getOne(signal) }
+        else{ setCountry("Global") }
         return ()=> controller.abort()
     },[currentValue])
     useEffect(()=>{
@@ -103,9 +104,10 @@ const Countries = ({currentValue,returnedCountry,isAddPanel})=>{
     }, [open]);
 
     const select = (e)=>{
-        setCountry(e?.translations?.[i18n.language].name)
+
+        setCountry(e == "" ? "Global" :e?.translations?.[i18n.language].name)
         setOpen(false)
-        returnedCountry(e.id)
+        returnedCountry(e == "" ? "" :e.id)
     }
     return(<div className={`relative ${isAddPanel ? "add-panel-country" : ""}`}>
         <div onClick={()=>setOpen(!open)} style={{whiteSpace: "nowrap"}} className={`flex ${isAddPanel?"py-1 px-2":"p-2"} items-center country-select h-full`}>
@@ -117,6 +119,9 @@ const Countries = ({currentValue,returnedCountry,isAddPanel})=>{
             { <div>
                     <div className="p-1">
                         <input value={value} onChange={(e)=>{handleChange(e.target.value)}} placeholder="Search" />
+                    </div>
+                    <div onClick={()=>select("")} className="p-1 shadow cursor-pointer li-country">
+                        Global
                     </div>
                     {
                         data.length > 0 && data.map((e,idx)=>(<div onClick={()=>select(e)} className="p-1 shadow cursor-pointer li-country" key={`countries_${e.name}_${idx}`}>

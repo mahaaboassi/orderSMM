@@ -253,7 +253,7 @@ const AddWithoutServices = ({id, slug, isAd})=>{
                                 <div> Total Panels : <strong> {panels.length}</strong> </div>
                                 <div> Price per  {slug?.slug == "ads"? "ads":(slug?.slug == "pin_up" || slug?.slug == "pin_down" ?"service":(slug?.slug == "best_providers"? "panel":""))} : <strong>{basicPrice}</strong> </div>
                                 
-                                <div > Total price : <strong>{(basicPrice * parseInt(panels.length) * (period?.factor ?? 0) * (period?.discount ?? 0)).toFixed(2)}</strong> </div>
+                                <div > Total price : <strong>{(basicPrice * parseInt(panels.length) * (period?.factor ?? 0) * ((1-period?.discount*0.01) ?? 0)).toFixed(2)}</strong> </div>
                                 <div> 
                                     <div className="py-2 error-container">
                                         {errorStatus.open && errorStatus.type == "success" && <h4 className="text-center box-success p-2">{errorStatus.msg}</h4>}

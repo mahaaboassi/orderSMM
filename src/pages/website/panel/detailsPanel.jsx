@@ -110,7 +110,7 @@ const DetailsPanel = () => {
         values.append("panel_id",id)
         values.append("rating",stars)
         values.append("description",data.review)
-        values.append("_method","PUT")
+        // values.append("_method","PUT")
 
         const {response , message,  statusCode} = await Helper({
             url:apiRoutes.review.addByPanel,

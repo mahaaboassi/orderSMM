@@ -141,9 +141,9 @@ const Hero = ()=>{
                     </h2>
                     <div className="card-info  ">
                         <div className="content flex justify-between items-center px-10 lg:px-20">
-                            <div >{(parseInt(settingsObj?.services) + parseInt(settingsObj?.real_services)) ?? ""} {t("hero.services")}</div>
-                            <div>{(parseInt(settingsObj?.panels) + parseInt(settingsObj?.real_panels)) ?? ""} {t("hero.panel")}</div>
-                            <div className="flex justify-end">{ (parseInt(settingsObj?.platforms) + parseInt(settingsObj?.real_platforms)) ?? ""} {t("hero.platform")}</div>
+                            <div >{(parseInt(settingsObj?.services ?? 0) + parseInt(settingsObj?.real_services ?? 0)) ?? ""} {t("hero.services")}</div>
+                            <div>{(parseInt(settingsObj?.panels ?? 0) + parseInt(settingsObj?.real_panels ?? 0)) ?? ""} {t("hero.panel")}</div>
+                            <div className="flex justify-end">{ (parseInt(settingsObj?.platforms ?? 0) + parseInt(settingsObj?.real_platforms ?? 0)) ?? ""} {t("hero.platform")}</div>
                         </div>
                         <div className="left-top-side">{half_border}</div>
                         <div className="right-top-side">{half_border}</div>

@@ -116,8 +116,8 @@ const Promotion = ({slug,isPromotion})=>{
                         <Periods returnedSelected={(res)=>setPeriod(res)} price={valuesSelected.price}/>
                     </div>}
                     <div className="info-checkout w-full card p-4 flex flex-col gap-4 ">
-                        <h4 >Invoice</h4>
-                        <div > Total price : <strong>{isPromotion ? (valuesSelected?.price ?? 0) * (period?.factor ?? 0) * (period?.discount ?? 0): (valuesSelected?.price ?? 0)}</strong> </div>
+                        <h4>Invoice</h4>
+                        <div > Total price : <strong>{isPromotion ? ((valuesSelected?.price ?? 0) * (parseFloat(period?.factor)?? 0) * ((1-(parseFloat(period?.discount)*0.01))?? 0)).toFixed(2): (valuesSelected?.price ?? 0)}</strong> </div>
                         <div> 
                             <div className="py-2 error-container">
                                 {errorStatus.open && errorStatus.type == "success" && <h4 className="text-center box-success p-2">{errorStatus.msg}</h4>}
