@@ -167,7 +167,7 @@ const AddPanel = ()=>{
                 if(ele[0]) values.append(`languages[${ele[0]?.id}][name]`,data.title)
             })
             trans.forEach((ele)=>{
-                if(ele[1]) values.append(`languages[${ele[0]?.id}][description]`,data.description)
+                if(ele[1]) values.append(`languages[${ele[1]?.id}][description]`,data.description)
             })
 
         }else{

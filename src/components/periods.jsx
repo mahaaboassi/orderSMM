@@ -4,6 +4,8 @@ import { Helper } from "../functionality/helper"
 import { useTranslation } from "react-i18next"
 
 const Periods =({price,returnedSelected})=>{
+  console.log("price",price);
+  
     const [ data, setData ] = useState([])
     const [isloading, setIsLoading ] = useState(false)
     const { t,i18n } = useTranslation()

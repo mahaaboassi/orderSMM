@@ -9,8 +9,6 @@ const PromotionSelect =({prices,returnedSelected})=>{
     const { t,i18n } = useTranslation()
     const [selectedId, setSelectedId] = useState();
     useEffect(()=>{
-        
-        console.log(prices);
         const values = prices.map(e=>e.max)
         const maxValue = prices.find(e=>e.max == Math.max(...values))
         setSelectedId(maxValue.id)
@@ -22,6 +20,8 @@ const PromotionSelect =({prices,returnedSelected})=>{
     <thead>
       <tr>
         <th>Services</th>
+        <th>Price</th>
+        <th>Discount</th>
         <th>Final Price</th>
       </tr>
     </thead>
@@ -29,12 +29,18 @@ const PromotionSelect =({prices,returnedSelected})=>{
       <tr>
         <td><span className="skeleton-box"></span></td>
         <td><span className="skeleton-box"></span></td>
-      </tr>
-      <tr>
         <td><span className="skeleton-box"></span></td>
         <td><span className="skeleton-box"></span></td>
       </tr>
       <tr>
+        <td><span className="skeleton-box"></span></td>
+        <td><span className="skeleton-box"></span></td>
+        <td><span className="skeleton-box"></span></td>
+        <td><span className="skeleton-box"></span></td>
+      </tr>
+      <tr>
+        <td><span className="skeleton-box"></span></td>
+        <td><span className="skeleton-box"></span></td>
         <td><span className="skeleton-box"></span></td>
         <td><span className="skeleton-box"></span></td>
       </tr>
@@ -45,6 +51,8 @@ const PromotionSelect =({prices,returnedSelected})=>{
     <thead>
       <tr>
         <th>Services</th>
+        <th>Price</th>
+        <th>Discount</th>
         <th>Final Price</th>
       </tr>
     </thead>
@@ -60,6 +68,10 @@ const PromotionSelect =({prices,returnedSelected})=>{
         <td>
           {e.price}
         </td>
+        <td>
+          ({e.discount??0}%)
+        </td>
+        <td>{e.price * (1-(e.discount ?? 0)*0.01)}</td>
       </tr>))}
     </tbody>
   </table>

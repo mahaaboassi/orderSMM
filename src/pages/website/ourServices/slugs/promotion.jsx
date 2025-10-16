@@ -90,7 +90,8 @@ const Promotion = ({slug,isPromotion})=>{
             <div className="flex flex-col gap-3">
                 <div className="card p-4 flex flex-col gap-4">
                     <h4>Select</h4>
-                    <PromotionSelect returnedSelected={(res)=>{setValuesSelected(res)}} prices={slug?.prices} />
+                    <PromotionSelect returnedSelected={(res)=>{setValuesSelected(res)
+                    }} prices={slug?.prices} />
                 </div>
                 <form className="card p-4 flex flex-col gap-1" >
                     <label>Message</label>
@@ -117,7 +118,8 @@ const Promotion = ({slug,isPromotion})=>{
                     </div>}
                     <div className="info-checkout w-full card p-4 flex flex-col gap-4 ">
                         <h4>Invoice</h4>
-                        <div > Total price : <strong>{isPromotion ? ((valuesSelected?.price ?? 0) * (parseFloat(period?.factor)?? 0) * ((1-(parseFloat(period?.discount)*0.01))?? 0)).toFixed(2): (valuesSelected?.price ?? 0)}</strong> </div>
+                        <div > Total price : <strong>{isPromotion ? ((valuesSelected?.price ?? 0) * (parseFloat(period?.factor)?? 0) * ((1-(parseFloat(period?.discount)*0.01))?? 0) * ((1-(parseFloat(valuesSelected?.discount??0)*0.01))?? 0)).toFixed(2)
+                                                                    : ((valuesSelected?.price ?? 0)* ((1-(parseFloat(valuesSelected?.discount ?? 0)*0.01)) ?? 0)).toFixed(2)}</strong> </div>
                         <div> 
                             <div className="py-2 error-container">
                                 {errorStatus.open && errorStatus.type == "success" && <h4 className="text-center box-success p-2">{errorStatus.msg}</h4>}

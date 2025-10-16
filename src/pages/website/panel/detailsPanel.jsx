@@ -292,7 +292,7 @@ const DetailsPanel = () => {
                                 
                             </div>})}
                     </div>
-                    <form onSubmit={handleSubmit(onSubmit)} className="form-review flex flex-col gap-2">
+                    { localStorage.getItem("user") && JSON.parse(localStorage.getItem("user")).role != "admin" &&  <form onSubmit={handleSubmit(onSubmit)} className="form-review flex flex-col gap-2">
                         <h3>Submit your review</h3>
                         <div>
                             <textarea {...register("review")} placeholder="Type here.."/>
@@ -306,14 +306,14 @@ const DetailsPanel = () => {
                         <div>
                             <button type="submit" disabled={loadingSubmit} className="dark-btn w-full">{loadingSubmit?<div className='loader m-auto'></div>:"Submit"}</button>
                         </div>
-                    </form>
+                    </form>}
 
                     </div>
             </div>
             <div className="col-span-1 relative">
                 <div className="sticky-img ">
                     <img src={data.photo? data.photo : ""} alt={name} />
-                    <Link target="_blank" to={data.website ? data.website : ""}>
+                    <Link target="_blank" to={data?.referral_url ? data.referral_url:(data.website ? data.website : "")}>
                         <div onClick={()=>{
                             const click_info = JSON.parse(localStorage.getItem("click"))
                             if(click_info){

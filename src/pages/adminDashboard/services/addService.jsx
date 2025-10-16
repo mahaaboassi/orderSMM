@@ -31,6 +31,10 @@ const validationSchema = Yup.object({
                     Yup.ref("min"),
                     "Max must be greater than Min."
                 ),
+                discount: Yup.number()
+                .typeError("Discount must be a number.")
+                .required("Discount is required.")
+                .moreThan(-1, "Discount must be greater than 0."),
             })
             )
             .min(1, "At least one price field is required."),
@@ -54,7 +58,7 @@ const AddService = ()=>{
         resolver: yupResolver(validationSchema),
             mode: 'onChange',
             defaultValues: {
-                prices: [{ name: "", min: "", max: "", price: "" }]
+                prices: [{ name: "", min: "", max: "", price: "", discount: "" }]
             }
         });
     const { fields, append, remove } = useFieldArray({
@@ -96,9 +100,10 @@ const AddService = ()=>{
                             name: p.name || "",
                             min: p.min || "",
                             max: p.max || "",
-                            price: p.price || ""
+                            price: p.price || "",
+                            discount: p.discount || ""
                         }))
-                        : [{ name: "", min: "", max: "", price: "" }],
+                        : [{ name: "", min: "", max: "", price: "", discount: "" }],
                 name_en: response.data.translations?.en?.name || "",
                 name_ar: response.data.translations?.ar?.name || "",
                 name_tr: response.data.translations?.tr?.name || "",
@@ -135,6 +140,7 @@ const AddService = ()=>{
             values.append(`prices[${idx}][min]`,element.min)
             values.append(`prices[${idx}][price]`,element.price)
             values.append(`prices[${idx}][max]`,element.max)
+            values.append(`prices[${idx}][discount]`,element.discount)
         });
         if(id){
             translationsDetails.forEach((ele)=>{
@@ -233,10 +239,13 @@ const AddService = ()=>{
                         {errors.slug && <p className="pt-0.5 text-error">{errors.slug.message}</p>}
                     </div>
                     <div className='flex flex-col gap-2'>
+                        <p className='charge p-2 text-center'>
+                            <strong className="text-xl">Note:</strong>&nbsp; Enter the discount value as a percentage (%).
+                        </p>
                          {fields.map((field, index) => (
                             <div key={field.id} className="flex flex-col gap-2">
                             <label><strong>Price {index + 1}:</strong></label>
-                            <div className="grid grid-cols-1 sm:grid-cols-4 gap-3">
+                            <div className="grid grid-cols-1 sm:grid-cols-5 gap-3">
                                 <div>
                                 <label>Name:</label>
                                 <input
@@ -293,7 +302,34 @@ const AddService = ()=>{
                                     
                                     
                                 </div>
-
+                                <div className='flex items-center gap-2 items-end'>
+                                    <div className='w-full'>
+                                        <label>Discount:</label>
+                                        <input
+                                            {...register(`prices.${index}.discount`)}
+                                            type="number"
+                                            placeholder="Discount"
+                                        />
+                                        {errors.prices?.[index]?.discount && (
+                                            <p className="pt-0.5 text-error">
+                                            {errors.prices[index].discount.message}
+                                            </p>
+                                        )}
+                                    </div>
+                                    <div onClick={()=>remove(index)} className='cursor-pointer flex items-center '>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 15 15" fill="none">
+                                        <g clipPath="url(#clip0_360_24)">
+                                        <path d="M7.5 0C9.57031 0 11.4463 0.840095 12.8043 2.19557C14.1598 3.55362 14.9999 5.42973 14.9999 7.49994C14.9999 9.57039 14.1597 11.4463 12.8043 12.8043C11.4464 14.16 9.57031 15 7.5 15C5.42969 15 3.55359 14.16 2.19556 12.8044C0.840088 11.4464 0 9.57039 0 7.49994C0 5.42973 0.840088 3.55362 2.19556 2.19557C3.55371 0.840095 5.42969 0 7.5 0ZM8.96631 4.77934C9.302 4.43851 9.84778 4.43693 10.1853 4.77616C10.5227 5.11503 10.524 5.66631 10.1886 6.00701L8.71582 7.50067L10.1901 8.99605C10.5231 9.33418 10.5183 9.88179 10.1802 10.2193C9.8418 10.557 9.29773 10.556 8.96509 10.2179L7.50061 8.7331L6.03369 10.2209C5.698 10.5619 5.15234 10.5633 4.81482 10.224C4.47754 9.88521 4.47595 9.33394 4.81165 8.99324L6.28418 7.49945L4.80981 6.00408C4.47705 5.66606 4.48157 5.11833 4.81982 4.78068C5.1582 4.44315 5.70227 4.44401 6.03491 4.78227L7.49939 6.26714L8.96631 4.77934ZM11.8285 3.17141C10.7209 2.06386 9.19067 1.37892 7.5 1.37892C5.8092 1.37892 4.27893 2.06386 3.17139 3.17153C2.06384 4.27909 1.37891 5.80937 1.37891 7.50006C1.37891 9.19075 2.06384 10.7212 3.17139 11.8286C4.27893 12.9363 5.8092 13.6213 7.5 13.6213C9.19067 13.6213 10.7209 12.9364 11.8285 11.8286C12.936 10.7212 13.621 9.19075 13.621 7.50006C13.621 5.80937 12.9362 4.27909 11.8285 3.17141Z" fill="#FF4141"/>
+                                        </g>
+                                        <defs>
+                                        <clipPath id="clip0_360_24">
+                                        <rect width="15" height="15" fill="white"/>
+                                        </clipPath>
+                                        </defs>
+                                        </svg>
+                                    </div>
+                                    
+                                </div>
                             </div>
                             
                             </div>

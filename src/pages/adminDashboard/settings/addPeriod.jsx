@@ -128,7 +128,7 @@ const AddPeriod = ()=>{
                 {errorStatus.open && errorStatus.type == "success" && <h4 className="text-center box-success p-2">{errorStatus.msg}</h4>}
                 {errorStatus.open && errorStatus.type != "success"&& <h4 className="text-center box-error p-2">{errorStatus.msg}</h4>}
                 <div className="card p-4 flex flex-col gap-3">
-                    <p>
+                    <p className="charge p-2 text-center">
                         <strong className="text-xl">Note:</strong>&nbsp; Enter the discount value as a percentage (%).
                     </p>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 ">
