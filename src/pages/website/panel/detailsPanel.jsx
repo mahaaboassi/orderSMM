@@ -209,6 +209,7 @@ const DetailsPanel = () => {
                     min={e.min}
                     price={e.price}
                     id={e.id}
+                    panel_id={id}
                     per_count={e.per_count}
                     isPinned = {false}
                     />)) : <div className="card p-5">{t("no-data")}</div>
