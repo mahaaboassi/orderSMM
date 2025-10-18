@@ -10,6 +10,8 @@ import Pagination from "../../../../components/pagination"
 import { callStatus } from "../../../../features/callNotification"
 import { useDispatch } from "react-redux"
 import { changePopupBalance } from "../../../../features/popupBalanceSlice"
+import Dropdown from "../../../../components/DropDownComponent"
+import { changePopup } from "../../../../features/popupSlice"
 
 
 const CustomImage = ({returnedFile,e,removeItem,memoryPhoto})=>{
@@ -68,7 +70,8 @@ const AddWithoutServices = ({id, slug, isAd})=>{
     const { t,i18n } = useTranslation()
     const [ panels, setPanels ] = useState([])
     const [ period, setPeriod] = useState({})
-    const [basicPrice, setBasicPrice] = useState(0)
+    const [ valuesSelected, setValuesSelected] = useState({})
+    const [ periodPlans, setPeriodPlans] = useState([])
     const abortControllerRef = useRef(null)
     // For Pagination
     const [ currentPage, setCurrentPage ] = useState(1)
@@ -76,7 +79,12 @@ const AddWithoutServices = ({id, slug, isAd})=>{
     useEffect(()=>{
         if(slug?.prices){
             const max = Math.max(...slug.prices.map(item => item.price));
-            setBasicPrice(parseFloat(max));
+            const value = slug?.prices.find(e=>e.price == max)
+            setValuesSelected({
+                ...value,
+                label: value.max,
+                value: value.id
+            })
         }
     },[slug])
     const [ errorStatus , setErrorStatus] = useState({
@@ -174,10 +182,15 @@ const AddWithoutServices = ({id, slug, isAd})=>{
                 setErrorStatus({msg: "", open : false,type:""})
             },3000)
             dispatch(callStatus({isCall : true}))
+            dispatch(changePopup({isOpen:true, type:3}))
         }else{
             console.log(message);
             setIsSubmit(false)
-            setErrorStatus({msg: message, open : true})
+            if(message == "NOT_ENOUGH_BALANCE"){
+                dispatch(changePopup({isOpen:true, type:4}))
+            }else{
+                dispatch(changePopup({isOpen:true, type:5}))
+            }
             
         }
     } 
@@ -239,37 +252,76 @@ const AddWithoutServices = ({id, slug, isAd})=>{
                         }} />
                     </div>
                     <div className="col-span-4 lg:col-span-1  relative">
-                         <div className=" sticky top-30 flex flex-col xs:flex-row lg:flex-col gap-4">
-                            <div className="info-checkout w-full  card p-4 flex flex-col gap-4">
-                                <h4>Our Pricing Plans</h4>
-                                <Prices basicPrice={basicPrice} prices={slug?.prices}/>
-                            </div>
-                            <div className="info-checkout w-full  card p-4 flex flex-col gap-4">
-                                <h4>Choose Your Plan Duration</h4>
-                                <Periods returnedSelected={(res)=>setPeriod(res)} price={basicPrice}/>
-                            </div>
-                            <div className="info-checkout w-full card p-4 flex flex-col gap-4">
-                                <h4 >Invoice</h4>
-                                <div> Total Panels : <strong> {panels.length}</strong> </div>
-                                <div> Price per  {slug?.slug == "ads"? "ads":(slug?.slug == "pin_up" || slug?.slug == "pin_down" ?"service":(slug?.slug == "best_providers"? "panel":""))} : <strong>{basicPrice}</strong> </div>
-                                
-                                <div > Total price : <strong>{(basicPrice * parseInt(panels.length) * (period?.factor ?? 0) * ((1-period?.discount*0.01) ?? 0)).toFixed(2)}</strong> </div>
-                                <div> 
-                                    <div className="py-2 error-container">
-                                        {errorStatus.open && errorStatus.type == "success" && <h4 className="text-center box-success p-2">{errorStatus.msg}</h4>}
-                                        {errorStatus.open && errorStatus.type != "success"&& <div className="flex flex-col gap-1">
-                                            <h4 className="text-center box-error p-2">{errorStatus.msg}</h4>
-                                            {errorStatus.msg == "NOT_ENOUGH_BALANCE" && <button onClick={()=>dispatch(changePopupBalance({
-                                                    type: "add",
-                                                    isOpen: true
-                                                }))} className="dark-btn">Add funds</button>}
-                                        </div>}
-                                    </div>
-                                    <button disabled={isSubmit || panels.length==0} onClick={submit} className="dark-btn w-full">
-                                        {isSubmit? <div className="loader m-auto"></div>:"Checkout"}
-                                    </button> 
+                         <div className=" sticky top-30 grid grid-cols-1 xs:grid-cols-2 md:grid-cols-1 gap-4">
+                            <div className="flex flex-col gap-4">
+                                <div className="info-checkout w-full  card p-4 flex flex-col gap-4">
+                                    <h4>Our Pricing Plans</h4>
+                                    <Prices type={"ads"} prices={slug?.prices}/>
+                                </div>
+                                <div className="info-checkout w-full  card p-4 flex flex-col gap-4">
+                                    <h4>Our Plan Duration</h4>
+                                    <Periods returnPlans={(res)=>{
+                                        setPeriodPlans(res)
+                                        setPeriod({...res[res.length-1],
+                                                label: res[res.length-1]?.translations?.[i18n.language].name,
+                                                value: res[res.length-1].id
+                                            })
+                                    }} price={valuesSelected.price}/>
                                 </div>
                             </div>
+                            <div className="flex flex-col gap-4">
+                                <div className="card p-4 flex flex-col gap-4">
+                                    <div>
+                                        <h4 >Select service</h4>
+                                        <Dropdown 
+                                            data={slug?.prices.map(e=>({
+                                            ...e,
+                                            label: e.max,
+                                            value: e.id
+                                            }))} count={true} defaultOption={valuesSelected}  
+                                            selected={Object.keys(valuesSelected).length>0 ? valuesSelected : null}
+                                            returnedOption={(res)=>{setValuesSelected(res)}}
+                                            />
+                                    </div>
+                                    <div className="opacity-20"> <hr/></div>
+                                    <div>
+                                        <h4>Choose period plan:</h4>
+                                        { periodPlans.length > 0 && <Dropdown 
+                                            data={periodPlans.map(e=>({
+                                            ...e,
+                                            label: e?.translations?.[i18n.language].name,
+                                            value: e.id
+                                            }))} 
+                                            count={true} 
+                                            defaultOption={period} 
+                                            selected={Object.keys(period).length > 0 ? period : null}
+                                            returnedOption={(res)=>{setPeriod(res)}} 
+                                        />}
+                                    </div>
+                                    
+                                </div>
+                                <div className="info-checkout w-full card p-4 flex flex-col gap-4">
+                                    <h4 >Invoice</h4>
+                                    <div> Total Panels : <strong> {panels.length}</strong> </div>
+                                    <div> Price per  {slug?.slug == "ads"? "ads":(slug?.slug == "pin_up" || slug?.slug == "pin_down" ?"service":(slug?.slug == "best_providers"? "panel":""))} : <strong>{valuesSelected.price}</strong> </div>
+                                    
+                                    <div > Total price : <strong>{(valuesSelected.price * parseInt(panels.length) * (period?.factor ?? 0) * ((1-(period?.discount??0)*0.01) ?? 0) * ((1-(valuesSelected?.discount??0)*0.01) ?? 0)).toFixed(2).replace(/(\.\d*?[1-9])0+$|\.0+$/, '$1')}</strong> </div>
+                                    <div> 
+                                        <div className="py-2 error-container">
+                                            {errorStatus.open && errorStatus.type == "success" && <h4 className="text-center box-success p-2">{errorStatus.msg}</h4>}
+                                            {errorStatus.open && errorStatus.type != "success"&& <div className="flex flex-col gap-1">
+                                                <h4 className="text-center box-error p-2">{errorStatus.msg}</h4>
+                                            </div>}
+                                        </div>
+                                        <button disabled={isSubmit || panels.length==0} onClick={submit} className="dark-btn w-full">
+                                            {isSubmit? <div className="loader m-auto"></div>:"Checkout"}
+                                        </button> 
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            
+                            
                         </div>
                     </div>
                 </div> 

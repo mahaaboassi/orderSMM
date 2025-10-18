@@ -8,6 +8,8 @@ import callNotificationReducer from "./features/callNotification"
 import socialReducer from "./features/social"
 import servicesReducer from "./features/servicesInfo"
 import popupBalanceSlice from "./features/popupBalanceSlice"
+import TriggerBalanceSlice from "./features/balance"
+
 
 export const store = configureStore({
   reducer: {
@@ -18,6 +20,7 @@ export const store = configureStore({
     isCall: callNotificationReducer,
     social: socialReducer,
     services: servicesReducer,
-    openBalance: popupBalanceSlice 
+    openBalance: popupBalanceSlice,
+    triggerBalance : TriggerBalanceSlice
   },
 });

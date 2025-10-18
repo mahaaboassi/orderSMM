@@ -28,3 +28,25 @@ export const storeClick  = async(service_id,panel_id) => {
         
     }
 }
+export const getBalance  = async() => {
+    if(!localStorage.getItem("user")) return
+    const id = JSON.parse(localStorage.getItem("user")).wallet 
+    const {response , message,  statusCode} = await Helper({
+        url: apiRoutes.wallet.getOne(id),
+        method:'POST',
+        hasToken: true,
+    })
+    if(response){
+        return {
+            status : true,
+            message : response.data?.balance ?? 0
+        }
+    }else{
+        console.log(message);
+        return {
+            status : false,
+            message : "Something is wrong"
+        }
+        
+    }
+}

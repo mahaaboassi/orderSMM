@@ -16,15 +16,17 @@ const InfoBalance = ()=>{
     const [ isOpen, setIsOpen ] = useState(false)
     const menuRef = useRef(null);
 
-    const userRedux = useSelector(state=> state.user)
+    const triggerBalance = useSelector(state=> state.triggerBalance)
     const userStorage = JSON.parse(localStorage.getItem("user"))
 
     useEffect(() => {
+        console.log("triggher", triggerBalance);
+        
         const controller = new AbortController()
         const signal = controller.signal
         getData(signal)
         return ()=> controller.abort()
-    }, [])
+    }, [triggerBalance])
     const getData = async (signal) => {
         setLoading(true)
         if(!userStorage.wallet){

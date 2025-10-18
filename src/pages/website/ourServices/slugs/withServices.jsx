@@ -15,9 +15,8 @@ const AddWithServices = ({id, slug})=>{
     const [isloading, setIsLoading ] = useState(false)
     const { t,i18n } = useTranslation()
     const navigate = useNavigate()
-    const [ period, setPeriod] = useState({})
 
-    const [basicPrice, setBasicPrice] = useState(0)
+    const [ valuesSelected, setValuesSelected] = useState({})
     const abortControllerRef = useRef(null)
     // For Pagination
     const [ currentPage, setCurrentPage ] = useState(1)
@@ -25,7 +24,12 @@ const AddWithServices = ({id, slug})=>{
     useEffect(()=>{
         if(slug?.prices){
             const max = Math.max(...slug.prices.map(item => item.price));
-            setBasicPrice(parseFloat(max));
+            const value = slug?.prices.find(e=>e.price == max)
+            setValuesSelected({
+                ...value,
+                label: value.max,
+                value: value.id
+            })
         }
     },[slug])
     useEffect(()=>{getData()},[])
@@ -120,24 +124,11 @@ const AddWithServices = ({id, slug})=>{
                          <div className=" sticky top-30 flex flex-col xs:flex-row lg:flex-col gap-4">
                             <div className="info-checkout w-full  card p-4 flex flex-col gap-4">
                                 <h4>Our Pricing Plans</h4>
-                                <Prices basicPrice={basicPrice} prices={slug?.prices}/>
+                                <Prices type={"ads"} prices={slug?.prices}/>
                             </div>
                             <div className="info-checkout w-full  card p-4 flex flex-col gap-4">
-                                <h4>Choose Your Plan Duration</h4>
-                                <Periods returnedSelected={(res)=>setPeriod(res)} price={basicPrice}/>
-                            </div>
-                            <div className="info-checkout w-full card p-4 flex flex-col gap-4">
-                                <h4 >Invoice</h4>
-                                <div> Total Services : <strong> {0}</strong> </div>
-                                <div> Price per services : <strong>{basicPrice}</strong> </div>
-                                
-                                <div> Total price : <strong>{0}</strong> </div>
-                                <div> 
-                                    
-                                    <button disabled={true} className="dark-btn w-full">
-                                        {"Checkout"}
-                                    </button> 
-                                </div>
+                                <h4>Our Plan Duration</h4>
+                                <Periods price={valuesSelected.price}/>
                             </div>
                         </div>
                     </div>

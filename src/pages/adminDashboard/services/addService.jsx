@@ -224,7 +224,7 @@ const AddService = ()=>{
                     <div className="flex flex-col gap-1">
                         <label>Slug:</label>
                          <div className='px-2'>
-                            {["promotion","ads","search_results","pin_up","api_emails","bumps"].map((slug) => (
+                            {["promotion","ads","search_results","pin_up","api_emails","bumps","best_providers"].map((slug) => (
                             <label style={{height:"23px"}} key={slug} className="flex items-center gap-2">
                                 <input
                                 style={{width:"fit-content"}}
@@ -263,7 +263,9 @@ const AddService = ()=>{
                                 <label>Price:</label>
                                 <input
                                     {...register(`prices.${index}.price`)}
-                                    type="text"
+                                    type="number"
+                                    step="any" 
+                                    onWheel={(e) => e.target.blur()}
                                     placeholder="Price"
                                 />
                                 {errors.prices?.[index]?.price && (
@@ -277,6 +279,8 @@ const AddService = ()=>{
                                 <input
                                     {...register(`prices.${index}.min`)}
                                     type="number"
+                                    step="any" 
+                                    onWheel={(e) => e.target.blur()}
                                     placeholder="Min"
                                 />
                                 {errors.prices?.[index]?.min && (
@@ -291,7 +295,9 @@ const AddService = ()=>{
                                         <input
                                             {...register(`prices.${index}.max`)}
                                             type="number"
+                                            step="any" 
                                             placeholder="Max"
+                                            onWheel={(e) => e.target.blur()}
                                         />
                                         {errors.prices?.[index]?.max && (
                                             <p className="pt-0.5 text-error">
@@ -308,6 +314,8 @@ const AddService = ()=>{
                                         <input
                                             {...register(`prices.${index}.discount`)}
                                             type="number"
+                                            step="any" 
+                                            onWheel={(e) => e.target.blur()}
                                             placeholder="Discount"
                                         />
                                         {errors.prices?.[index]?.discount && (

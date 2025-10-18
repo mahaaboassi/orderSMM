@@ -1,80 +1,30 @@
 import { useEffect, useState } from "react"
-import { apiRoutes } from "../functionality/apiRoutes"
-import { Helper } from "../functionality/helper"
 import { useTranslation } from "react-i18next"
+import Dropdown from "./DropDownComponent";
 
 const PromotionSelect =({prices,returnedSelected})=>{
-    const [ data, setData ] = useState([])
-    const [isloading, setIsLoading ] = useState(false)
     const { t,i18n } = useTranslation()
-    const [selectedId, setSelectedId] = useState();
+    const [selectedId, setSelectedId] = useState({});
+    const values = prices.map(e=>e.max)
+    const maxValue = prices.find(e=>e.max == Math.max(...values))
     useEffect(()=>{
-        const values = prices.map(e=>e.max)
-        const maxValue = prices.find(e=>e.max == Math.max(...values))
-        setSelectedId(maxValue.id)
         returnedSelected(maxValue)
     },[])
    
-    return isloading ? <div className="pricing-table-container ">
-  <table className="pricing-table ">
-    <thead>
-      <tr>
-        <th>Services</th>
-        <th>Price</th>
-        <th>Discount</th>
-        <th>Final Price</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span className="skeleton-box"></span></td>
-        <td><span className="skeleton-box"></span></td>
-        <td><span className="skeleton-box"></span></td>
-        <td><span className="skeleton-box"></span></td>
-      </tr>
-      <tr>
-        <td><span className="skeleton-box"></span></td>
-        <td><span className="skeleton-box"></span></td>
-        <td><span className="skeleton-box"></span></td>
-        <td><span className="skeleton-box"></span></td>
-      </tr>
-      <tr>
-        <td><span className="skeleton-box"></span></td>
-        <td><span className="skeleton-box"></span></td>
-        <td><span className="skeleton-box"></span></td>
-        <td><span className="skeleton-box"></span></td>
-      </tr>
-    </tbody>
-  </table>
-</div>:<div className="pricing-table-container period ">
-  <table className="pricing-table">
-    <thead>
-      <tr>
-        <th>Services</th>
-        <th>Price</th>
-        <th>Discount</th>
-        <th>Final Price</th>
-      </tr>
-    </thead>
-    <tbody>
-      {prices.map((e,idx)=>(<tr
-            onClick={() => {
-                setSelectedId(e.id)
-                returnedSelected(e)
-            }}
-            className={selectedId ==e.id ? "selected-row " : "cursor-pointer"}
-            key={`Table_For_Period_${idx}`}>
-        <td>{e.name}</td>
-        <td>
-          {e.price}
-        </td>
-        <td>
-          ({e.discount??0}%)
-        </td>
-        <td>{e.price * (1-(e.discount ?? 0)*0.01)}</td>
-      </tr>))}
-    </tbody>
-  </table>
+    return <div className="pricing-table-container period ">
+      <Dropdown data={prices.map(e=>({
+          ...e,
+          label: e.name,
+          value: e.id
+        }))} count={true} defaultOption={{ ...maxValue,
+          label: maxValue.name,
+          value: maxValue.id
+        }}  
+        selected={Object.keys(selectedId).length>0 ? selectedId : null}
+        returnedOption={(res)=>{
+          setSelectedId(res)
+          returnedSelected(res)
+      }} />
 </div>
 
 }

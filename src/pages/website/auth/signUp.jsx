@@ -9,12 +9,15 @@ import { apiRoutes } from "../../../functionality/apiRoutes";
 import { Helper } from "../../../functionality/helper";
 import MobileInput from "../../../components/mobileInput";
 import InputPassword from "../../../components/inputPassword";
+import { useDispatch } from "react-redux";
+import { changePopup } from "../../../features/popupSlice";
 
 
 
 const SignUp= ()=>{
     const { t }= useTranslation()
     const navigate = useNavigate()
+    const dispatch = useDispatch()
     useEffect(()=>{
         if(localStorage.getItem("user")){
             navigate("/")
@@ -95,7 +98,7 @@ const SignUp= ()=>{
         if(response){
             setLoading(false)
             window.scrollTo({top : 0, behavior : "smooth"})
-            setErrorStatus({msg: t("success.verified"), open : true,type : "success"})
+            dispatch(changePopup({isOpen: true, type: 1}))
         }else{
             console.log(message);
             // The selected email is invalid.

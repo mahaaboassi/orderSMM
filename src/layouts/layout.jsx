@@ -2,7 +2,7 @@ import { Outlet } from "react-router-dom"
 import Navbar from "../components/navbar"
 import Icons from "../components/icons"
 import Footer from "../components/footer"
-import Popup from "../components/popup"
+import Popup from "../components/popup/popup"
 import Chat from "../components/chat"
 import { useTranslation } from "react-i18next"
 

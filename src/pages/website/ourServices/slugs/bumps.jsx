@@ -11,6 +11,8 @@ import Pagination from "../../../../components/pagination"
 import { useDispatch } from "react-redux"
 import { callStatus } from "../../../../features/callNotification"
 import { changePopupBalance } from "../../../../features/popupBalanceSlice"
+import { triggerBalance } from "../../../../features/balance"
+import { changePopup } from "../../../../features/popupSlice"
 
 const Bumps = ({id, slug})=>{
     const [ data, setData ] = useState([])
@@ -52,7 +54,7 @@ const Bumps = ({id, slug})=>{
     useEffect(()=>{
         if(slug?.prices){
             const maxPriceObj = slug.prices.reduce((max, item) =>
-            item.price > max.price ? item : max
+            item.price*item.max > max.price*max.max ? item : max
             , slug.prices[0]);
             const max = maxPriceObj.price;
             setBasicPrice(parseFloat(max));
@@ -61,7 +63,7 @@ const Bumps = ({id, slug})=>{
                 count : {
                 ...maxPriceObj,
                 label : JSON.stringify(maxPriceObj.max),
-                value :max
+                value : maxPriceObj.max
             }
             })
         }
@@ -74,7 +76,7 @@ const Bumps = ({id, slug})=>{
         const controller = new AbortController()
         abortControllerRef.current = controller
         setIsLoading(true)
-        let params = {page}
+        let params = {page, approved:1}
         if(search) params.keywords = search
         const { response , message, statusCode } = await Helper({
             url : apiRoutes.panel.list,
@@ -83,9 +85,7 @@ const Bumps = ({id, slug})=>{
             method : "GET",
             hasToken : true
         })
-        if(response){
-            console.log(response);
-            setData(response.data.map((ele) => {
+        if(response){setData(response.data.map((ele) => {
                 const match = panels.find((p) => p === ele.id);
                 return match
                     ? { ...ele, active: true }
@@ -134,10 +134,17 @@ const Bumps = ({id, slug})=>{
                 setErrorStatus({msg: "", open : false,type:""})
             },3000)
             dispatch(callStatus({isCall : true}))
+            dispatch(triggerBalance({count: Math.random()*100}))
+            dispatch(changePopup({isOpen:true, type:3}))
         }else{
             console.log(message);
-             setIsSubmit(false)
-            setErrorStatus({msg: message, open : true})
+            setIsSubmit(false)
+            if(message == "NOT_ENOUGH_BALANCE"){
+                dispatch(changePopup({isOpen:true, type:4}))
+            }else{
+                dispatch(changePopup({isOpen:true, type:5}))
+            }
+            
             
         }
     } 
@@ -197,7 +204,7 @@ const Bumps = ({id, slug})=>{
                         <div className=" sticky top-30 flex flex-col xs:flex-row lg:flex-col gap-4">
                         <div className="info-checkout w-full  card p-4 flex flex-col gap-4">
                             <h4>Our Pricing Plans</h4>
-                            <Prices isBump={true} prices={slug?.prices}  basicPrice={basicPrice}/>
+                            <Prices type="bumps" prices={slug?.prices}  basicPrice={basicPrice}/>
                         </div>
                         <div className="info-checkout w-full  card p-4 flex flex-col gap-4">
                             <div>
@@ -239,10 +246,6 @@ const Bumps = ({id, slug})=>{
                                     {errorStatus.open && errorStatus.type == "success" && <h4 className="text-center box-success p-2">{errorStatus.msg}</h4>}
                                     {errorStatus.open && errorStatus.type != "success"&& <div className="flex flex-col gap-1">
                                         <h4 className="text-center box-error p-2">{errorStatus.msg}</h4>
-                                        {errorStatus.msg == "NOT_ENOUGH_BALANCE" && <button onClick={()=>dispatch(changePopupBalance({
-                                            type: "add",
-                                            isOpen: true
-                                        }))} className="dark-btn">Add funds</button>}
                                     </div>}
                                 
                                 </div>

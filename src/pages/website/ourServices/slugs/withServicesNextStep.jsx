@@ -12,6 +12,8 @@ import SearchInput from "../../../../components/search"
 import { useDispatch } from "react-redux"
 import { callStatus } from "../../../../features/callNotification"
 import { changePopupBalance } from "../../../../features/popupBalanceSlice"
+import Dropdown from "../../../../components/DropDownComponent"
+import { changePopup } from "../../../../features/popupSlice"
 
 const AddWithServicesNextStep = ()=>{
     const dispatch = useDispatch()
@@ -22,11 +24,12 @@ const AddWithServicesNextStep = ()=>{
     const [ isSubmit, setIsSubmit ] = useState(false)
     const { t,i18n } = useTranslation()
     const [ period, setPeriod] = useState({})
+    const [ periodPlans, setPeriodPlans] = useState([])
+    const [ valuesSelected, setValuesSelected] = useState({})
     const [ errorStatus , setErrorStatus] = useState({
         msg: "",
         open : false
     })
-    const [basicPrice, setBasicPrice] = useState(0)
     const abortControllerRef = useRef(null)
 
     useEffect(()=>{
@@ -65,7 +68,12 @@ const AddWithServicesNextStep = ()=>{
             setService(response.data)
             setIsLoading(false)
             const max = Math.max(...response.data.prices.map(item => item.price));
-            setBasicPrice(parseFloat(max));
+            const value = response.data?.prices.find(e=>e.price == max)
+            setValuesSelected({
+                ...value,
+                label: value.max,
+                value: value.id
+            })
         }else{
             console.log(message);
             
@@ -102,10 +110,16 @@ const AddWithServicesNextStep = ()=>{
                 setErrorStatus({msg: "", open : false,type:""})
             },3000)
             dispatch(callStatus({isCall : true}))
+            dispatch(changePopup({isOpen:true, type:3}))
         }else{
             console.log(message);
-             setIsSubmit(false)
-            setErrorStatus({msg: message, open : true})  
+            setIsSubmit(false)
+            if(message == "NOT_ENOUGH_BALANCE"){
+                dispatch(changePopup({isOpen:true, type:4}))
+            }else{
+                dispatch(changePopup({isOpen:true, type:5}))
+            }
+            
         }
     } 
 
@@ -245,49 +259,86 @@ const AddWithServicesNextStep = ()=>{
                 </div>
             </div>
             <div className="col-span-4 lg:col-span-1  relative">
-                    <div className=" sticky top-30 flex flex-col xs:flex-row lg:flex-col gap-4">
+                <div className=" sticky top-30 grid grid-cols-1 xs:grid-cols-2 md:grid-cols-1 gap-4">
+                <div className="flex flex-col gap-4">
                     <div className="info-checkout w-full  card p-4 flex flex-col gap-4">
-                        <h4 onClick={()=>{
-                            console.log(services);
-                            
-                        }}>Our Pricing Plans</h4>
-                        {
-                            "prices" in service && <Prices basicPrice={basicPrice} prices={service?.prices}/>
-                        }
-                        
+                        <h4>Our Pricing Plans</h4>
+                        { service?.prices && service?.prices.length > 0 && <Prices type={"ads"} prices={ service?.prices}/>}
                     </div>
                     <div className="info-checkout w-full  card p-4 flex flex-col gap-4">
-                        <h4>Choose Your Plan Duration</h4>
-                        <Periods returnedSelected={(res)=>setPeriod(res)} price={basicPrice}/>
+                        <h4>Our Plan Duration</h4>
+                        <Periods returnPlans={(res)=>{
+                            setPeriodPlans(res)
+                            setPeriod({...res[res.length-1],
+                                    label: res[res.length-1]?.translations?.[i18n.language].name,
+                                    value: res[res.length-1].id
+                                })
+                        }} price={valuesSelected.price}/>
+                    </div>
+                </div>
+                <div className="flex flex-col gap-4">
+                    <div className="card p-4 flex flex-col gap-4">
+                        <div>
+                            <h4 onClick={()=>{
+                                console.log(valuesSelected.price);
+                                
+                            }} >Select service</h4>
+                            {service?.prices && service?.prices.length > 0 && <Dropdown 
+                                data={service?.prices.map(e=>({
+                                ...e,
+                                label: e.max,
+                                value: e.id
+                                }))} count={true} defaultOption={valuesSelected}  
+                                selected={Object.keys(valuesSelected).length>0 ? valuesSelected : null}
+                                returnedOption={(res)=>{setValuesSelected(res)}}
+                                />}
+                        </div>
+                        <div className="opacity-20"> <hr/></div>
+                        <div>
+                            <h4>Choose period plan:</h4>
+                            { periodPlans.length > 0 && <Dropdown 
+                                data={periodPlans.map(e=>({
+                                ...e,
+                                label: e?.translations?.[i18n.language].name,
+                                value: e.id
+                                }))} 
+                                count={true} 
+                                defaultOption={period} 
+                                selected={Object.keys(period).length > 0 ? period : null}
+                                returnedOption={(res)=>{setPeriod(res)}} 
+                            />}
+                        </div>
+                        
                     </div>
                     <div className="info-checkout w-full card p-4 flex flex-col gap-4">
                         <h4 >Invoice</h4>
                         <div> Total Services : <strong> {
                         isSelectedAllServices ?parseInt(selectedPanel.services_count) :  parseInt(servicesSelected.length)
                         }</strong> </div>
-                        <div> Price per services : <strong>{basicPrice}</strong> </div>
+                        <div> Price per  {slug?.slug == "ads"? "ads":(slug?.slug == "pin_up" || slug?.slug == "pin_down" ?"service":(slug?.slug == "best_providers"? "panel":""))} : <strong>{valuesSelected.price}</strong> </div>
                         
                         <div> Total price : <strong>{
-                            isSelectedAllServices ? (basicPrice * parseInt(selectedPanel.services_count) * (period?.factor ?? 0) * ((1-period?.discount*0.01) ?? 0)).toFixed(2) : (basicPrice * parseInt(servicesSelected.length) * (period?.factor ?? 0) * ((1-period?.discount*0.01) ?? 0)).toFixed(2)
-                            }</strong> </div>
+                            isSelectedAllServices ? (valuesSelected.price * parseInt(selectedPanel.services_count) * (period?.factor ?? 0) * ((1-(period?.discount ?? 0)*0.01) ?? 0) * ((1-(valuesSelected?.discount ??0)*0.01))).toFixed(2).replace(/(\.\d*?[1-9])0+$|\.0+$/, '$1') : 
+                            (valuesSelected.price * parseInt(servicesSelected.length) * (period?.factor ?? 0) * ((1-(period?.discount ?? 0)*0.01) ?? 0) * ((1-(valuesSelected?.discount ?? 0)*0.01))).toFixed(2).replace(/(\.\d*?[1-9])0+$|\.0+$/, '$1')
+                            }</strong> 
+                         </div>
                         <div> 
                             <div className="py-2 error-container">
                                 {errorStatus.open && errorStatus.type == "success" && <h4 className="text-center box-success p-2">{errorStatus.msg}</h4>}
                                 {errorStatus.open && errorStatus.type != "success"&& <div className="flex flex-col gap-1">
                                     <h4 className="text-center box-error p-2">{errorStatus.msg}</h4>
-                                    {errorStatus.msg == "NOT_ENOUGH_BALANCE" && <button onClick={()=>dispatch(changePopupBalance({
-                                            type: "add",
-                                            isOpen: true
-                                        }))} className="dark-btn">Add funds</button>}
                                 </div>}
                             </div>
-                            <button disabled={isSubmit || (!isSelectedAllServices && servicesSelected.length === 0)
-                            } onClick={submit} className="dark-btn w-full">
+                            <button disabled={isSubmit || (!isSelectedAllServices && servicesSelected.length === 0)} onClick={submit} className="dark-btn w-full">
                                 {isSubmit? <div className="loader m-auto"></div>:"Checkout"}
                             </button> 
                         </div>
                     </div>
                 </div>
+                
+                
+                
+            </div>
             </div>
         </div> 
 

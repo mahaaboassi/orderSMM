@@ -3,11 +3,10 @@ import { useTranslation } from "react-i18next"
 import { useNavigate } from "react-router-dom"
 
 
-const Dropdown = ({data,defaultOption,selected,returnedOption=()=>{}},count)=>{
+const Dropdown = ({data,defaultOption,selected,returnedOption=()=>{},count})=>{
     const { t, i18n } = useTranslation()
     const [ isOpen, setIsOpen ] = useState(false)
     let option = selected || defaultOption
-    
     const menuRef = useRef(null);
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -40,7 +39,7 @@ const Dropdown = ({data,defaultOption,selected,returnedOption=()=>{}},count)=>{
                </div>
             </div>
             {isOpen && <div className={`menu-dropdown top-9  ${(i18n.language == "ar" || i18n.language == "ur")?"left-0":"right-0"}`}>
-                {data.map((e,idx)=>(<div onClick={()=>handleSelected(e)} className={`option-dropdown p-1 ${e.value == option.value?"active":""}`} key={`Dropdown_${e.label}_${idx}`}>
+                {data.map((e,idx)=>(<div onClick={()=>handleSelected(e)} className={`option-dropdown p-1 ${e.value == option.value} ${e.value == option.value?"active":""}`} key={`Dropdown_${e.label}_${idx}`}>
                     {e.label}
                 </div>))}
             </div>}

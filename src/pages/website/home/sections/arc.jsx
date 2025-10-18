@@ -23,15 +23,30 @@ const Arc = ()=>{
         const { response , message, statusCode } = await Helper({
             url : apiRoutes.panel.list,
             signal : signal,
-            params : {is_provider: 1,
-                is_ad: 1,
-                results: 20
-            },
+            params : {is_ad: 1,results: 10},
             method : "GET",
             hasToken : false
         })
         if(response){
             setData(response.data)
+            setIsLoading(false)
+            getDataProvider(response.data)
+        }else{
+            console.log(message);
+            
+        }
+    }
+    const getDataProvider = async (adsData)=>{
+        const { response , message, statusCode } = await Helper({
+            url : apiRoutes.panel.list,
+            params : { is_provider:1, results: 10},
+            method : "GET",
+            hasToken : false
+        })
+        if(response){
+            const existedIds = new Set(adsData.map(e=>e.id))
+            let newItems = response.data.filter(ele=> !existedIds.has(ele.id))
+            setData([...adsData, ...newItems]);
             setIsLoading(false)
             
         }else{

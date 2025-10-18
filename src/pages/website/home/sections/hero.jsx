@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react"
 import SearchInput from "../../../../components/search"
 import { useDispatch, useSelector } from "react-redux"
-import { changePopup } from "../../../../features/popupSlice"
-import OffersProviders from "../../../../components/bestOffers"
 import { useTranslation } from "react-i18next"
 import { Link, useNavigate } from "react-router-dom"
 import { Helper } from "../../../../functionality/helper"
@@ -36,32 +34,8 @@ const Hero = ()=>{
             setIndexWord(prev=> prev== keywords.length - 1 ? 0 : prev+1)
         },5000)
     },[indexWord])
-    const openPopup = ()=>{
-        dispatch(changePopup({
-            isOpen: true,
-            component : <OffersProviders/>
-        }))
-    }
-    const openPopupForPanels = (title, data)=>{
-      if(window.innerWidth <= 1280)
-        dispatch(changePopup({
-                isOpen: true,
-                component : <div className="px-3">
-                    <h3 style={{fontWeight : "600"}} className="mb-2">{title}</h3>
-                        {data.map((e,idx)=>(<div className="flex justify-between items-center" key={`Panal_Card_${e.title}_${idx}`}>
-    
-                        <div className="flex gap-2 items-center">
-                            {e.icon}
-                            <h4>{e.title}</h4>
-                            {/* <span>{e.services}</span> */}
-                        </div>
-                        <div className="date">
-                            {e.date}
-                        </div>
-                    </div>))}
-                </div>
-            }))
-    }
+
+
     // Get Panels Proccess
     const [ panelsLatest, setPanelsLatest ] = useState([])
     const [ panelsActive, setPanelsActive ] = useState([])

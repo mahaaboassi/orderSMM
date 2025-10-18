@@ -4,8 +4,6 @@ import { apiRoutes } from "../../../functionality/apiRoutes"
 import Loading from "../../../components/loading"
 import { Link, useNavigate } from "react-router-dom"
 import Pagination from "../../../components/pagination"
-import { useDispatch } from "react-redux"
-import { changePopup } from "../../../features/popupSlice"
 import PopupCalled from "../../../components/popupCalled"
 import { useTranslation } from "react-i18next"
 

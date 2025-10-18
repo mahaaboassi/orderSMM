@@ -10,6 +10,7 @@ import { Helper } from "../../../functionality/helper";
 import { useDispatch } from "react-redux";
 import { userInfo } from "../../../features/userSlice";
 import Loading from "../../../components/loading";
+import { changePopup } from "../../../features/popupSlice";
 
 
 
@@ -42,7 +43,7 @@ const Check = ()=>{
         })
         if(response){
             setLoading(false)
-                // window.location.reload()
+                navigate("/")
                 dispatch(userInfo({
                     email: response.data.email ?? "",
                     phone : response.data.phone ?? "",
@@ -72,6 +73,7 @@ const Check = ()=>{
                     wallet :  response.data?.wallet?.id ?? "",
                 }))
                 localStorage.setItem("token",response.data.access_token)  
+                dispatch(changePopup({isOpen: true, type : 2}))
             
         }else{
             if(message == "The selected verification code is invalid."){

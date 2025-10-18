@@ -24,8 +24,6 @@ const AddBalance = ()=>{
         method : "",
         currency : {}
     })
-    console.log(openBalance);
-    
     const [ loading, setLoading ] = useState(false)
     const [ errorStatus , setErrorStatus] = useState({
         msg: "",

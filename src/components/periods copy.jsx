@@ -3,10 +3,11 @@ import { apiRoutes } from "../functionality/apiRoutes"
 import { Helper } from "../functionality/helper"
 import { useTranslation } from "react-i18next"
 
-const Periods =({price,returnPlans=()=>{}})=>{
+const Periods =({price,returnedSelected})=>{
     const [ data, setData ] = useState([])
     const [isloading, setIsLoading ] = useState(false)
     const { t,i18n } = useTranslation()
+    const [selectedId, setSelectedId] = useState();
     useEffect(()=>{
         const abortController = new AbortController()
         const signal  = abortController.signal
@@ -23,8 +24,10 @@ const Periods =({price,returnPlans=()=>{}})=>{
         })
         if(response){
             setData(response.data)
-            returnPlans(response.data)
             setIsLoading(false)
+            const temp = response.data.find(e=> e.factor == Math.max(...response.data.map(e=>e.factor)))
+            returnedSelected(temp)
+            setSelectedId(temp.id)
         }else{
             console.log(message);  
         }
@@ -72,12 +75,17 @@ const Periods =({price,returnPlans=()=>{}})=>{
     </thead>
     <tbody>
       {data.map((e,idx)=>(<tr
+            onClick={() => {
+                setSelectedId(e.id)
+                returnedSelected(e)
+            }}
+            className={selectedId==e.id ? "selected-row" : "cursor-pointer"}
             key={`Table_For_Period_${idx}`}>
         <td>{e?.translations?.[i18n.language]?.name}</td>
-        <td>{parseFloat(price*e.factor).toFixed(2).replace(/(\.\d*?[1-9])0+$|\.0+$/, '$1')}</td>
+        <td>{price*e.factor}</td>
         <td><span className="offer">({e.discount}%)</span></td>
         {/* <td><span className="offer">({Math.floor((1-e.discount)*100)}%)</span></td> */}
-        <td>{parseFloat(price*e.factor*(1-(e.discount??0)/100)).toFixed(2).replace(/(\.\d*?[1-9])0+$|\.0+$/, '$1')}</td>
+        <td>{(price*e.factor*(1-e.discount/100)).toFixed(2).replace(/(\.\d*?[1-9])0+$|\.0+$/, '$1')}</td>
       </tr>))}
     </tbody>
   </table>
