@@ -11,7 +11,7 @@ import FileUpload from '../../../components/fileUpload';
 
 const validationSchema = Yup.object({
     name: Yup.string().required("Name Field is required."),
-    slug: Yup.string().required("Slug Field is required."),
+    // slug: Yup.string().required("Slug Field is required."),
     prices: Yup.array()
             .of(
             Yup.object({
@@ -93,7 +93,7 @@ const AddService = ()=>{
         if(response){
             const data = {
                 name: response.data.name || "",
-                slug: response.data.slug || "",
+                // slug: response.data.slug || "",
                 price: response.data.price || "",
                 prices: response.data.prices?.length
                         ? response.data.prices.map(p => ({
@@ -101,7 +101,7 @@ const AddService = ()=>{
                             min: p.min || "",
                             max: p.max || "",
                             price: p.price || "",
-                            discount: p.discount || ""
+                            discount: p.discount 
                         }))
                         : [{ name: "", min: "", max: "", price: "", discount: "" }],
                 name_en: response.data.translations?.en?.name || "",
@@ -133,7 +133,7 @@ const AddService = ()=>{
         setLoading(true)
         const values = new FormData()
         values.append("name",data.name)
-        values.append("slug",data.slug)
+        // values.append("slug",data.slug)
         values.append("price",data.prices[0].max)
         data.prices.forEach((element,idx) => {
             values.append(`prices[${idx}][name]`,element.name)
@@ -221,7 +221,7 @@ const AddService = ()=>{
                         <input {...register("name")} type="text" placeholder={"Name"}  />
                         {errors.name && <p className="pt-0.5 text-error">{errors.name.message}</p>}
                     </div>
-                    <div className="flex flex-col gap-1">
+                    {/* <div className="flex flex-col gap-1">
                         <label>Slug:</label>
                          <div className='px-2'>
                             {["promotion","ads","search_results","pin_up","api_emails","bumps","best_providers"].map((slug) => (
@@ -237,7 +237,7 @@ const AddService = ()=>{
                             ))}
                          </div>
                         {errors.slug && <p className="pt-0.5 text-error">{errors.slug.message}</p>}
-                    </div>
+                    </div> */}
                     <div className='flex flex-col gap-2'>
                         <p className='charge p-2 text-center'>
                             <strong className="text-xl">Note:</strong>&nbsp; Enter the discount value as a percentage (%).

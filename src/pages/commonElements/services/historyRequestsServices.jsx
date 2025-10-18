@@ -63,8 +63,9 @@ const HistoryRequestServices = ()=>{
                 header: 'Status',
                 cell: info => (<div>
                     {info.getValue() == 0 ? <div className="error-card p-2">Pending</div>
-                                            :( info.getValue() == 1 ? <div className="success-card p-2">Paid</div>:
-                                            <div className="info-card p-2 text-white">Closed</div>)}
+                                            :( info.getValue() == 1 ? <div className="success-card p-2">Paid</div>
+                                            :( info.getValue() == 5 ? <div className="border border-[var(--green_2)] border-[1.2px] rounded-xl p-2 ">Renewed</div>: <div className="info-card p-2 text-white">Closed</div>)
+                                            )}
                 </div>),
             }),
             columnHelper.accessor('action', {

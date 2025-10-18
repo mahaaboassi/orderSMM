@@ -122,7 +122,7 @@ const Basic = ()=>{
                             <br/>Current values:
                         </p>
                         <div className="flex gap-5">
-                            <p className="border-[1px] rounded-md p-1 border-[var(--green_2)]">Panals:<strong>{data.real_platforms}</strong></p>
+                            <p className="border-[1px] rounded-md p-1 border-[var(--green_2)]">Panals:<strong>{data.real_panels}</strong></p>
                             <p className="border-[1px] rounded-md p-1 border-[var(--green_2)]">Services: <strong>{data.real_services}</strong></p>
                             <p className="border-[1px] rounded-md p-1 border-[var(--green_2)]">Platforms:<strong>{data.real_platforms}</strong></p>
                         </div>

@@ -103,8 +103,10 @@ const DetailsServiceRequest = ()=>{
                     <h3>Service Details</h3>
                     <div>
                         {data.status == 0 ? <div className="error-card p-2">Pending</div>
-                                            :( data.status == 1 ? <div className="success-card p-2">Paid</div>:
-                                            <div className="info-card p-2 text-white">Closed</div>)}
+                                            :( data.status == 1 ? <div className="success-card p-2">Paid</div>
+                                            :( data.status == 5 ?  <div className="border border-[var(--green_2)] border-[1.2px] rounded-xl p-2 ">Renewed</div>:
+                                                <div className="info-card p-2 text-white">Closed</div>)
+                                            )}
                     </div>
                 </div>
                 <div><strong>#id: </strong>{data?.id ?? ""}</div>
@@ -153,13 +155,13 @@ const DetailsServiceRequest = ()=>{
 
         </div>
     
-        <div className="flex flex-col gap-5">
+        {(data?.service?.slug == "promotion" || data?.service?.slug == "api_emails" ) && <div className="flex flex-col gap-5">
 
             <div className="flex flex-col gap-5">
                 <div className="card p-4 flex flex-col gap-1">
                     <div><strong>{user?.role == "user" ? "Note from Admin":"User Message"}</strong></div>
                     <p> { user?.role == "user" ? data?.notes || "No notes here." : data?.description || "No message here." } </p>
-                    {user?.role == "admin" && <p> 
+                    { user?.role == "admin" && <p> 
                         { data.photo ? <a href={data.photo} 
                                 download 
                                 target="_blank" 
@@ -168,7 +170,7 @@ const DetailsServiceRequest = ()=>{
                         </a> : "No File here." }
                     </p>}
                 </div>
-                <form className="card p-4 flex flex-col gap-1" >
+                {data.status != 5 && data.status != 2  && <form className="card p-4 flex flex-col gap-1" >
                     <label>{user?.role == "user" ? "Message" : "Note"}</label>
                     <textarea disabled={ data.status == "2"} value={messageForm}  onChange={(e)=>{
                         setErrorStatus({msg: "", open : false})
@@ -176,8 +178,8 @@ const DetailsServiceRequest = ()=>{
                     {user?.role == "admin" && <SwitchComponent status={status} label={"Completed"} nonLabel={"Not completed"}
                         returnValue={(res)=>{setStatus(res == 0 ? 2 : 1)}}
                     />}
-                </form>
-                {user?.role == "user" && <div className="card p-4 flex flex-col gap-1">
+                </form>}
+                { data.status != 5 && data.status != 2 && user?.role == "user" && <div className="card p-4 flex flex-col gap-1">
                         {data.status == 2 ? <div>
                             {data.photo ? <img src={data.photo} alt={data.id} />: <p>No Photo have uploaded</p>}
                         </div>:<>
@@ -186,7 +188,7 @@ const DetailsServiceRequest = ()=>{
                         </>}
                     </div>}
                 </div>
-            <div> 
+            {data.status != 5 && <div> 
                 <div className="py-2">
                     {errorStatus.open && errorStatus.type == "success" && <h4 className="text-center box-success p-2">{errorStatus.msg}</h4>}
                     {errorStatus.open && errorStatus.type != "success"&& <h4 className="text-center box-error p-2">{errorStatus.msg}</h4>}
@@ -194,8 +196,8 @@ const DetailsServiceRequest = ()=>{
                 <button disabled={isSubmit} onClick={submit} className="dark-btn w-full">
                     {isSubmit? <div className="loader m-auto"></div>:"Submit"}
                 </button> 
-            </div>
-        </div>
+            </div>}
+        </div>}
             
     </div>)
 }

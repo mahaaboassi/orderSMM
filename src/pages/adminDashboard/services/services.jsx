@@ -75,7 +75,7 @@ const Services = ()=>{
                 <Link className="cursor-pointer text-blue-500" to={"/dashboard/admin"}> Dashboard</Link> / <div>Services</div>
             </div>
             <h2>Services</h2>
-            <div className="flex gap-2 items-center">
+            {/* <div className="flex gap-2 items-center">
                 <div>
                     <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
                     <g clipPath="url(#clip0_286_31)">
@@ -89,7 +89,7 @@ const Services = ()=>{
                     </svg>
                 </div>
                 <Link to={"/dashboard/admin/services/add"}>Add new services</Link>
-            </div>
+            </div> */}
         </div>
         {errorStatus.open && errorStatus.type == "success" && <h4 className="text-center box-success p-2">{errorStatus.msg}</h4>}
         {errorStatus.open && errorStatus.type != "success"&& <h4 className="text-center box-error p-2">{errorStatus.msg}</h4>}
@@ -118,7 +118,7 @@ const Services = ()=>{
                             </svg>
                         </div>
                         {/* Delete Icon */}
-                        <div onClick={()=>{
+                        {/* <div onClick={()=>{
                             setOpenPopup(true)
                             setCurrentData(e)
                         }} className="cursor-pointer">
@@ -132,7 +132,7 @@ const Services = ()=>{
                                 </clipPath>
                                 </defs>
                             </svg>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             }):<div className="card p-4 "> No data found .</div>}
